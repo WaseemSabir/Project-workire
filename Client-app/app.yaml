@@ -1,0 +1,10 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  static_files: dist/FrontEnd/browser  upload: dist/FrontEnd/browser
+
+- url: /
+  static_dir: dist/FrontEnd/browser

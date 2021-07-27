@@ -1,0 +1,24 @@
+@media (min-width: 786px) {
+    .cate {
+        font-size:xx-large;
+    }
+}
+
+@media (min-width: 786px) {
+    .janu {
+        width: 20vw;;
+    }
+}
+
+.lnkMuted {
+    color :#6c757d;
+}
+
+.lnkMuted:hover {
+    color : #212529;;
+}
+
+.jumbotron {
+    background: #F8F9FB;
+    box-shadow: none;
+}

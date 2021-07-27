@@ -1,0 +1,50 @@
+<div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-3':isMobile}">
+    <ngx-spinner bdColor='rgba(51,51,51,0.4)' [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+    <div class="row" [ngClass]="{'mx-1':!isMobile}">
+        <div class="" [ngClass]="{'mx-3':isMobile}">
+            <app-job-list-filter *ngIf="loaded" [all]="data"></app-job-list-filter>
+        </div>
+        <div class="row" [ngClass]="{'mt-2':!isMobile,'mt-4':isMobile,'col-sm':!isMobile,'col-12':isMobile}">
+            <mat-form-field class="col-8">
+                <input type="text" placeholder="Search JobTitle; Skill or Company" matInput [formControl]="currSearch" (change)="changeInSearch()">
+            </mat-form-field>
+            <button (click)="changeInSearch()" class="btn btn-primary col-4 mt-1 mb-4" mat-button>Search</button>
+        </div>
+    </div>
+    <div class="mt-0 mb-3" style="height: auto;">
+        <div *ngIf="isMobile && (job!=='find-job')" class="mt-1 pt-3 p-2 text-primary">
+            <a  [routerLink]="['/Jobs','find-job',searchCheck(),countCheck(),catCheck(),compCheck(),0,1]" class="link-primary"> {{bStr}} </a>
+        </div>
+        <hr *ngIf="!isMobile"/>
+
+        <div *ngIf="!isMobile && allJobs.length" class="row">
+            <div class="col-4 border-right">
+                <app-job-list-cards [item]="data" [load]="loaded" [show]="true" [head]="header" [head2]="header2"></app-job-list-cards>
+            </div>
+            <div class="col-8">
+                <app-job-page [jobid]="job" [show]="dekho" [jobDetails]="akjob" [check]="haj"></app-job-page>
+            </div>
+        </div>
+        <div *ngIf="isMobile && allJobs.length">
+            <div *ngIf="job==='find-job'">
+                <app-job-list-cards [item]="data" [load]="loaded" [show]="true" [head]="header" [head2]="header2"></app-job-list-cards>
+            </div>
+            <div *ngIf="job!=='find-job'">
+                <app-job-page [jobid]="job" [show]="dekho" [jobDetails]="akjob" [check]="haj"></app-job-page>
+                <app-job-list-cards [item]="data" [load]="loaded" [show]="false" [head]="header" [head2]="header2"></app-job-list-cards>
+            </div>
+        </div>
+        <div *ngIf="!allJobs.length" class="pb-5">
+            <div *ngIf="loaded" class="h5 text-center pt-5">
+                We’re sorry we couldn’t find any jobs for your search.
+            </div>
+
+            <div *ngIf="loaded" class="h5 text-center" style="font-weight: 600;">
+                These tips Might help!
+            </div>
+            <div *ngIf="loaded" class="h5 text-center pb-5">
+                Try Different keywords, avoid abbreviations, and search in <br> more general area like state or country instead of city!
+            </div>
+        </div>
+    </div>
+</div>

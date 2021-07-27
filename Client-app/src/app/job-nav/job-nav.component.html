@@ -1,0 +1,81 @@
+<div>
+<mdb-navbar SideClass="navbar navbar-expand-lg py-3 navbar-light sticky-top">
+    <!-- Navbar brand -->
+    <mdb-navbar-brand>
+      <a class="ml-auto navbar-brand" href="/">
+        <!-- Logo Image -->
+        <img src="/assets/logo-black.png" title="Home" width="150" alt="Workire" class="d-inline-block align-middle mb-2">
+        <!-- Logo Text -->
+      </a>
+    </mdb-navbar-brand>
+
+    <!-- Collapsible content -->
+    <links>
+
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <ng-template ngFor let-item [ngForOf]="ObjectKeys(nav)" let-i="index">
+          <div *ngIf="isHome && item=='Home'; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock>
+            <li class="nav-item active">
+              <a class="nav-link waves-light" style="font-weight: 400;" href={{nav[item][0]}} mdbWavesEffect>{{item}}</a>
+            </li>
+          </ng-template>
+          <ng-template #elseBlock>
+            <div *ngIf="nav[item].length==1; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+              <li class="nav-item">
+                <a class="nav-link waves-light ml-2" style="font-weight: 400;font-size: 16px;" href={{nav[item][0]}} mdbWavesEffect>{{item}}</a>
+              </li>
+            </ng-template>
+            <ng-template #elseBlock>
+              <li class="nav-item dropdown" dropdown>
+                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light ml-2" style="font-weight: 400;font-size: 16px;" mdbWavesEffect>{{item}}<span class="caret"></span></a>
+                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                  <ng-template ngFor let-sub [ngForOf]="nav[item]" let-j="index">
+                    <a class="dropdown-item waves-light" mdbWavesEffect href={{sub[1]}}>{{sub[0]}}</a>
+                  </ng-template>
+                </div>
+              </li>
+            </ng-template>
+          </ng-template>
+        </ng-template>
+
+      </ul>
+
+      <!-- Links -->
+      <ul class="navbar-nav ml-auto mr-n3 nav-flex-icons">
+        <!-- <div *ngIf="!isAuth; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <li class="nav-item">
+            <app-job-login></app-job-login>
+          </li>
+          <li class="nav-item">
+            <app-job-register></app-job-register>
+          </li>
+        </ng-template> -->
+        <!-- <ng-template #elseBlock> -->
+          <li class="nav-item">
+            <div class="nav-link">
+              <div *ngIf="saved.length!==0" class="btn-group" mdbDropdown>
+                <div mdbDropdownToggle>
+                  <mat-icon>bookmark</mat-icon>
+                </div>
+                <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+                  <div *ngFor="let item of saved; let k = index" class="dropdown-item">
+                      <a *ngIf="item[0]!=0" [routerLink]="['/Job',item]" >{{item}}</a>
+                      <a *ngIf="item[0]==0">{{item}}</a>
+                      <mat-icon *ngIf="item[0]!=0" (click)="removeJob(item)" style="box-shadow: none;">delete</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        <!-- </ng-template> -->
+      </ul>
+    </links>
+    <!-- Collapsible content -->
+
+</mdb-navbar>
+<!--/.Navbar-->
+</div>

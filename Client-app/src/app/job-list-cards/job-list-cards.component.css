@@ -1,0 +1,29 @@
+.shad:hover{
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+    box-shadow: 0px 0px 15px gray;
+}
+
+.shad2:hover{
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+    box-shadow: 0px 0px 4px gray;
+}
+
+.champ {
+    border: 2px solid white; 
+} 
+.champ:hover { 
+    border-bottom: 2px solid rgb(112, 177, 121);
+    border: 2px solid rgb(112, 177, 121);
+} 
+
+.current { 
+    border: 2px solid gray;
+}

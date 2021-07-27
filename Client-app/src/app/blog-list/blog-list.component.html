@@ -1,0 +1,79 @@
+<div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-5':isMobile}">
+    <ngx-spinner bdColor='rgba(51,51,51,0.4)' [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+    <div *ngIf="!isMobile" class="container row my-5 mx-auto py-3 px-3 shadow">
+        <div class="row">
+            <div *ngFor="let item of allCat" class="col-auto my-auto">
+                <a *ngIf="item==cat" [routerLink]="['/career-advice',item]" class="link-primary text-primary">{{item}}</a>
+                <a *ngIf="item!=cat" [routerLink]="['/career-advice',item]" class="text-muted">{{item}}</a>
+            </div>
+        </div>
+        <div class="col-auto ml-auto">
+            <div class="row">
+            <input *ngIf="opened" class="form-control col-sm mx-3" [formControl]="blogSearch" type="text" placeholder="Search Blog" (change)="searchChange($event)">
+            <div (click)="opened=(!opened)" class="mx-3 mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg></div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isMobile" class="mb-5">
+        <mat-form-field style="width: 100%;">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="catego" (selectionChange)="catChnage()">
+              <mat-option *ngFor="let team of allCat" class="text-dark" [value]="team">
+                {{team}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="row">
+            <div class="col-8">
+                <mat-form-field style="width: 100%;">
+                    <input type="text" placeholder="Search Blog" matInput [formControl]="blogSearch">
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <button (click)="searchChange($event)" class="btn btn-primary btn-block" mat-button>Search</button>
+            </div>
+        </div>
+    </div>
+    <h1 *ngIf="isAll;" class="h2 text-center border-bottom pb-4" style="font-size: xx-large;">The Best Career Advice for Landing the Dream Job</h1>
+    <div *ngIf="isAll;" class="w-100 mt-4">
+        <div class="row">
+            <div *ngFor="let k of recent" class="curse col-12 col-sm-12 col-md-6 col-lg-4 mb-2">
+                <div class="card shadow-sm" [routerLink]="['/advice',k.BlogUrl]">
+                    <img class="card-img" src={{urlParse(k.image)}} alt={{cap(k.title)}} height="240px">
+                    <div class="card-img-overlay">
+                        <a [routerLink]="['/career-advice',k.category]" class="btn btn-light btn-sm">{{k.category}}</a>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title h5">{{cap(k.title)}}</h2>
+                        <p class="card-text" style="font-size: small;">{{k.Description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngFor="let k of parseObj(catState)" class="w-100">
+        <div *ngIf="isAll;" class="clearfix border-bottom pt-2 pb-2">
+            <h3 class="h3 text-left float-left text-muted ">{{k}}</h3>
+            <a [routerLink]="['/career-advice',k]" class="link-primary px-3 float-right">View All</a>
+        </div>
+        
+        <div class="row mt-4 mb-4">
+            <div *ngFor="let item of catState[k]" class="curse col-12 col-sm-12 col-md-6 col-lg-4 my-2">
+                <div class="card shadow-sm" [routerLink]="['/advice',item.BlogUrl]">
+                    <img class="card-img" src={{urlParse(item.image)}} alt={{cap(item.title)}} height="240px">
+                    <div class="card-img-overlay">
+                        <a [routerLink]="['/career-advice',k]" class="btn btn-light btn-sm">{{k}}</a>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title h5">{{cap(item.title)}}</h2>
+                        <p class="card-text" style="font-size: small;">{{item.Description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h1 style="opacity: 0;">Career Advice in {{cat}}</h1>

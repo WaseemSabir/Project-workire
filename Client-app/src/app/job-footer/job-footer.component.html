@@ -1,0 +1,150 @@
+<!-- Footer -->
+<footer class="page-footer font-small pt-3" style="background-color: #f5f5f5;">
+    <div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile}">
+      <div *ngIf="isRoot; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <div class="ml-2 my-2 text-muted">Find Jobs</div>
+        <div class="row">
+          <div *ngFor="let item of cat | keyvalue" class="col-md-3 col-sm-6"><a class="link-muted mx-2 text-muted" [routerLink]="['/Job-country',item.key]">{{"Jobs in " + item.key}}</a></div>
+        </div>
+      </ng-template>
+      <ng-template #elseBlock>
+        <div class="row mx-2">
+          <div *ngFor="let item of links">
+            <a href={{item[1]}} class="link-white text-muted">&nbsp;{{item[0]}}</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="container">
+      <hr/>
+    </div>
+    <!-- Footer Links -->
+    <div class="text-center text-md-left text-muted" [ngClass]="{'container':!isMobile,'container-fluid':isMobile}">
+
+      <!-- Grid row -->
+      <div class="row pr-5 pl-4">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 px-0 mt-3">
+
+          <!-- Content -->
+          <a href="/">
+            <!-- Logo Image -->
+            <img src="/assets/logo-black.png" title="Home" width="150" alt="Workire" class="d-inline-block align-middle mb-2" alt="Workire">
+            <!-- Logo Text -->
+          </a>
+          <p class="text-muted">Workire is an emerging job site in the Gulf Region, connecting job seekers with potential employers. Launched as a vertical search engine, our website gives regular job updates to our visitors. Latest vacancies are posted every day on the platform for job seekers to grab their dream career.</p>
+          <div class="d-flex-inline mb-3" *ngIf="!isMobile">
+            <a href='https://www.facebook.com/workire' rel="noreferrer" target="_blank" class="mr-1">
+                <img class="img-fluid" src="/assets/fb.png" width="20" alt="Workire Facebook Page"/>
+            </a>
+            <a href='https://twitter.com/workire1' rel="noreferrer" target="_blank" class="mx-2">
+                <img class="img-fluid" src="/assets/twitter.png" width="20" alt="Workire Twitter"/>
+            </a>
+            <a href='https://www.instagram.com/workire.co' rel="noreferrer" target="_blank" class="mx-2">
+                <img class="img-fluid" src="/assets/insta.png" width="20" rel="noopener" alt="Workire Instagram"/>
+            </a>
+            <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' rel="noreferrer" target="_blank" class="mx-2">
+              <img class="img-fluid" src="/assets/you.png" width="20" alt="Workire Youtube"/>
+            </a>
+            <a href='https://www.pinterest.com/Workire/' rel="noreferrer" target="_blank" class="mx-2">
+              <img class="img-fluid" src="/assets/pin.png" width="20" alt="Workire Pinterest"/>
+            </a>
+          </div>
+
+          <div style="display: flex;justify-content: center;" *ngIf="isMobile">
+            <a href='https://www.facebook.com/workire' target="_blank" rel="noopener" class="mr-1">
+                <img class="img-fluid" src="/assets/fb.png" width="20" alt="Workire Facebook Page"/>
+            </a>
+            <a href='https://twitter.com/workire1' target="_blank" rel="noopener" class="mx-2">
+                <img class="img-fluid" src="/assets/twitter.png" width="20" alt="Workire Twitter Account"/>
+            </a>
+            <a href='https://www.instagram.com/workire.co' target="_blank" rel="noopener" class="mx-2">
+                <img class="img-fluid" src="/assets/insta.png" width="20" alt="Workire Instagram"/>
+            </a>
+            <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' target="_blank" rel="noopener" class="mx-2">
+              <img class="img-fluid" src="/assets/you.png" width="20" alt="Workire Youtube channel"/>
+            </a>
+            <a href='https://www.pinterest.com/Workire/' target="_blank" rel="noopener" class="mx-2">
+              <img class="img-fluid" src="/assets/pin.png" width="20" alt="Workire Pinterest Account"/>
+            </a>
+          </div>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <div class="col-md-2 mb-md-0 mb-3">
+
+          <!-- Links -->
+          <h4 class="text font-weight-bold">Company</h4>
+          <ul class="list-unstyled">
+            <li>
+              <a [routerLink]="['/about-us']" class="text-muted">About US</a>
+            </li>
+            <li>
+              <a [routerLink]="['/contact-us']" class="text-muted">Contact US</a>
+            </li>
+          </ul>
+
+        </div>
+
+        <!-- Grid column -->
+        <div class="col-md-2 mb-md-0 mb-3">
+
+            <!-- Links -->
+            <h4 class="text font-weight-bold">Job Seekers</h4>
+
+            <ul class="list-unstyled">
+              <li>
+                <a [routerLink]="['Jobs']" class="text-muted">Find All Jobs</a>
+              </li>
+              <li>
+                <a [routerLink]="['Jobs/All-Categories']" class="text-muted">Jobs By Categories</a>
+              </li>
+              <li>
+                <a [routerLink]="['Jobs/All-Countries']" class="text-muted">Jobs By Location</a>
+              </li>
+              <li>
+                <a [routerLink]="['Jobs/All-Companies']" class="text-muted">Jobs By Companies</a>
+              </li>
+              <li>
+                <a [routerLink]="['/Career-development-tools']" class="text-muted">Career Tools</a>
+              </li>
+            </ul>
+
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 mb-md-0 mb-3">
+
+            <!-- Links -->
+            <h4 class="text font-weight-bold">Career Advice</h4>
+
+            <ul class="list-unstyled">
+              <li *ngFor="let k of blogCat">
+                <a [routerLink]="k[1]" class="text-muted">{{k[0]}}</a>
+              </li>
+            </ul>
+
+          </div>
+          <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3 text-muted">© 2021 Copyright:
+      <a href="/" class="text-dark"> workire.com. All Rights Reserved. </a>
+      <a href="/disclaimer" class="text-muted"><u>Disclaimer</u></a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->

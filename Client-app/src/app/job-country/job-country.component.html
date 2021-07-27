@@ -1,0 +1,36 @@
+<div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile}">
+    <div class="row">
+        <div class="col-md-8 col-sm-12 shadow-sm" [ngClass]="{'px-4': !isMobile}">
+            <h1 class="pt-5 text-dark h4">Find  latest Jobs by Location</h1>
+            <h2 class="text-dark" style="font-size: small;font-weight: 400;">
+                Find for the best jobs in all location listed below, Applying is realy easier and your next Job is just a click away.New careers in all locations are added daily on Workire.com, If you don't find relevant Job, be sure to check back some other time. Now, Browse and Apply quickly to various job openings that are hiring near you.
+            </h2>
+            <div class="pb-5" *ngFor="let item of keys(allCat)">
+                <a [routerLink]="['/Job-country',item]" class="link-primary h5">
+                    {{item}}
+                </a>
+                <div class="row">
+                    <div class="col-4 pt-3" *ngFor="let team of allCat[item]">
+                        <a [routerLink]="['/Job-country',tell(team,item)]">{{team}}</a>
+                        <hr class="mt-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="col-12 px-2 py-4">
+                <div class="text-dark text-left h5" style="font-weight: 500;">
+                    Recent Jobs!
+                </div>
+                <div class="py-2" *ngFor="let k of target_feature">
+                    <div class="text-dark hell" [routerLink]="['/Job',k.Position]">{{k.Position}}</div>
+                    <div *ngIf="k.Location==='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Country}} | {{k.AdvertiserName}}</div>
+                    <div *ngIf="k.Location!=='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Location}} | {{k.AdvertiserName}}</div>
+                </div>
+            </div>
+            <div class="mb-5 shadow">
+                <img [routerLink]="['/Career-development-tools']" class="img-fluid rounded" src="/assets/LevelUpYourCareer.jpeg" style="cursor: pointer;" alt="Level Up Your Career" />
+            </div>
+        </div>
+    </div>
+</div>

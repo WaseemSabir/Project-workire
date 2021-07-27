@@ -1,0 +1,67 @@
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-5':isMobile}">
+    <ngx-spinner bdColor='rgba(51,51,51,0.4)' [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>    <div class="row rounded" style="height: auto;">
+        <div class="col-md-8 col-sm-8 mt-3">
+            <a class="text-primary pt-5" [routerLink]="['/career-advice','All']"> < All Career Advice</a>
+            <h1 class="h2 font-weight-bold pt-2">
+                {{cap(post.title)}}
+            </h1>
+            <div class="d-block-inline">
+                <div class="float-left text-muted ">
+                    <a class="link-muted text-muted" href="/">Workire </a>| {{post.addDate}}
+                </div>
+                <div class="float-right">
+                    <app-share-buttons [t]="post.title"></app-share-buttons>
+                </div>
+            </div>
+            <img src={{post.image}} class="img-rounded img-fluid" alt={{post.title}} height="auto" width="100%">
+            <div class="py-3">
+                <div class="text-muted">Category: {{post.category}}</div>
+                <br />
+                <div [innerHtml]="post.body"></div>
+            </div>
+            <div class="my-3 row">
+                <div class="text-left col-auto">Tags : </div>
+                <div *ngFor="let k of post.KeyWord.split(',')" class="col-auto">
+                    <a [routerLink]="['/career-advice','search',k]">{{k}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="p-5 shadow mt-5">
+                <h4 class="h6 font-weight-bold">Search for Career Advice</h4>
+                <div class="content mt-3">
+                    <input class="input" [formControl]="blogSearch" type="text" placeholder="Search for Blog Post" (change)="searchChange()">
+                    <span class="border"></span>
+                </div>
+                <h4 class="mt-4 h6">Search In Categories</h4>
+                <div *ngFor="let j of blogCat" class="list-item p-1">
+                    <a [routerLink]="['/career-advice',j]">{{j}}</a>
+                </div>
+                <h4 class="mt-4 h6">Browse Jobs</h4>
+                <div class="list-item p-1">
+                    <a [routerLink]="['/Jobs']">All Jobs</a>
+                </div>
+                <div class="list-item p-1">
+                    <a [routerLink]="['/Jobs','All-Countries']">Jobs By Countries</a>
+                </div>
+                <div class="list-item p-1">
+                    <a [routerLink]="['/Jobs','All-Categories']">Jobs By Categories</a>
+                </div>
+                <div class="list-item p-1">
+                    <a [routerLink]="['/Jobs','All-Companies']">Jobs By Companies</a>
+                </div>
+            </div>
+            <div class="my-5 shadow">
+                <img [routerLink]="['/Career-development-tools']" class="img-fluid rounded" src="/assets/LevelUpYourCareer.jpeg" style="cursor: pointer;" alt="Level Up Your Career" />
+            </div>
+            <div class="my-5 p-3 shadow rounded">
+                <div class="h4 text-center font-weight-bold">Related Posts</div>
+                <div *ngFor="let k of additional;" class="py-3">
+                    <img src={{url(k.image)}} class="img-rounded img-fluid" alt={{k.title}} [routerLink]="['/',k.BlogUrl]">
+                    <a class="h6 text-left link-primary" [routerLink]="['/advice',k.BlogUrl]">{{k.title}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

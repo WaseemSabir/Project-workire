@@ -1,0 +1,16 @@
+<div class="" [ngClass]="{'container':!isMobile}">
+    <section class="row no-gutters align-items-center">
+        <div class="col-12 text-left d-flex">
+            <img class="img-fluid other" src="/assets/frontBox.jpeg" alt="Level Up your career"/> 
+        </div>
+        <div class=" position-absolute" [ngClass]="{'w-50':!isMobile,'w-75':isMobile}">
+            <div class="text-white h1" style="text-shadow: 2px 2px 2px #767676;font-weight: 600;" [ngStyle]="{'font-size': font}" [ngClass]="{'px-5':!isMobile,'px-2':isMobile}">
+                Level up your career
+            </div>
+            <div *ngIf="!isMobile" class="text-white h5 px-5" style="text-shadow: 2px 2px 2px #767676;font-weight: 400;font-size: 1.5vw;" [ngClass]="{'w-75':!isMobile,'pb-5':!isMobile}">
+                Career Development tools to get you on the exact route, no matter where you want to go.
+            </div>
+            <div *ngIf="showBtn" class="btn btn-light" [ngClass]="{'btn-lg':!isMobile,'mx-5':!isMobile,'mx-2':isMobile,'mt-2':isMobile}" [routerLink]="['/Career-development-tools']">{{str}}</div>
+        </div>
+    </section>
+</div>

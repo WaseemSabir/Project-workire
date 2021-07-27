@@ -1,0 +1,65 @@
+  <h1 class="text-left mt-n2 m-0 mb-1 text-dark" style="font-size: small;font-weight: 500;">
+    {{head}}
+    <span class="text-success" style="font-weight: 400;">({{head2}})</span>
+  </h1>
+  <div class="d-md-inline-flex row justify-content-center">
+      <div class="col-12 mb-3">
+          <div class="col" style="height: 3px;background-image: linear-gradient(green,blue);"></div>
+          <div class="row border mx-0 ">
+              <div class="col-7 pt-3 pb-2">
+                  <div class="h6 font-weight-bold">Get Job Alerts</div>
+                  <div class="h6 text-muted">Get latest jobs in your inbox</div>
+              </div>
+              <div class="col-5 py-1 my-3" style="display: display;">
+                  <a href="https://www.jobg8alerts.com/Signup.aspx?sid=d080cd68" class="btn btn-info float-right my-auto">Job Alert</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-12 shad2 pt-4 pb-4 rounded">
+        <div *ngFor="let item of jobs">
+            <a *ngIf="item.Position!=jobId" class="card w-90 champ border-bottom" [routerLink]="['/Jobs',(item.Position),searchCheck(),countCheck(),catCheck(),compCheck(),0,page]">
+                <div class="row">
+                  <div class="col-4">
+                    <img class="d-block pl-3 pt-3 pb-3" width="90" src={{urlParse(item.LogoURL,item.AdvertiserName)}} alt={{item.AdvertiserName}}>
+                  </div>
+                  <div class="col-8 pt-3">
+                    <div class="card-block">
+                      <h3 class="d-block font-weight-bold text-dark m-0" style="font-size: small;">{{item.Position}}</h3>
+                      <h4 class="text-muted d-block m-0" style="font-size: small;">{{item.AdvertiserName}}</h4>
+                      <h5 *ngIf="item.Location!='Not Specified'" class="text-muted d-block m-0" style="font-size: small;">{{item.Location}} | {{item.EmploymentType}}</h5>
+                      <h5 *ngIf="(item.Location=='Not Specified')" class="text-muted d-block m-0" style="font-size: small;">{{item.Country}} | {{item.EmploymentType}}</h5>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            <div *ngIf="item.Position==jobId" class="card w-90 current">
+                <div class="row">
+                  <div class="col-4">
+                    <img class="d-block pl-3 pt-3 pb-3" width="90" src={{urlParse(item.LogoURL,item.AdvertiserName)}} alt={{item.AdvertiserName}}>
+                  </div>
+                  <div class="col-8 pt-3">
+                    <div class="card-block">
+                      <h3 class="d-block font-weight-bold text-dark m-0" style="font-size: small;">{{item.Position}}</h3>
+                      <h4 class="text-muted d-block m-0" style="font-size: small;">{{item.AdvertiserName}}</h4>
+                      <h5 *ngIf="item.Location!='Not Specified'" class="text-muted d-block m-0" style="font-size: small;">{{item.Location}} | {{item.EmploymentType}}</h5>
+                      <h5 *ngIf="(item.Location=='Not Specified')" class="text-muted d-block m-0" style="font-size: small;">{{item.Country}} | {{item.EmploymentType}}</h5>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="pt-5 d-flex justify-content-center">
+      <nav aria-label="...">
+      <ul class="pagination row mx-2">
+          <li *ngFor="let k of paginate; let b = index" class=" col-auto border justify-content-center page-item">
+              <a class="page-link" *ngIf="k=='Next'" [routerLink]="['/Jobs','find-job',searchCheck(),countCheck(),catCheck(),compCheck(),time,page+1]">{{k}}</a>
+              <a class="page-link" *ngIf="k=='Previous'" [routerLink]="['/Jobs','find-job',searchCheck(),countCheck(),catCheck(),compCheck(),time,page-1]">{{k}}</a>
+              <a class="page-link" *ngIf="k=='...'">{{k}}</a>
+              <a class="page-link" *ngIf="int(k)" [routerLink]="['/Jobs','find-job',searchCheck(),countCheck(),catCheck(),compCheck(),time,int(k)]">{{k}}</a>
+          </li>
+      </ul>
+      </nav>
+  </div>

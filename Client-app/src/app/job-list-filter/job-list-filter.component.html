@@ -1,0 +1,112 @@
+<div *ngIf="!isMobile" class="" [ngClass]="{'mx-auto':isMobile}">
+
+  <!-- --------------------------------------- Time Code ------------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu" class="btn" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':timeStr!=='Date Posted','hola':timeStr==='Date Posted','mt-2':isMobile,'mt-3':!isMobile}">
+    <span>{{timeStr}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+      <mat-radio-group class="example-radio-group" *ngFor="let item of timeValues" mat-menu-item>
+        <mat-radio-button color="primary" [value]="item.val" (click)="timeClick(item.val)" [checked]="item.checked">
+          {{item.str}}
+        </mat-radio-button>
+      </mat-radio-group>
+  </mat-menu>
+
+  <!-- -------------------------------------- Company Code --------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu2" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':compCount,'hola':!compCount,'mt-2':isMobile,'mt-3':!isMobile}">
+    <span>Company </span>
+    <span *ngIf="compCount" class="badge badge-light mx-1">{{compCount}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #menu2="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(companies)" [checked]="companies[k]" class="mx-3 mt-1 col-12" color="primary" (click)="compClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu>
+
+
+  <!-- -------------------------------------- Category Code --------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu3" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':catCount,'hola':!catCount,'mt-2':isMobile,'mt-3':!isMobile}">
+    <span>Category</span>
+    <span *ngIf="catCount" class="badge badge-light mx-1">{{catCount}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #menu3="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(categories)" [checked]="categories[k]" class="mx-3 mt-1 col-12" color="primary" (click)="catClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu>
+
+  <!-- -------------------------------------- Country Code --------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu4" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':cCount,'hola':!cCount,'mt-2':isMobile,'mt-3':!isMobile}">
+    <span>Location</span>
+    <span *ngIf="cCount" class="badge badge-light mx-1">{{cCount}}</span>
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu #menu4="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(countries)" [checked]="countries[k]" class="mx-3 mt-1 col-12" color="primary" (click)="countryClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu>
+</div>
+
+
+ <!-- For Mobile -->
+
+<div *ngIf="isMobile" class="myboot bg-white border" style="display: flex;">
+  <mat-icon class="my-auto">filter_list</mat-icon>
+  <!-- --------------------------------------- Time Code ------------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':timeStr!=='Date Posted','btn-light':timeStr==='Date Posted'}">
+    <span>{{timeStr}}</span>
+  </button>
+
+  <mat-menu #menu="matMenu">
+      <mat-radio-group class="example-radio-group" *ngFor="let item of timeValues" mat-menu-item>
+        <mat-radio-button color="primary" [value]="item.val" (click)="timeClick(item.val)" [checked]="item.checked">
+          {{item.str}}
+        </mat-radio-button>
+      </mat-radio-group>
+  </mat-menu>
+
+  <!-- -------------------------------------- Company Code --------------------------------- -->
+  <!-- <button mat-button [matMenuTriggerFor]="menu2" class="btn" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':compCount,'btn-light':!compCount}">
+    <span>Company </span>
+    <span *ngIf="compCount" class="badge badge-light mx-1">{{compCount}}</span>
+  </button>
+
+  <mat-menu #menu2="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(companies)" [checked]="companies[k]" class="mx-3 mt-1 col-12" color="primary" (click)="compClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu> -->
+
+
+  <!-- -------------------------------------- Category Code --------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu3" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':catCount,'btn-light':!catCount}">
+    <span>Category</span>
+    <span *ngIf="catCount" class="badge badge-light mx-1">{{catCount}}</span>
+  </button>
+
+  <mat-menu #menu3="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(categories)" [checked]="categories[k]" class="mx-3 mt-1 col-12" color="primary" (click)="catClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu>
+
+  <!-- -------------------------------------- Country Code --------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="menu4" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':cCount,'btn-light':!cCount}">
+    <span>Location</span>
+    <span *ngIf="cCount" class="badge badge-light mx-1">{{cCount}}</span>
+  </button>
+
+  <mat-menu #menu4="matMenu" style="width: auto;">
+      <div class="row">
+        <mat-checkbox *ngFor="let k of keys(countries)" [checked]="countries[k]" class="mx-3 mt-1 col-12" color="primary" (click)="countryClick(k)">{{k}}</mat-checkbox>
+      </div>
+  </mat-menu>
+</div>

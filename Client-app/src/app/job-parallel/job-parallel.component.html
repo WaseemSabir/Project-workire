@@ -1,0 +1,27 @@
+<div class="jumbotron-fluid py-5" style="background-color: #e1f5fe;margin: 0;display: table;">
+    <div class="w-100 pt-2">
+        <h2 class="text-center font-weight-bold h2 mx-3">
+            Accelerate your career & earn more.
+        </h2>
+        <div class="row mt-4 mx-2">
+            <div *ngFor="let i of service" class="col-12 col-sm-12 col-md-6 col-lg-4 my-3">
+                <div class="card">
+                    <div class="card-body pt-0">
+                        <div>
+                            <div class="mx-1 my-2">
+                                <img class="img-fluid" width="60" class="m-3" src={{i.logo}} alt={{i.title}}/>
+                            </div>
+                            <h4 class="mx-1 my-1" style="font-weight: 600;">{{i.title}}</h4>
+                            <h5 class="px-1 font-weight-regular my-2">
+                                {{i.desc}}
+                            </h5>
+                            <div class="pr-4" style="display: block;float: right;">
+                                <a class="link-primary" href={{i.link}}>{{i.btn}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

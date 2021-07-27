@@ -1,0 +1,147 @@
+<div class="row bg-light" style="margin: 0;">
+    <div class="w-100 p-5 bg-primary blue-gradient" style="margin: 0;">
+        <h1 class="h1 text-white text-center" style="font-weight: 600;">Land your next job, faster.</h1>
+        <h2 class="h5 font-weight-regular text-center text-white">Our professional resume-writing service has helped <strong class="text-warning"> over <br> 600,000 professionals </strong>land more interviews and get hired faster.
+        </h2>
+        <a href="https://www.trustpilot.com/review/topresume.com" target="_blank" style="display: flex;justify-content: center;" class="pb-5">
+            <img class="img-fluid" src="/assets/trust.png" width="450" />
+        </a>
+    </div>
+    <div class="row" [ngClass]="{'px-5':!isMobile,'mx-5':!isMobile,'mx-1':isMobile}">
+        <div *ngFor="let item of service;let i = index" class="animated flip infinite col-lg-4 col-md-6 col-sm-12 my-5">
+            <div class="bg-white rounded slide-in-right" [ngClass]="{'mt-md-n3':item.popular}">
+                <span *ngIf="item.popular" class="badge badge-success mt-2 py-1 px-1" style="border: 0;">Popular</span>
+                <div class="" [ngClass]="{'pt-4':!item.popular,'pt-0':item.popular}" style="display: flex;justify-content: center;color:#aebad3;">
+                    <svg *ngIf="true;" viewBox="0 0 24 24" [ngClass]="{'notpop':!item.popular,'pop':item.popular}" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"></path><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+                    <svg *ngIf="i>0;" [ngClass]="{'notpop':!item.popular,'pop':item.popular}" viewBox="0 0 24 24" id="icon-mail" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+                    <svg *ngIf="i>1;" [ngClass]="{'notpop':!item.popular,'pop':item.popular}" viewBox="0 0 24 24" id="icon-linkedin" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+                </div>
+                <h3 class="h5 text-center pt-3" style="font-weight:600;">{{item.title}}</h3>
+                <div class=" p-2 text-center text-muted">
+                    {{item.desc}}
+                </div>
+                <div class="h1 font-weight-bold pt-3 text-center">{{item.price}}</div>
+                <div class="font-weight-regular text-muted text-center">Regular Price {{item.regular}}</div>
+                <div style="display: flex;justify-content: center;">
+                    <a [href]="item.link" target="_blank" class="btn btn-info btn-lg px-5 py-1 my-3"> Order </a>
+                </div>
+                <div class="border-bottom border-top p-4 text-left " (click)="showClick(i)">
+                    <p *ngIf="isMobile" class="h6 font-weight-bold" style="display: block;">Benefits<svg *ngIf="item.show" xmlns="http://www.w3.org/2000/svg" style="float: right;" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894l6-3z"/></svg>
+                <svg *ngIf="!item.show" style="float: right;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
+                    </svg></p>
+                    <div *ngIf="item.show">
+                        <div *ngFor="let k of item.Benefits" class="m-3">
+                            <div class="{{k[0]}} font-weight-bold">{{k[1]}}</div>
+                            <div class="font-weight-regular">{{k[2]}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <a [href]="item.link" target="_blank" class="link-primary font-weight-bold py-3" style="display: flex;justify-content: center;">Select This Package</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid bg-light py-5">
+    <h4 class="py-5 text-center h4" style="font-weight: 600;">How it works</h4>
+    <div class="row" style="display: flex;justify-content: center;">
+        <div class="col-auto px-5">
+            <img class="img-fluid" width="200" src="assets/1.svg" />
+            <div class="text-center" style="width: 20;">
+                <strong style="font-weight:600;">Get matched</strong>
+                with <br> an expert writer
+            </div>
+        </div>
+        <div class="col-auto px-5">
+            <img class="img-fluid" width="200" src="assets/2.svg" />
+            <div class="text-center" style="width: 20;">
+                <strong style="font-weight:600;">Work one-on-one</strong>
+                 to craft<br> your career story
+            </div>
+        </div>
+        <div class="col-auto mx-5">
+            <img class="img-fluid" width="200" src="assets/3.svg" />
+            <div class="text-center"><strong style="font-weight:600;">Receive a resume </strong>
+                 tailored <br> to your goals</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row pt-5 my-3">
+        <div class="col-md-9 col-sm-12">
+            <h2 class="h2 font-weight-bold text-left">TopResume, one of the leading Professional resume writing services</h2>
+            <h3 class="h5 text-muted py-2 text-left"  style="font-size: medium;">Workire has partnered with TopResume, one of the leading Professional resume writing services, to offer special discounted pricing to the professionals who use our site. TopResume's team of Certified Professional Resume Writers have years of experience reviewing resumes. With their Professional resume writing services support, you'll get the resume you need in order to take the next step in your career.</h3>
+        </div>
+        <div class="col-md-3 col-sm-12 shadow rounded pb-4">
+            <img class="img-fluid mx-5 my-3" src="/assets/icons/topresume.webp" alt="topresume">
+            <h2 class="text-muted" style="font-size:medium;">Professional Resume writing sevices are provided by TopResume, a trusted partner of Workire</h2>
+            <hr />
+            <div class="h4 font-weight-bold">Questions?</div>
+            <a href="mailto: support@topresume.com">support@topresume.com</a>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isMobile" class="row p-5" style="margin:0">
+    <div class="mb-4" style="display: flex;justify-content: center;width: 100%;">
+        <div class="border-dark border-bottom border-top h6 py-2" style="display: inline;font-weight: 600;">
+            What Our Customer Say
+        </div>
+    </div>
+    <div *ngFor="let i of cust" class="col-lg-4 col-md-6 col-sm-12 mt-3 mb-1">
+        <blockquote class="text-left h6 mx-5 border-0 text-muted">{{i.say}}
+            <footer class="blockquote-footer py-2">{{i.name}}</footer>
+        </blockquote>
+    </div>
+    <div *ngFor="let i of cust" class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <hr width="200"/>
+        <div style="display: flex;justify-content: center;">
+            <img class="img-fluid" width="100" src={{i.logo}} />
+        </div>
+        <div class="my-1" style="display: flex;justify-content: center;">
+            <svg id="stars-4-5" style="fill: #0da1ec;" width="100" viewBox="0 0 663 120" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path class="gcst0" d="M653.6 44.1h-39.1L601.2 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8L576 72.5l-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.9-1.3.6-3.8-1.3-3.8z"></path><path d="M112.9 44.1H73.8L60.6 5.7c-.6-1.9-3.2-1.9-3.8 0L44.2 45.4H4.4c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5L82 71.2l32.2-23.3c1.9-1.3.6-3.8-1.3-3.8zM248.2 44.1H209L195.8 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.8-1.3.5-3.8-1.3-3.8zM383.4 44.1h-39.1L331.1 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7H275c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.8-1.3.5-3.8-1.4-3.8zM518.5 44.1h-39.1L466.2 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7H410c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.9-1.3.6-3.8-1.3-3.8zM599.4 4.2c-.8 0-1.6.5-1.9 1.4l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8L576 72.5l-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 .7-84z"></path></svg>
+        </div>
+        <h5 class="text-center py-1" style="font-size: 0.8rem;">
+            TopResume is rated a <strong style="font-weight: 600;">4.5 out of 5 </strong>, with over 500 reviews.
+        </h5>
+    </div>
+</div> 
+
+<div *ngIf="isMobile" class="row" style="margin:0">
+    <div class="mb-4" style="display: flex;justify-content: center;width: 100%;">
+        <div class="border-dark border-bottom border-top h6 py-2" style="display: inline;font-weight: 600;">
+            What Our Customer Say
+        </div>
+    </div>
+    <div *ngFor="let i of cust" class="col-lg-4 col-md-6 col-sm-12 my-3">
+        <blockquote class="text-left h6 mx-5 border-0 text-muted" style="border: 0;">{{i.say}}
+            <footer class="blockquote-footer py-2">{{i.name}}</footer>
+        </blockquote>
+        <hr width="180"/>
+        <div style="display: flex;justify-content: center;">
+            <img class="img-fluid" width="100" src={{i.logo}} />
+        </div>
+        <div class="my-1" style="display: flex;justify-content: center;">
+            <svg id="stars-4-5" style="fill: #0da1ec;" width="100" viewBox="0 0 663 120" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path class="gcst0" d="M653.6 44.1h-39.1L601.2 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8L576 72.5l-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.9-1.3.6-3.8-1.3-3.8z"></path><path d="M112.9 44.1H73.8L60.6 5.7c-.6-1.9-3.2-1.9-3.8 0L44.2 45.4H4.4c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5L82 71.2l32.2-23.3c1.9-1.3.6-3.8-1.3-3.8zM248.2 44.1H209L195.8 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.8-1.3.5-3.8-1.3-3.8zM383.4 44.1h-39.1L331.1 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7H275c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.8-1.3.5-3.8-1.4-3.8zM518.5 44.1h-39.1L466.2 5.7c-.6-1.9-3.2-1.9-3.8 0l-12.6 39.7H410c-1.9 0-3.2 2.5-1.3 3.8l32.2 23.3-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 32.8 23.3c1.9 1.3 3.8-.6 3.2-2.5l-12-37.8 32.2-23.3c1.9-1.3.6-3.8-1.3-3.8zM599.4 4.2c-.8 0-1.6.5-1.9 1.4l-12.6 39.7h-39.7c-1.9 0-3.2 2.5-1.3 3.8L576 72.5l-12 37.2c-.6 1.9 1.9 3.8 3.2 2.5l31.5-24 .7-84z"></path></svg>
+        </div>
+        <h5 class="text-center py-1" style="font-size: 0.8rem;">
+            TopResume is rated a <strong style="font-weight: 600;">4.5 out <br> of 5 </strong>, with over 500 reviews.
+        </h5>
+    </div>
+</div>
+
+<div class="container-fluid p-5 bg-light" style="margin:0">
+    <div style="display: flex;justify-content: center;width: 100%;">
+        <h6 class="border-dark border-bottom border-top h6 py-2" style="display: inline;font-weight: 600;">
+            Trusted By Professionals From
+        </h6>
+    </div>
+    <div style="display: flex;justify-content: center;width: 100%;">
+        <img class="img-fluid" src="assets/client.png" />
+    </div>
+</div>

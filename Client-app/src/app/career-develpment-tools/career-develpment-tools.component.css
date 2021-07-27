@@ -1,0 +1,23 @@
+.other {
+    object-fit: cover;
+}
+
+.jake {
+    font-size: xx-large;
+}
+
+.myMar {
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+@media (min-width : 768px) {
+    img {
+        height: 440px;
+    }   
+}
+
+.jumbotron {
+    /* background: url("/assets/linkdin-removebg_2.png") no-repeat center center; */
+    box-shadow: none;
+}

@@ -1,0 +1,17 @@
+<div class="" [ngClass]="{'container':!isMobile}">
+    <div class="jumbotron">
+        <div class="rounded" [ngClass]="{'mx-5':!isMobile}">
+            <h1 class="h1 cate font-weight-bold" [ngClass]="{'ml-2':isMobile,'mt-5':isMobile}" style="margin-top: 9%;">Land The job You've Been Dreaming Of.</h1>
+            <div class="row mt-3 mb-0" [ngClass]="{'mx-0':isMobile}">
+                <mat-form-field class="col-sm" [ngClass]="{'mr-2':!isMobile}">
+                    <input type="text" placeholder="Search JobTitle; Skill or Company" matInput [formControl]="search" (change)="searchChange($event)">
+                </mat-form-field>
+                <app-job-country-autocomplete class="col-sm" (countryValue)="countChange($event)"></app-job-country-autocomplete>
+                <button (click)="submitClicked()" class="btn btn-primary janu" [ngClass]="{'col-sm':isMobile,'mb-5':!isMobile,'mt-1':!isMobile,'mx-3':isMobile}" mat-button>Search</button>
+            </div>
+            <div class="mb-1" [ngClass]="{'text-center':isMobile,'mt-4':isMobile}">
+                Browse Jobs By <a href='/Jobs/All-Categories' class="lnkMuted">Category</a> or <a href="/Jobs/All-Countries" class="lnkMuted">Location</a>
+            </div>
+        </div>
+    </div>
+</div>
