@@ -33,7 +33,7 @@ export class JobNavComponent implements OnInit {
 
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width <= 786;
+      this.isMobile = screen.width < 768;
     }
 
     if(this.router.url=="/")

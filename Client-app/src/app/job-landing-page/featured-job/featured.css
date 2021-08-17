@@ -1,0 +1,41 @@
+.flex-disp {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Weight550 {
+    font-weight: 550;
+}
+
+.btn-bg{
+    background-color: white;
+    color: #4440da;
+}
+
+.btn-bg:hover {
+    background-color: #4440da;
+    color: white;
+}
+
+.btn-display {
+    border: 2px solid #4440da;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-bg2 {
+    border-color: #4440da;
+    border-radius: 1000px;
+    background-color: white;
+    color: #4440da;
+}
+
+.btn-bg2:hover {
+    background-color: #4440da;
+    color: white;
+}
+
+.horiCenter {
+    margin: 0 auto;
+}

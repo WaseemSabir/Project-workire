@@ -26,7 +26,6 @@ export class JobListComponent implements OnInit {
   page : number = 0;
   count : number = 0;
   job : string = 'find-job';
-  schema : any = {};
 
   header : string = ' Jobs ';
   header2 : string = ' Jobs Found: Showing '
@@ -48,7 +47,6 @@ export class JobListComponent implements OnInit {
 
   akjob : any;
   dekho : boolean = false;
-  jobSchema : any;
   haj : boolean = false;
 
   h1tag : string = ''
@@ -59,7 +57,7 @@ export class JobListComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
         if(isPlatformBrowser(this.platformId))
         {
-          this.isMobile = screen.width < 786;
+          this.isMobile = screen.width < 768;
         }
         let a,b,c,d,e,g;
         let f : number = 0;
@@ -95,41 +93,7 @@ export class JobListComponent implements OnInit {
           {
             this.h1tag = this.akjob.Position + ' in ' + this.akjob.Location + ' at '  + this.akjob.AdvertiserName;
           }
-          this.schema = {
-            "@context": "https://schema.org/",
-            "@type": "JobPosting",
-            "title": this.akjob.Position,
-            "description": this.akjob.Description,
-            "hiringOrganization" : {
-              "@type": "Organization",
-              "name": this.akjob.AdvertiserName
-            },
-            "industry": this.akjob.Classification,
-            "employmentType": this.akjob.EmploymentType,
-            "workHours": this.akjob.WorkHours,
-            "datePosted": this.akjob.PostDate,
-            "jobLocation": {
-              "@type": "Place",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": this.akjob.Area,
-                "addressLocality": this.akjob.Location,
-                "postalCode": this.akjob.PostalCode,
-                "addressCountry": this.akjob.Country
-              }
-            },
-            "baseSalary": {
-              "@type": "MonetaryAmount",
-              "currency": this.akjob.SalaryCurrency,
-              "value": {
-                "@type": "QuantitativeValue",
-                "minValue": this.akjob.SalaryMinimum,
-                "maxValue": this.akjob.SalaryMaximum,
-                "unitText": this.akjob.SalaryPeriod
-              }
-            }
-          }
-          if(this.header===' Jobs ')
+          if(this.header ===' Jobs ')
           {
             this.title.setTitle('Jobs | Browse our Job Listing | Workire')
             this.meta.updateTag({name: "description",content: "Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
@@ -159,31 +123,6 @@ export class JobListComponent implements OnInit {
             else
             {
               this.h1tag = this.akjob.Position + ' in ' + this.akjob.Location + ' at '  + this.akjob.AdvertiserName;
-            }
-            this.jobSchema = {
-              "@context": "https://schema.org/",
-              "@type": "JobPosting",
-              "title": this.akjob.Position,
-              "description": "Apply for the " + this.akjob.Position + " , Find other relvent jobs in " + this.akjob.Classification,
-              "identifier": {
-                "@type": "PropertyValue",
-                "name": "Workire.com",
-                "value": this.job
-              },
-              "hiringOrganization" : {
-                "@type": "Organization",
-                "name": this.akjob.AdvertiserName
-              },
-              "employmentType": "FULL_TIME",
-              "datePosted": this.akjob.PostDate,
-              "jobLocation": {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "postalCode": this.akjob.PostalCode,
-                  "addressCountry": this.akjob.Country
-                }
-              }
             }
           })
         }
@@ -239,22 +178,24 @@ export class JobListComponent implements OnInit {
               this.count = this.data.count
               this.header = (this.search.length==0) ? (this.header) : (this.search + this.header) 
               this.header = (this.country.length!=0) ? (this.header + "in " + this.country.split(',').join(' , ')) : this.header
+              let SeoHead = this.header;
+              let SeoLoc = (this.country.length!=0) ? ("in " + this.country.split(',').join(' , ')) : ''
               this.header = this.count.toString() + '+ ' + this.header
               let temp = (((this.page-1)*10)+10)
               this.header2 = this.header2 + (((this.page-1)*10)+1).toString() + ' - ';
               this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
 
-              this.title.setTitle(this.header + ' | Workire')
-              this.meta.updateTag({name: "description",content: "Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
-              this.meta.updateTag({name: 'keywords', content: "find jobs,get hired faster"})
+              this.title.setTitle("Find latest " + SeoHead + ' | Workire')
+              this.meta.updateTag({name: "description",content: "Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
+              this.meta.updateTag({name: 'keywords', content: `${SeoHead},new ${SeoHead},${this.search} Job ${SeoLoc},${this.search} Job opportunity ${SeoLoc},${this.search} Job openings ${SeoLoc}`})
               this.meta.updateTag({property: 'og:type',content:'job'})
-              this.meta.updateTag({property: 'og:title',content: 'Jobs | Browse our Job Listing | Workire'})
-              this.meta.updateTag({property: 'og:description',content:"Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
+              this.meta.updateTag({property: 'og:title',content: "Find latest " + SeoHead + ' | Workire'})
+              this.meta.updateTag({property: 'og:description',content:"Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
               this.meta.updateTag({property: 'og:url',content:this.domain + this.route.url})
               this.meta.updateTag({property: 'og:image',content:this.domain + '/assets/workire.png'})
               this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-              this.meta.updateTag({name: 'twitter:title',content: 'Jobs | Browse our Job Listing | Workire'})
-              this.meta.updateTag({name: 'twitter:description',content: "Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
+              this.meta.updateTag({name: 'twitter:title',content: "Find latest " + SeoHead + ' | Workire'})
+              this.meta.updateTag({name: 'twitter:description',content: "Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
               this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
               this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
           })

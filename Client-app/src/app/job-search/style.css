@@ -22,3 +22,44 @@
     background: #F8F9FB;
     box-shadow: none;
 }
+
+/* Large View Ports  */
+@media screen and (min-width: 900px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 5vw;
+    }
+    .pad {
+        padding-top: 4%;
+    }
+}
+
+
+/* Medium View Ports */
+@media screen and (max-width: 900px) and (min-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 7vw;
+    }
+    .pad {
+        padding-top: 5%;
+    }
+}
+
+
+/* Small View Ports  */
+@media screen and (max-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 10vw;
+    }
+    .pad {
+        padding-top: 6%;
+    }
+}
+
+
+/* Common For all  */

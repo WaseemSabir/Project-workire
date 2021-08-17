@@ -2,14 +2,13 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../deafult-loc.service';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-job-top-companies',
-  templateUrl: './job-top-companies.component.html',
-  styleUrls: ['./job-top-companies.component.css']
+  selector: 'app-landing-page',
+  templateUrl: './job-landing-page.component.html',
+  styleUrls: ['./job-landing-page.component.css']
 })
-export class JobTopCompaniesComponent implements OnInit {
+export class JobLandingPageComponent implements OnInit {
 
   constructor(private router : Router,private loc: DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -40,7 +39,7 @@ export class JobTopCompaniesComponent implements OnInit {
   ngOnInit() {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
 
     this.loc.getAllCompanies().subscribe((res: any)=>{
@@ -80,13 +79,6 @@ export class JobTopCompaniesComponent implements OnInit {
         this.blogPost = res.data.slice(0,3);
       }
     })
-
-    this.loc.getAllSeoCat().subscribe((res : any)=>{
-      this.search = res.category
-      this.search = this.search.filter((val)=>{
-        return (val.SEO_NAME);
-      })
-    })
   }
 
   imageClicked (i : Number) {
@@ -104,11 +96,6 @@ export class JobTopCompaniesComponent implements OnInit {
       temp += k[0].toUpperCase() + k.slice(1,k.length) + ' '
     }
     return temp;
-  }
-
-  rep(str : any)
-  {
-    return str.replace(/ /g,'-')
   }
 
 }

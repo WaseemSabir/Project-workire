@@ -25,7 +25,7 @@ export class CareerDevelpmentToolsComponent implements OnInit {
 
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     
     this.title.setTitle('Level up your career today | Workire');

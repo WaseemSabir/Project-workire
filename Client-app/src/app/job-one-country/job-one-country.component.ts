@@ -62,7 +62,7 @@ export class JobOneCountryComponent implements OnInit {
         this.spinner.show()
         if(isPlatformBrowser(this.platformId))
         {
-          this.isMobile = screen.width < 786;
+          this.isMobile = screen.width < 768;
         }
         this.anotherOne = false
         let c = params.get('count')!

@@ -39,7 +39,7 @@ export class JobParallelComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
   }
 

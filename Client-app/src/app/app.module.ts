@@ -11,7 +11,9 @@ import { JobFooterComponent } from './job-footer/job-footer.component';
 import { JobIndexComponent } from './job-index/job-index.component';
 import { JobNotFoundComponent } from './job-not-found/job-not-found.component';
 import { JobPageComponent } from './job-page/job-page.component';
-import { JobTopCompaniesComponent } from './job-top-companies/job-top-companies.component';
+import { JobLandingPageComponent } from './job-landing-page/job-landing-page.component';
+import { LandingPageFeatured } from './job-landing-page/featured-job/featured-component';
+import { LandingPageCategory } from './job-landing-page/category/category-component';
 import { BlogCardComponent } from './blog-card/blog-card.component';
 import { JobFeaturedComponent } from './job-featured/job-featured.component';
 import { JobListComponent } from './job-list/job-list.component';
@@ -50,7 +52,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CareerDevelpmentToolsComponent } from './career-develpment-tools/career-develpment-tools.component';
 import { JobFrontBoxComponent } from './job-front-box/job-front-box.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
 
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -61,7 +69,7 @@ import { JobFrontBoxComponent } from './job-front-box/job-front-box.component';
     JobIndexComponent,
     JobNotFoundComponent,
     JobPageComponent,
-    JobTopCompaniesComponent,
+    JobLandingPageComponent,
     BlogCardComponent,
     JobFeaturedComponent,
     JobListComponent,
@@ -84,7 +92,9 @@ import { JobFrontBoxComponent } from './job-front-box/job-front-box.component';
     JobOneCompanyComponent,
     JobCountryAutocompleteComponent,
     CareerDevelpmentToolsComponent,
-    JobFrontBoxComponent
+    JobFrontBoxComponent,
+    LandingPageCategory,
+    LandingPageFeatured
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -108,9 +118,10 @@ import { JobFrontBoxComponent } from './job-front-box/job-front-box.component';
     MatRadioModule,
     MatBadgeModule,
     MatCheckboxModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NzDropDownModule
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 

@@ -1,0 +1,49 @@
+.backgroundSecondary {
+    background-color: #f5f7fb;
+}
+
+.makeThemRound {
+    border-radius: 10px;
+}
+
+.Weight550 {
+    font-weight: 550;
+}
+
+.card-bg {
+    background-color: white;
+    color: black;
+}
+
+.card-bg:hover {
+    background-color: #facc35;
+    color: white;
+}
+
+.card-display {
+    display: flex;
+}
+
+.card-font {
+    font-weight: 450;
+    font-size: large;
+}
+
+.btn-display {
+    border: 2px solid #4440da;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-bg {
+    border-color: #4440da;
+    border-radius: 1000px;
+    background-color: white;
+    color: #4440da;
+}
+
+.btn-bg:hover {
+    background-color: #4440da;
+    color: white;
+}

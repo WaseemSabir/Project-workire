@@ -24,7 +24,7 @@ export class JobFooterComponent implements OnInit {
     router.events.subscribe(val => {
       if(isPlatformBrowser(this.platformId))
       {
-        this.isMobile = screen.width < 786;
+        this.isMobile = screen.width < 768;
       }
       this.route = location.path().split('/');
       this.links = []

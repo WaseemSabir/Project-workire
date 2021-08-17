@@ -19,7 +19,7 @@ export class JobFeaturedComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
 
     let temp = ''
@@ -43,6 +43,12 @@ export class JobFeaturedComponent implements OnInit {
     if(str =="/mediaimage/default.jpg")
     {
       return this.domain + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
+    }
+    else if(str.includes("http"))
+    {
+      str = str.replace("/mediaimage/",'')
+      str = str.replace("%3A",':')
+      return str;
     }
     else if(str[0] == '/')
     {

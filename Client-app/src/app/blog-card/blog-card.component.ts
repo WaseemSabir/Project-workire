@@ -37,7 +37,7 @@ export class BlogCardComponent implements OnInit {
       }
       if(isPlatformBrowser(this.platformId))
       {
-        this.isMobile = screen.width < 786;
+        this.isMobile = screen.width < 768;
       }
       this.loaded = false;
       this.loc.getPost(this.id).subscribe((res : any)=>{

@@ -18,7 +18,7 @@ export class ContactUsComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     this.title.setTitle('Contact Us | Workire');
     this.meta.updateTag({name: "description",content:"Drop Us an email at info@workire.com and we'll get back to as soon as possible, Or reach out through social media platforms."},"name='description'"),

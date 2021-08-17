@@ -46,6 +46,7 @@
     </div>
     <div *ngIf="jobid!='find-job' && check && isEmpty()" class="w-100" [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-5':isMobile}" #t1>
       <div class="row mt-2">
+        <ngx-json-ld [json]="schema"></ngx-json-ld>
           <div class="col-md-8 col-sm-12 shadow-sm">
                 <div class="col-12 pb-3 mb-2 row">
                     <div class="col-md-8 col-sm-12">
@@ -73,8 +74,8 @@
                     </div>
                 </div>
                 <div *ngIf="!isMobile" class="col-12 d-flex">
-                    <h2 class="text-muted" style="font-size: medium;font-weight: 400;">Overview: &nbsp;</h2>
-                    <h1 class="text-muted" style="font-size: medium;">{{tit}}</h1>
+                    <h2 class="text-muted" style="font-size: medium;font-weight: 400;">Overview:&nbsp;</h2>
+                    <h1 class="text-muted" style="font-size: medium;">{{" " + tit}}</h1>
                 </div>
                 <div class="col-12 h6 text-muted font-weight-normal m-0"> Category: {{jobDetails.Classification}}</div>
                 <div class="col-12 h6 text-muted pt-4 font-weight-normal m-0"> Posted {{DateFun(jobDetails.PostDate)}}</div>

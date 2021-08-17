@@ -95,7 +95,7 @@ export class CustomResumePageComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     if(this.isMobile)
     {

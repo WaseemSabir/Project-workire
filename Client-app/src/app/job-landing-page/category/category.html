@@ -1,0 +1,19 @@
+<div class="backgroundSecondary p-5">
+    <div class="h1 text-center py-4 Weight550">
+        <div>One Platform</div>
+        <div>Many <span class="blue-color">Solutions</span></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let cat of cats">
+                <div class="m-2 px-3 py-4 makeThemRound pointer card-bg card-display" [routerLink]="['/Job-category',cat.url]">
+                    <img style="width: 40px;height: auto;" src="/assets/{{cat.icon}}" [alt]="cat.category">
+                    <div class="pl-2 card-font" [innerHtml]="cat.category"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center pt-4">
+        <button class="btn-display btn-bg" [routerLink]="['/Jobs/All-Categories']">View All Categories</button>
+    </div>
+</div>

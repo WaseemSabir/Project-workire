@@ -6,8 +6,8 @@
                 Find for the best jobs in all Companies listed below, Applying is realy easier and your next Job is just a click away.New careers in all Companies are added daily on Workire.com, If you don't find relevant Job, be sure to check back some other time.
             </h2>
             <div class="row pb-5 pt-2">
-                <div class="col-6" *ngFor="let team of keys(allCat)">
-                    <a [routerLink]="['/Job-company',rep(team)]">{{team}}</a>
+                <div class="col-6" *ngFor="let comp of allCat">
+                    <a [routerLink]="['/Job-company',rep(comp.Name)]">{{comp.Name}}</a>
                     <hr class="mt-0">
                 </div>
             </div>

@@ -27,14 +27,25 @@ export class JobSearchComponent implements OnInit {
   public categories: any = {};
   public countries: any = {};
   public seocat: any = {};
+  public totalJobs : number = 0;
 
 
   ngOnInit(): void {
     this.check = false;
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width <= 786;
+      this.isMobile = screen.width < 768;
     }
+
+    this.loc.getAllJobs('','','','',0,1)
+    .subscribe(
+      data =>{
+        this.totalJobs = data.count;
+      },
+      err =>{
+        console.log(err)
+      }
+    )
   }
 
   submitClicked(){

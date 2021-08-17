@@ -17,7 +17,7 @@ export class JobDisclaimerComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     this.title.setTitle('Disclaimer | Workire');
     this.meta.updateTag({name: "description",content:"By using our website, you hereby consent to our disclaimer and agree to its terms."})

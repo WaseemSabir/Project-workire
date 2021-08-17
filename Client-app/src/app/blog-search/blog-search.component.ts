@@ -28,7 +28,7 @@ export class BlogSearchComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     this.activateroute.paramMap.subscribe(params=>{
       this.spinner.show();

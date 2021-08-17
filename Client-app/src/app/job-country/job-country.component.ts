@@ -10,16 +10,7 @@ import { DeafultLocService } from '../deafult-loc.service';
 })
 export class JobCountryComponent implements OnInit {
 
-  allCat : any = {
-    'Iraq' : [],
-    'Bahrain' : ['Manama','Busaiteen','Muharraq'],
-    'Kuwait' : ['Ahmadi','Kuwait City','Al Asimah'],
-    'Oman' : ['Muscat','Sohar','Salalah'],
-    'Qatar' : ['Al Khor','Al Wakrah','Doha','Umm Salal'],
-    'Suadi Arabia' : ['Jeddah','Al Khobar','Yanbu','Al Jubail','Dhahran','Riyadh'],
-    'United Arab Emirates' : ['Abu Dhabi','Dubai','Ajman','Sharjah','Ras al-Khaimah','Fujairah'],
-    'Jordan' : ['Amman']
-  }
+  allCat : any = {};
   domain : string = "https://workire.com"
   loaded : boolean = false
   keys = Object.keys
@@ -31,8 +22,9 @@ export class JobCountryComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
+    this.allCat = this.loc.getCustomCountries();
     this.title.setTitle('Find  latest Jobs by Location | Workire');
     this.meta.updateTag({name: "description",content:"Apply for the best jobs in all location.New careers in all locations  are added daily on Workire.com. Apply quickly to various job openings that are hiring near you."})
     this.meta.updateTag({name: 'keywords', content: Object.keys(this.allCat).toString()})

@@ -1,6 +1,27 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+.navbar {
+    box-shadow: none !important; 
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
 html {
     scroll-behavior: smooth;
 }
   
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Helvetica, "Helvetica Neue", sans-serif; }
+/* 
+.blue-color {
+    color: #4440da;
+} */
+
+
+.blue-color {
+    color: #fabf01;
+}
+
+.pointer {
+    cursor: pointer;
+}

@@ -110,7 +110,7 @@ export class JobListCardsComponent implements OnInit {
 
       if(isPlatformBrowser(this.platformId))
       {
-        this.isMobile = screen.width < 786;
+        this.isMobile = screen.width < 768;
       }
 
       this.count = this.item.count;
@@ -195,17 +195,23 @@ export class JobListCardsComponent implements OnInit {
   }
 
   urlParse = (str : string,comp : string) =>{
-    if(str =="default.jpg")
+    if(str =="/mediaimage/default.jpg")
     {
-      return this.domain + (comp[0].toUpperCase() + ".png")
+      return this.domain + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
     }
-    if(str.includes('http'))
+    else if(str.includes("http"))
     {
+      str = str.replace("/mediaimage/",'')
+      str = str.replace("%3A",':')
       return str;
+    }
+    else if(str[0] == '/')
+    {
+      return this.domain + str;
     }
     else
     {
-      return this.domain + str;
+      return this.domain + '/' + str;
     }
   }
 

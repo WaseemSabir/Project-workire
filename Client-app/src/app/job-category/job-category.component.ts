@@ -23,7 +23,7 @@ export class JobCategoryComponent implements OnInit {
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
     this.loc.getAllSeoCat().subscribe((res : any)=>{
       this.allCat = res.category

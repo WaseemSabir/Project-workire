@@ -11,7 +11,7 @@ import { DeafultLocService } from '../deafult-loc.service';
 export class JobCompanyComponent implements OnInit {
 
   domain : string = "https://workire.com"
-  allCat : any = {}
+  allCat : any[] = []
   loaded : boolean = false
   keys = Object.keys
   check : any[] = []
@@ -24,11 +24,11 @@ export class JobCompanyComponent implements OnInit {
     this.loaded = false
     if(isPlatformBrowser(this.platformId))
     {
-      this.isMobile = screen.width < 786;
+      this.isMobile = screen.width < 768;
     }
 
-    this.loc.getAllCompanies().subscribe((res : any)=>{
-      this.allCat = res.data;
+    this.loc.getAllCompany().subscribe((res : any)=>{
+      this.allCat = res;
       this.title.setTitle('Find  latest Jobs by Company | Workire');
       this.meta.updateTag({name: "description",content:"Apply for the best jobs in all company.New careers in all companies are added daily on Workire.com. Apply quickly to various job openings that are hiring near you."})
       this.meta.updateTag({name: 'keywords', content: Object.keys(this.allCat).toString()})

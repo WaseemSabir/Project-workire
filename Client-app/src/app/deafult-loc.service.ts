@@ -29,6 +29,10 @@ export class DeafultLocService {
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompanies");
   }
 
+  public getAllCompany(){
+    return this.httpClient.get(this.MY_SEREVER + "company/getAllCompany");
+  }
+
   public getAllJobs(s : string, count : string, cat : string, comp : string, day : number, page : any) {
     return this.httpClient.post<any>(this.MY_SEREVER + "company/search",{'search' : s,'Country' : count, 'category' : cat, 'companies' : comp,'day': day,'page': page})
   }
@@ -86,5 +90,20 @@ export class DeafultLocService {
   public jobTitle(str : string)
   {
     return this.httpClient.post(this.MY_SEREVER + 'company/getJobByTitle',{'title':str})
+  }
+
+  public getCustomCountries()
+  {
+    let t = {
+      'Bahrain' : ['Manama','Busaiteen','Muharraq'],
+      'Kuwait' : ['Ahmadi','Kuwait City','Al Asimah'],
+      'Oman' : ['Muscat','Sohar','Salalah'],
+      'Qatar' : ['Al Khor','Al Wakrah','Doha','Umm Salal'],
+      'Suadi Arabia' : ['Jeddah','Al Khobar','Yanbu','Al Jubail','Dhahran','Riyadh'],
+      'United Arab Emirates' : ['Abu Dhabi','Dubai','Ajman','Sharjah','Ras al-Khaimah','Fujairah'],
+      'Jordan' : ['Amman'],
+      'Iraq' : ['Baghdad'],
+    }
+    return t;
   }
 }

@@ -112,7 +112,7 @@ export class JobListFilterComponent implements OnInit {
 
       if(isPlatformBrowser(this.platformId))
       {
-        this.isMobile = screen.width < 786;
+        this.isMobile = screen.width < 768;
       }
 
       if(this.all)
