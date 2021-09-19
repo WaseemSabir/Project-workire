@@ -2,3 +2,85 @@
     /* background: url("/assets/linkdin-removebg_2.png") no-repeat center center; */
     box-shadow: none;
 }
+
+.shad:hover{
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+    box-shadow: 0px 0px 15px gray;
+}
+
+.chad.hover {
+    border: blue;
+}
+
+.caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50% , 0%);
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.champ { 
+border: 2px solid white; 
+} 
+.champ:hover { 
+border: 2px solid rgb(49, 49, 187);
+}
+
+.curse {
+    cursor: pointer;
+}
+
+.backgroundSecondary {
+    background-color: #f5f7fb;
+}
+
+.btn-bg{
+    background-color: white;
+    color: black;
+}
+
+.btn-bg:hover {
+    background-color: #006699;
+    color: white;
+}
+
+.btn-bg2 {
+    border-color: #006699;
+    border-radius: 1000px;
+    background-color: white;
+    color: #006699;
+}
+
+.btn-bg2:hover {
+    background-color: #006699;
+    color: white;
+}
+
+.horiCenter {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-display {
+    border: 2px solid #006699;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.card {
+    border-radius: 20px;
+}
+
+.card img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}

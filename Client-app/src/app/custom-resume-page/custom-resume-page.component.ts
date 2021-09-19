@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { MetaServiceService } from '../meta-service.service';
+import { SeoServiceService } from '../seo-service.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-custom-resume-page',
@@ -11,7 +11,7 @@ import { MetaServiceService } from '../meta-service.service';
 })
 export class CustomResumePageComponent implements OnInit {
 
-  domain : string = "https://workire.com"
+  domain : string = environment.APIEndpoint;
 
   service : any[] = [
     {
@@ -90,7 +90,7 @@ export class CustomResumePageComponent implements OnInit {
 
   isMobile : boolean = false
 
-  constructor(private title : Title,private meta : Meta,private link : MetaServiceService,private route : Router,@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private route : Router,@Inject(PLATFORM_ID) private platformId: Object,private seo : SeoServiceService) { }
 
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
@@ -104,21 +104,16 @@ export class CustomResumePageComponent implements OnInit {
         i.show = false;
       }
     }
-    this.title.setTitle('Professional Resume Writing Serices | Workire');
-    this.meta.updateTag({name: "description",content:"Looking for professional resume writing service? TopResume's expert resume writers can help you build a resume that gets more interviews, guaranteed."},'name=description')
-    this.meta.updateTag({name: 'keywords', content: "Resume help, Workire resume,Professional Resume,Resume writting,Top resume"},'name=keywords')
-    this.meta.updateTag({property: 'og:type',content:'article'})
-    this.meta.updateTag({property: 'og:title',content: 'Professional Resume Writing Serices | Workire'})
-    this.meta.updateTag({property: 'og:description',content:"Looking for professional resume writing service? TopResume's expert resume writers can help you build a resume that gets more interviews, guaranteed."})
-    this.meta.updateTag({property: 'og:image',content:this.domain+ "/assets/resume.jpg"})
-    this.meta.updateTag({property: 'og:url',content:this.domain+'/professional-resume-writing-service'})
-    this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-    this.meta.updateTag({name: 'twitter:title',content: 'Professional Resume Writing Serices | Workire'})
-    this.meta.updateTag({name: 'twitter:description',content: "Looking for professional resume writing service? TopResume's expert resume writers can help you build a resume that gets more interviews, guaranteed."})
-    this.meta.updateTag({name: 'twitter:image',content: this.domain + "/assets/resume.jpg"})
-    this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-    this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-    this.link.createCanonicalURL(this.domain + this.route.url)
+
+    let title = 'Professional Resume Writing Serices | Workire'
+    let desc = "Looking for professional resume writing service? TopResume's expert resume writers can help you build a resume that gets more interviews, guaranteed."
+    let keywords = "Resume help, Workire resume,Professional Resume,Resume writting,Top resume"
+    let type = 'article'
+    let url = this.domain + this.route.url
+    let image = this.domain+ "/assets/resume.jpg"
+
+    this.seo.updateSeoWithImage(title,desc,keywords,image,type,url);
+    this.seo.createCanonicalURL(this.domain + this.route.url)
   }
 
   showClick (s : number) 

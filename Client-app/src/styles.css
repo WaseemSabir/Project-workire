@@ -1,9 +1,23 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
+/* @import "bootstrap/dist/css/bootstrap.min.css"; */
+@media screen and (min-width: 768px) {
+    .navbar {
+        box-shadow: none !important; 
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+}
 
-.navbar {
-    box-shadow: none !important; 
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
+@media screen and (max-width: 768px) {
+    .navbar {
+        box-shadow: none !important; 
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 3%;
+        padding-right: 1%;
+    }
 }
 
 html {
@@ -19,7 +33,37 @@ body { margin: 0; font-family: Helvetica, "Helvetica Neue", sans-serif; }
 
 
 .blue-color {
+    /* color: #4440da; */
+    /* color: #3a36ad; */
+    color: #006699;
+}
+
+.black-color {
+    color : black;
+}
+
+.yellow-color {
     color: #fabf01;
+}
+
+.seconday-blue {
+    color: #f5f7fb;
+}
+
+.white-color {
+    color: white;
+}
+
+.light-bg {
+    background-color:  #f5f7fb;
+}
+
+.dark-bg{
+    background-color: #006699;
+}
+
+.dark-bg2 {
+    background-color: #006699;
 }
 
 .pointer {

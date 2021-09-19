@@ -1,0 +1,86 @@
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.hell {
+    text-decoration:none;
+}
+
+.hell:hover {
+    text-decoration:underline;
+}
+
+a {
+    color: rgb(80, 78, 78);
+}
+
+a:hover {
+    color: rgb(46, 45, 45);
+    text-decoration: none;
+}
+
+.myMar {
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+@media (min-width : 768px) {
+    img {
+        height: 440px;
+    }   
+}
+
+/* Large View Ports  */
+@media screen and (min-width: 900px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 4vw;
+    }
+    .pad {
+        padding-top: 4%;
+    }
+    .title2 {
+        font-weight: 550;
+        font-size: 2vw;
+    }
+}
+
+
+/* Medium View Ports */
+@media screen and (max-width: 900px) and (min-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 6vw;
+    }
+    .pad {
+        padding-top: 5%;
+    }
+}
+
+
+/* Small View Ports  */
+@media screen and (max-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 8vw;
+    }
+    .pad {
+        padding-top: 6%;
+    }
+}
+
+.weight550 {
+    font-weight: 600;
+}
+
+.list-group-item {
+    background-color: #f5f7fb;
+}

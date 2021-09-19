@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-share-buttons',
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ShareButtonsComponent implements OnInit {
 
 
-  domain : string = "https://workire.com"
+  domain : string = environment.APIEndpoint;
   href : string = "";
   fb : string = "";
   twitter : string = "";

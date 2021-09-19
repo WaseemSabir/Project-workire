@@ -1,0 +1,22 @@
+/* .roundIt {
+    border-radius: 20px;
+} */
+
+.btnPrime {
+    color: white;
+    background-color: #ffac00;
+    height: 50px;
+    width: 200px;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.row {
+    padding: 0;
+}
+
+.col {
+    padding: 0;
+}

@@ -9,36 +9,43 @@ mdb-navbar {
     box-shadow: none;
 }
 
-.blue-color {
-    color: #4440da;
-}
-
 .fontStyle {
     color: black;
     font-weight: 400;
     font-size: 16px;
 }
 
-.fontStyle::after {
-    content: ""; /* This is necessary for the pseudo element to work. */ 
-    display: block; /* This will put the pseudo element on its own line. */
-    margin: 0 auto; /* This will center the border. */
-    width: 50%; /* Change this to whatever width you want. */
-    border-bottom: 2px solid transparent; /* This creates the border. Replace black with whatever color you want. */
+@media (min-width : 995px)
+{
+    .fontStyle::after {
+        content: ""; /* This is necessary for the pseudo element to work. */ 
+        display: block; /* This will put the pseudo element on its own line. */
+        margin: 0 auto; /* This will center the border. */
+        width: 50%; /* Change this to whatever width you want. */
+        border-bottom: 2px solid transparent; /* This creates the border. Replace black with whatever color you want. */
+    }
 }
 
 .fontStyle:hover {
-    color: #4440da;
+    color: #006699;
 }
 
-.fontStyle:hover::after {
-    content: ""; /* This is necessary for the pseudo element to work. */ 
-    display: block; /* This will put the pseudo element on its own line. */
-    margin: 0 auto; /* This will center the border. */
-    width: 50%; /* Change this to whatever width you want. */
-    border-bottom: 2px solid #4440da; /* This creates the border. Replace black with whatever color you want. */
+@media (min-width : 995px)
+{
+    .fontStyle:hover::after {
+        content: ""; /* This is necessary for the pseudo element to work. */ 
+        display: block; /* This will put the pseudo element on its own line. */
+        margin: 0 auto; /* This will center the border. */
+        width: 50%; /* Change this to whatever width you want. */
+        border-bottom: 2px solid #006699; /* This creates the border. Replace black with whatever color you want. */
+    }
 }
 
 a {
     text-decoration: none;
+}
+
+.no-pad-mar {
+    padding: 0;
+    margin: 0;
 }

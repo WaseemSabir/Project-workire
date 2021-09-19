@@ -1,112 +1,77 @@
-<div *ngIf="!isMobile" class="" [ngClass]="{'mx-auto':isMobile}">
+<div class="pt-4 pb-2" style="display: flex;justify-content: center;" *ngIf="!isMobile">
+    <nz-input-group class="" [nzPrefix]="searchIcon" [ngClass]="{'input':toggleView,'input-toggle':!toggleView}">
+        <input type="text"  nz-input placeholder="Job Title or keyword" [(ngModel)]="search"/>
+    </nz-input-group>
+    <ng-template #searchIcon>
+        <mat-icon [ngClass]="{'blue-color':search.length}">search</mat-icon>
+    </ng-template>
 
-  <!-- --------------------------------------- Time Code ------------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu" class="btn" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':timeStr!=='Date Posted','hola':timeStr==='Date Posted','mt-2':isMobile,'mt-3':!isMobile}">
-    <span>{{timeStr}}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
+    <nz-input-group class="" [nzPrefix]="locationIcon" [ngClass]="{'input':toggleView,'input-toggle':!toggleView}">
+        <input type="text" nz-input placeholder="City or Country" [(ngModel)]="country" [nzAutocomplete]="autoCountry" />
+        <nz-autocomplete [nzDataSource]="retOptions(countryList,country)" nzBackfill #autoCountry></nz-autocomplete>
+    </nz-input-group>
+    <ng-template #locationIcon>
+        <mat-icon [ngClass]="{'blue-color':country.length}"> location_on</mat-icon>
+    </ng-template>
 
-  <mat-menu #menu="matMenu">
-      <mat-radio-group class="example-radio-group" *ngFor="let item of timeValues" mat-menu-item>
-        <mat-radio-button color="primary" [value]="item.val" (click)="timeClick(item.val)" [checked]="item.checked">
-          {{item.str}}
-        </mat-radio-button>
-      </mat-radio-group>
-  </mat-menu>
+    <nz-input-group class="" [nzPrefix]="categoryIcon" [ngClass]="{'input':toggleView,'input-toggle':!toggleView}">
+      <input type="text" nz-input placeholder="Category or Keywords" [(ngModel)]="category" [nzAutocomplete]="autoCategory" />
+      <nz-autocomplete [nzDataSource]="retOptions(catList,category)" nzBackfill #autoCategory></nz-autocomplete>
+    </nz-input-group>
+    <ng-template #categoryIcon>
+      <mat-icon [ngClass]="{'blue-color':category.length}" > category</mat-icon>
+    </ng-template>
 
-  <!-- -------------------------------------- Company Code --------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu2" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':compCount,'hola':!compCount,'mt-2':isMobile,'mt-3':!isMobile}">
-    <span>Company </span>
-    <span *ngIf="compCount" class="badge badge-light mx-1">{{compCount}}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
+    <nz-input-group class="" [nzPrefix]="companyIcon" [ngClass]="{'input':toggleView,'input-toggle':!toggleView}">
+      <input type="text" nz-input placeholder="Company or keywords" [(ngModel)]="company" [nzAutocomplete]="autoCompany" />
+      <nz-autocomplete [nzDataSource]="retOptions(compList,company)" nzBackfill #autoCompany></nz-autocomplete>
+    </nz-input-group>
+    <ng-template #companyIcon>
+        <mat-icon [ngClass]="{'blue-color':company.length}" >home</mat-icon>
+    </ng-template>
 
-  <mat-menu #menu2="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(companies)" [checked]="companies[k]" class="mx-3 mt-1 col-12" color="primary" (click)="compClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu>
+    <nz-input-group class="input-toggle" [nzPrefix]="clockIcon" *ngIf="!toggleView">
+      <nz-select [(ngModel)]="days" class="my-auto select-style" (ngModelChange)="setTime()" [nzBorderless]="true">
+        <nz-option [nzValue]="0" nzLabel="Anytime"></nz-option>
+        <nz-option [nzValue]="1" nzLabel="A Day ago"></nz-option>
+        <nz-option [nzValue]="7" nzLabel="A Week ago"></nz-option>
+        <nz-option [nzValue]="30" nzLabel="A Month ago"></nz-option>
+      </nz-select>
+    </nz-input-group>
+    <ng-template #clockIcon>
+      <mat-icon [ngClass]="{'blue-color':company.length}" >schedule</mat-icon>
+    </ng-template>
 
-
-  <!-- -------------------------------------- Category Code --------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu3" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':catCount,'hola':!catCount,'mt-2':isMobile,'mt-3':!isMobile}">
-    <span>Category</span>
-    <span *ngIf="catCount" class="badge badge-light mx-1">{{catCount}}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
-
-  <mat-menu #menu3="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(categories)" [checked]="categories[k]" class="mx-3 mt-1 col-12" color="primary" (click)="catClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu>
-
-  <!-- -------------------------------------- Country Code --------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu4" class="btn ml-2" style="border-radius: 32px;" iconCss='ddb-icons e-message' [ngClass]="{'btn-success':cCount,'hola':!cCount,'mt-2':isMobile,'mt-3':!isMobile}">
-    <span>Location</span>
-    <span *ngIf="cCount" class="badge badge-light mx-1">{{cCount}}</span>
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
-
-  <mat-menu #menu4="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(countries)" [checked]="countries[k]" class="mx-3 mt-1 col-12" color="primary" (click)="countryClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu>
+    <button mat-raised-button class="btnPrime" (click)="applyFilter()">Search</button>
 </div>
 
-
- <!-- For Mobile -->
-
-<div *ngIf="isMobile" class="myboot bg-white border" style="display: flex;">
-  <mat-icon class="my-auto">filter_list</mat-icon>
-  <!-- --------------------------------------- Time Code ------------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':timeStr!=='Date Posted','btn-light':timeStr==='Date Posted'}">
-    <span>{{timeStr}}</span>
+<div *ngIf="isMobile" class="pt-4" style="display: flex;justify-content: center;">
+  <nz-input-group class="input" [nzPrefix]="MobilePrefix">
+    <input type="text" nz-input placeholder={{mobileObj[selectedFilter].placeholder}} [(ngModel)]="mobInp" [nzAutocomplete]="autoCompany" (change)="mobileApply()" />
+    <nz-autocomplete [nzDataSource]="retOptions(mobileObj[selectedFilter].list,mobInp)" nzBackfill #autoCompany></nz-autocomplete>
+  </nz-input-group>
+  <ng-template #MobilePrefix>
+      <mat-icon [ngClass]="{'blue-color':mobInp.length}">{{mobileObj[selectedFilter].icon}}</mat-icon>
+  </ng-template>
+  <button mat-button class="btnPrime" (click)="mobileApply()"><mat-icon>search</mat-icon></button>
+  <button mat-button nz-dropdown [nzDropdownMenu]="menu4">
+    <mat-icon>filter_list</mat-icon>
   </button>
+  <nz-dropdown-menu #menu4="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item *ngFor="let item of MobileFilters" (click)="selcted(item)">{{item}}</li>
+    </ul>
+  </nz-dropdown-menu>
+</div>
 
-  <mat-menu #menu="matMenu">
-      <mat-radio-group class="example-radio-group" *ngFor="let item of timeValues" mat-menu-item>
-        <mat-radio-button color="primary" [value]="item.val" (click)="timeClick(item.val)" [checked]="item.checked">
-          {{item.str}}
-        </mat-radio-button>
-      </mat-radio-group>
-  </mat-menu>
-
-  <!-- -------------------------------------- Company Code --------------------------------- -->
-  <!-- <button mat-button [matMenuTriggerFor]="menu2" class="btn" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':compCount,'btn-light':!compCount}">
-    <span>Company </span>
-    <span *ngIf="compCount" class="badge badge-light mx-1">{{compCount}}</span>
-  </button>
-
-  <mat-menu #menu2="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(companies)" [checked]="companies[k]" class="mx-3 mt-1 col-12" color="primary" (click)="compClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu> -->
-
-
-  <!-- -------------------------------------- Category Code --------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu3" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':catCount,'btn-light':!catCount}">
-    <span>Category</span>
-    <span *ngIf="catCount" class="badge badge-light mx-1">{{catCount}}</span>
-  </button>
-
-  <mat-menu #menu3="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(categories)" [checked]="categories[k]" class="mx-3 mt-1 col-12" color="primary" (click)="catClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu>
-
-  <!-- -------------------------------------- Country Code --------------------------------- -->
-  <button mat-button [matMenuTriggerFor]="menu4" class="btn col-4" iconCss='ddb-icons e-message' [ngClass]="{'btn-dark':cCount,'btn-light':!cCount}">
-    <span>Location</span>
-    <span *ngIf="cCount" class="badge badge-light mx-1">{{cCount}}</span>
-  </button>
-
-  <mat-menu #menu4="matMenu" style="width: auto;">
-      <div class="row">
-        <mat-checkbox *ngFor="let k of keys(countries)" [checked]="countries[k]" class="mx-3 mt-1 col-12" color="primary" (click)="countryClick(k)">{{k}}</mat-checkbox>
-      </div>
-  </mat-menu>
+<div class="row my-3 pl-2">
+  <div class="col-auto" *ngFor="let item of parseObj(filterChips)">
+    <mat-chip-list>
+      <mat-chip *ngFor="let chip of filterChips[item]" class="mx-2" [removable]="true" (removed)="removeChip(item,chip)">
+        <mat-icon>{{item}}</mat-icon>
+        {{chip}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
 </div>

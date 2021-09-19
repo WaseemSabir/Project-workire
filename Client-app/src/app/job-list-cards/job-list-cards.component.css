@@ -1,29 +1,32 @@
-.shad:hover{
-    -o-transition:.5s;
-    -ms-transition:.5s;
-    -moz-transition:.5s;
-    -webkit-transition:.5s;
-    transition:.5s;
-    box-shadow: 0px 0px 15px gray;
+mat-card img{
+    object-fit: cover; /*this makes the image in src fit to the size specified below*/
+    border-radius: 0;
 }
 
-.shad2:hover{
-    -o-transition:.5s;
-    -ms-transition:.5s;
-    -moz-transition:.5s;
-    -webkit-transition:.5s;
-    transition:.5s;
-    box-shadow: 0px 0px 4px gray;
+mat-card {
+    border-radius: 20px;
 }
 
-.champ {
-    border: 2px solid white; 
-} 
-.champ:hover { 
-    border-bottom: 2px solid rgb(112, 177, 121);
-    border: 2px solid rgb(112, 177, 121);
-} 
+.color-hover {
+    background-color: white;
+    color: black;
+}
 
-.current { 
-    border: 2px solid gray;
+/* .color-hover:hover {
+    background-color: #006699;
+    color: white;
+} */
+
+/* mat-card:hover mat-card-subtitle {
+    color: white;
+}
+ */
+
+.no-pad {
+    padding: 0;
+    margin: 0;
+}
+
+.center {
+    margin: 0 auto;
 }

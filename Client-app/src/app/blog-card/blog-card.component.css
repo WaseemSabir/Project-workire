@@ -1,32 +1,42 @@
-:focus {
-    outline: none;
-  }
-  
-  .content {
-    width: auto;
-    position: relative;
-  }
-  
-  .input {
-    width: 100%;
-    border: 0;
-    padding: 4px 4px;
-    border-bottom: 1px solid #929fba;
-  }
-  
-  .input ~ .border {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-  }
-  
-  .input:focus ~ .border {
-    width: 100%;
-    transition: 0.5s;
+.img-fluid {
+  border-radius: 25px;
+}
+
+.text-color {
+  color: #8c8b99;
+}
+
+.card {
+  border-radius: 20px;
+}
+
+.card img {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.row {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width : 600) {
+  .col {
+    margin: 0;
+    padding: 0;
   }
 
-.border {
-      border: 1px solid #4285F4!important;
+  .col-12 {
+    margin: 0;
+    padding: 0;
   }
+}
+
+p {
+  padding-bottom: 15%;
+}
+
+.hori-center {
+  margin: 0 auto;
+}

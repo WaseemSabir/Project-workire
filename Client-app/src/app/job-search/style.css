@@ -1,28 +1,3 @@
-@media (min-width: 786px) {
-    .cate {
-        font-size:xx-large;
-    }
-}
-
-@media (min-width: 786px) {
-    .janu {
-        width: 20vw;;
-    }
-}
-
-.lnkMuted {
-    color :#6c757d;
-}
-
-.lnkMuted:hover {
-    color : #212529;;
-}
-
-.jumbotron {
-    background: #F8F9FB;
-    box-shadow: none;
-}
-
 /* Large View Ports  */
 @media screen and (min-width: 900px) {
     .titleTop {
@@ -32,6 +7,27 @@
     }
     .pad {
         padding-top: 4%;
+    }
+    .btnPrime {
+        border-radius: 25px;
+        color: white;
+        background-color: #006699;
+        width: 100px;
+    }
+    /* Common For all  */
+    .input1 {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-right: none;
+        border-bottom-left-radius: 25px;
+        border-top-left-radius: 25px;
+        width: 45%;
+        box-shadow: none;
+        height: 50px;
+    }
+
+    .input1:focus{
+        box-shadow: none;
     }
 }
 
@@ -46,6 +42,28 @@
     .pad {
         padding-top: 5%;
     }
+    .btnPrime {
+        border-radius: 25px;
+        color: white;
+        /* background-color: #3a36ad; */
+        background-color: #006699;
+        width: 100px;
+    }
+    /* Common For all  */
+    .input1 {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-right: none;
+        border-bottom-left-radius: 25px;
+        border-top-left-radius: 25px;
+        width: 45%;
+        box-shadow: none;
+        height: 50px;
+    }
+
+    .input1:focus{
+        box-shadow: none;
+    }
 }
 
 
@@ -59,7 +77,44 @@
     .pad {
         padding-top: 6%;
     }
+    .btnPrime {
+        border-radius: 25px;
+        color: white;
+        background-color: #006699;
+        width: 10px;
+    }
+    /* Common For all  */
+    .input1 {
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-radius: 25px;
+        width: 100%;
+        box-shadow: none;
+        height: 50px;
+    }
+
+    .input1:focus{
+        box-shadow: none;
+    }
 }
 
 
-/* Common For all  */
+.input2 {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    width: 55%;
+    box-shadow: none;
+    height: 50px;
+}
+
+.row {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.pad2 {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}

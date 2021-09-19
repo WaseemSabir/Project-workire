@@ -3,10 +3,7 @@
     <div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile}">
       <div *ngIf="isRoot; then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
-        <div class="ml-2 my-2 text-muted">Find Jobs</div>
-        <div class="row">
-          <div *ngFor="let item of cat | keyvalue" class="col-md-3 col-sm-6"><a class="link-muted mx-2 text-muted" [routerLink]="['/Job-country',item.key]">{{"Jobs in " + item.key}}</a></div>
-        </div>
+        <div class="ml-2 text-muted pointer">Home</div>
       </ng-template>
       <ng-template #elseBlock>
         <div class="row mx-2">
@@ -31,7 +28,7 @@
           <!-- Content -->
           <a href="/">
             <!-- Logo Image -->
-            <img src="/assets/logo-black.png" title="Home" width="150" alt="Workire" class="d-inline-block align-middle mb-2" alt="Workire">
+            <img src="/assets/workire-logo.svg" title="Home" width="150" alt="Workire" class="d-inline-block align-middle mb-2" alt="Workire" />
             <!-- Logo Text -->
           </a>
           <p class="text-muted">Workire is an emerging job site in the Gulf Region, connecting job seekers with potential employers. Launched as a vertical search engine, our website gives regular job updates to our visitors. Latest vacancies are posted every day on the platform for job seekers to grab their dream career.</p>
@@ -39,36 +36,36 @@
             <a href='https://www.facebook.com/workire' rel="noreferrer" target="_blank" class="mr-1">
                 <img class="img-fluid" src="/assets/fb.png" width="20" alt="Workire Facebook Page"/>
             </a>
-            <a href='https://twitter.com/workire1' rel="noreferrer" target="_blank" class="mx-2">
+            <!-- <a href='https://twitter.com/workire1' rel="noreferrer" target="_blank" class="mx-2">
                 <img class="img-fluid" src="/assets/twitter.png" width="20" alt="Workire Twitter"/>
-            </a>
+            </a> -->
             <a href='https://www.instagram.com/workire.co' rel="noreferrer" target="_blank" class="mx-2">
                 <img class="img-fluid" src="/assets/insta.png" width="20" rel="noopener" alt="Workire Instagram"/>
             </a>
-            <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' rel="noreferrer" target="_blank" class="mx-2">
+            <!-- <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' rel="noreferrer" target="_blank" class="mx-2">
               <img class="img-fluid" src="/assets/you.png" width="20" alt="Workire Youtube"/>
-            </a>
-            <a href='https://www.pinterest.com/Workire/' rel="noreferrer" target="_blank" class="mx-2">
+            </a> -->
+            <!-- <a href='https://www.pinterest.com/Workire/' rel="noreferrer" target="_blank" class="mx-2">
               <img class="img-fluid" src="/assets/pin.png" width="20" alt="Workire Pinterest"/>
-            </a>
+            </a> -->
           </div>
 
           <div style="display: flex;justify-content: center;" *ngIf="isMobile">
             <a href='https://www.facebook.com/workire' target="_blank" rel="noopener" class="mr-1">
                 <img class="img-fluid" src="/assets/fb.png" width="20" alt="Workire Facebook Page"/>
             </a>
-            <a href='https://twitter.com/workire1' target="_blank" rel="noopener" class="mx-2">
+            <!-- <a href='https://twitter.com/workire1' target="_blank" rel="noopener" class="mx-2">
                 <img class="img-fluid" src="/assets/twitter.png" width="20" alt="Workire Twitter Account"/>
-            </a>
+            </a> -->
             <a href='https://www.instagram.com/workire.co' target="_blank" rel="noopener" class="mx-2">
                 <img class="img-fluid" src="/assets/insta.png" width="20" alt="Workire Instagram"/>
             </a>
-            <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' target="_blank" rel="noopener" class="mx-2">
+            <!-- <a href='https://www.youtube.com/channel/UCkW9kqh7X8A7GuKwhYofjBA' target="_blank" rel="noopener" class="mx-2">
               <img class="img-fluid" src="/assets/you.png" width="20" alt="Workire Youtube channel"/>
             </a>
             <a href='https://www.pinterest.com/Workire/' target="_blank" rel="noopener" class="mx-2">
-              <img class="img-fluid" src="/assets/pin.png" width="20" alt="Workire Pinterest Account"/>
-            </a>
+              <img class="img-fluid" src="/assets/pin.png" width="20" alt="Workire Pinterest Account"/> -->
+            <!-- </a> -->
           </div>
 
         </div>
@@ -138,10 +135,10 @@
 
     </div>
     <!-- Footer Links -->
-
+    <hr *ngIf="isRoot" style="margin: 0;padding: 0;"/>
     <!-- Copyright -->
-    <div class="footer-copyright text-center py-3 text-muted">© 2021 Copyright:
-      <a href="/" class="text-dark"> workire.com. All Rights Reserved. </a>
+    <div class="text-center py-3 text-muted" *ngIf="isRoot">© 2021 Copyright:
+      <span class="text-dark"> workire.com. All Rights Reserved. </span>
       <a href="/disclaimer" class="text-muted"><u>Disclaimer</u></a>
     </div>
     <!-- Copyright -->

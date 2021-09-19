@@ -2,8 +2,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router} from '@angular/router';
 import { DeafultLocService } from '../deafult-loc.service';
 import { isPlatformBrowser } from '@angular/common';
-import { MetaServiceService } from '../meta-service.service';
-import { MatButton } from '@angular/material/button';
+import { SeoServiceService } from '../seo-service.service';
 
 @Component({
   selector: 'app-job-nav',
@@ -12,7 +11,7 @@ import { MatButton } from '@angular/material/button';
 })
 export class JobNavComponent implements OnInit {
 
-  constructor(private router : Router,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private serv : MetaServiceService) { }
+  constructor(private router : Router,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private seo : SeoServiceService) { }
 
   public nav: any;
   public isHome: boolean = false;
@@ -26,8 +25,8 @@ export class JobNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.nav = {
-      "Find Jobs" : [['Browse All Jobs','/Jobs'],["Jobs By Location",'Jobs/All-Countries'],["Jobs By Company","Jobs/All-Companies"],["Jobs By Categories","Jobs/All-Categories"]],
-      "Career Advice" : [],
+      "Find Jobs" : [['Browse All Jobs','/Jobs'],["Jobs By Position","Jobs/All-Positions"],["Jobs By Location",'Jobs/All-Countries'],["Jobs By Company","Jobs/All-Companies"],["Jobs By Category","Jobs/All-Categories"],["Trending Search","Jobs/Trending-Search"]],
+      "Career Advice" : ["career-advice"],
       "Career Tools" : ["/Career-development-tools"],
     }
 
@@ -47,21 +46,8 @@ export class JobNavComponent implements OnInit {
 
     this.blogCat = new Set()
 
-    this.loc.getAllPosts().subscribe((res : any)=>{
-      for(let k of res.data)
-      {
-        this.blogCat.add(k.category);
-      }
-      let temp = []
-      for(let k of this.blogCat)
-      {
-        temp.push([k,'career-advice/'+k]);
-      }
-      temp.unshift(["All Career Advice",'career-advice/All'])
-      this.nav["Career Advice"] = temp;
-    })
-
-    this.serv.currentMessage.subscribe((res : any)=>{
+    // this is not for seo, it's actually for when user bookmarks a new job, the nav bar reprocesses saved data
+    this.seo.currentMessage.subscribe((res : any)=>{
       if(isPlatformBrowser(this.platformId))
       {
         if(localStorage.getItem('saved'))

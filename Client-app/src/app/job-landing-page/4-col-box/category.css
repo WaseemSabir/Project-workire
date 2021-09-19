@@ -1,0 +1,16 @@
+.makeThemRound {
+    border-radius: 10px;
+}
+
+.Weight550 {
+    font-weight: 550;
+}
+
+.link-tag {
+    color: #6c757d;
+}
+
+.link-tag:hover {
+    text-decoration: underline;
+    color: rgb(41, 39, 39);
+}

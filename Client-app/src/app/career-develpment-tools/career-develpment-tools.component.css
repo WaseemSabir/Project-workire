@@ -1,11 +1,3 @@
-.other {
-    object-fit: cover;
-}
-
-.jake {
-    font-size: xx-large;
-}
-
 .myMar {
     margin-left: 10vw;
     margin-right: 10vw;
@@ -17,7 +9,52 @@
     }   
 }
 
-.jumbotron {
-    /* background: url("/assets/linkdin-removebg_2.png") no-repeat center center; */
-    box-shadow: none;
+/* Large View Ports  */
+@media screen and (min-width: 900px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 5vw;
+    }
+    .pad {
+        padding-top: 4%;
+    }
+    .title2 {
+        font-weight: 550;
+        font-size: 2vw;
+    }
+}
+
+
+/* Medium View Ports */
+@media screen and (max-width: 900px) and (min-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 7vw;
+    }
+    .pad {
+        padding-top: 5%;
+    }
+}
+
+
+/* Small View Ports  */
+@media screen and (max-width: 600px) {
+    .titleTop {
+        padding-top: 5%;
+        font-weight: 550;
+        font-size: 10vw;
+    }
+    .pad {
+        padding-top: 6%;
+    }
+}
+
+.weight550 {
+    font-weight: 600;
+}
+
+.list-group-item {
+    background-color: #f5f7fb;
 }

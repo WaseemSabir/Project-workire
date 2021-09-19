@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
-import { Route, Router } from '@angular/router';
-import { MetaServiceService } from '../meta-service.service';
+import { Router } from '@angular/router';
+import { SeoServiceService } from '../seo-service.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact-us',
@@ -12,29 +12,24 @@ import { MetaServiceService } from '../meta-service.service';
 export class ContactUsComponent implements OnInit {
 
   isMobile : boolean = false
-  domain : string = "https://workire.com"
-  constructor(private title : Title,private meta : Meta,@Inject(PLATFORM_ID) private platformId: Object,private link : MetaServiceService,private route : Router) { }
+  domain : string = environment.APIEndpoint;
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,private route : Router,private seo : SeoServiceService) { }
 
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
     {
       this.isMobile = screen.width < 768;
     }
-    this.title.setTitle('Contact Us | Workire');
-    this.meta.updateTag({name: "description",content:"Drop Us an email at info@workire.com and we'll get back to as soon as possible, Or reach out through social media platforms."},"name='description'"),
-    this.meta.updateTag({name: 'keywords', content: "Contact Us, Workire,what is Workire,workire jobs"},"name='keywords'")
-    this.meta.updateTag({property: 'og:type',content:'article'},"property='og:type'")
-    this.meta.updateTag({property: 'og:title',content:"Contact Us | Workire"},"property='og:title'")
-    this.meta.updateTag({property: 'og:description',content:"Drop Us an email at info@workire.com and we'll get back to as soon as possible, Or reach out through social media platforms."},"property='og:description'")
-    this.meta.updateTag({property: 'og:image',content:this.domain+ "/assets/workire.jpg"},"property='og:image'")
-    this.meta.updateTag({property: 'og:url',content:this.domain+'/about'},"property='og:url'")
-    this.meta.updateTag({name: 'og:site_name',content: 'Workire'},"name='og:site_name'")
-    this.meta.updateTag({name: 'twitter:title',content: 'Contact Us | Workire'},"name='twitter:title'")
-    this.meta.updateTag({name: 'twitter:description',content:"Drop Us an email at info@workire.com and we'll get back to as soon as possible, Or reach out through social media platforms."},"name='twitter:description'")
-    this.meta.updateTag({name: 'twitter:image',content: this.domain + "/assets/workire.jpg"},"name='twitter:image'")
-    this.meta.updateTag({name: 'twitter:site',content: '@Workire'},"name='twitter:site'")
-    this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'},"name='twitter:creator'")
-    this.link.createCanonicalURL(this.domain + this.route.url);
+
+    let title = 'Contact Us | Workire'
+    let desc = "Drop Us an email at info@workire.com and we'll get back to as soon as possible, Or reach out through social media platforms."
+    let keywords = "Contact Us, Workire,what is Workire,workire jobs"
+    let type = 'article'
+    let url = this.domain + this.route.url;
+    let image = this.domain+ "/assets/workire.jpg"
+
+    this.seo.updateSeoWithImage(title,desc,keywords,image,type,url);
+    this.seo.createCanonicalURL(this.domain + this.route.url);
   }
 
 }

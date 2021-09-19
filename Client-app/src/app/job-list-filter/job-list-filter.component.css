@@ -19,3 +19,59 @@
     bottom: 0;
     z-index: 9999999;
 }
+
+@media screen and (min-width: 769px)
+{
+    .input {
+        border-right: none;
+        width: 23%;
+        box-shadow: none;
+        height: 60px;
+    }
+    .input-toggle {
+        border-right: none;
+        width: 19%;
+        box-shadow: none;
+        height: 60px;
+    }
+    .select-style{
+        width: 100%;
+        padding: 0 auto;
+    }
+    .btnPrime {
+        color: white;
+        background-color: #006699;
+        width: 8%;
+    }
+}
+
+@media screen and (max-width: 769px)
+{
+    .input {
+        width: 70%;
+        box-shadow: none;
+    }
+    .btnPrime {
+        color: white;
+        background-color: #006699;
+        width: 15%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.input:focus{
+    box-shadow: none;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.col-auto {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}

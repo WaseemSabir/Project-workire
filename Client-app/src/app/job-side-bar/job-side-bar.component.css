@@ -1,0 +1,32 @@
+.alice-blue {
+    color: #e9f2ff;
+}
+
+.bg-alice {
+    background-color: #e9f2ff;
+}
+
+.makeItRound {
+    border-radius: 20px;
+}
+
+.wid {
+    width : 70%;
+    padding: 0 auto;
+}
+
+[nz-radio] {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+}
+
+input {
+    width: 100px;
+    margin-left: 10px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: white;
+}

@@ -1,29 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeafultLocService {
 
-  private REST_API_SERVER = "https://ipinfo.io/?token=dbf414e483f306";
-
-  private MY_SEREVER = "https://workire.com/api/";
-
   constructor(private httpClient: HttpClient) {}
+  
+  private MY_SEREVER = environment.APIEndpoint + "/api/";
 
-  public getCountry(){
-    return this.httpClient.get(this.REST_API_SERVER)
-  }
+  _countries = new BehaviorSubject<any>({});
+  countries = this._countries.asObservable();
 
-  public getAllCountries(){
-    return this.httpClient.get(this.MY_SEREVER + "company/getAllCountries");
-  }
+  _categories : any;
 
-  public getAllCategories(){
-    return this.httpClient.get(this.MY_SEREVER + "company/getAllCategories");
-  }
+  _positions = new BehaviorSubject<any>({});
+  positions = this._positions.asObservable();
 
   public getAllCompanies(){
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompanies");
@@ -33,6 +28,41 @@ export class DeafultLocService {
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompany");
   }
 
+  public seoCatBySeo(str : string)
+  {
+    let temp = str.replace('-',' ')
+    return this.httpClient.post(this.MY_SEREVER + 'company/seoCatBySeo',{'category':temp})
+  }
+
+  public getAllSeoCat()
+  {
+    return this.httpClient.get(this.MY_SEREVER + 'company/getAllSeoCat');
+  }
+
+  public seoCat(str : string)
+  {
+    let data = {
+      'category' : str
+    }
+    return this.httpClient.post(this.MY_SEREVER + 'company/seoCat',data);
+  }
+
+  public getCustomCountries()
+  {
+    return this.httpClient.get(this.MY_SEREVER + 'company/getCountries');
+  }
+
+  public getPositions()
+  {
+    return this.httpClient.get(this.MY_SEREVER + 'company/getDesignation')
+  }
+
+  public getTrendingSearches()
+  {
+    return this.httpClient.get(this.MY_SEREVER + 'company/getTrendingSearch')
+  }
+
+  // Job related Reterival from Server
   public getAllJobs(s : string, count : string, cat : string, comp : string, day : number, page : any) {
     return this.httpClient.post<any>(this.MY_SEREVER + "company/search",{'search' : s,'Country' : count, 'category' : cat, 'companies' : comp,'day': day,'page': page})
   }
@@ -41,12 +71,19 @@ export class DeafultLocService {
     return this.httpClient.get(this.MY_SEREVER + "company/job/" + str)
   }
 
-  public getAllPosts() {
-    return this.httpClient.get(this.MY_SEREVER + "company/getallposts");
+  public jobTitle(str : string)
+  {
+    return this.httpClient.post(this.MY_SEREVER + 'company/getJobByTitle',{'title':str})
   }
 
-  public getPostByCat(str : string) {
-    return this.httpClient.get(this.MY_SEREVER + "company/getBlogCat/" + str);
+  public featured(str : string)
+  {
+    return this.httpClient.post(this.MY_SEREVER +'company/featured',{'search':str})
+  }
+
+  // To get the Blog Posts
+  public getAllPosts() {
+    return this.httpClient.get(this.MY_SEREVER + "company/getallposts");
   }
 
   public getPost(str : string) {
@@ -58,52 +95,23 @@ export class DeafultLocService {
     return this.httpClient.post(this.MY_SEREVER + 'company/searchPosts',{'search':str})
   }
 
-  public featured(str : string)
-  {
-    return this.httpClient.post(this.MY_SEREVER +'company/featured',{'search':str})
-  }
+  // To get the users location via reverse ip, not used anymore
+  // private REST_API_SERVER = "https://ipinfo.io/?token=dbf414e483f306";
+  // public getCountry(){
+  //   return this.httpClient.get(this.REST_API_SERVER)
+  // }
 
-  public get(str : string)
-  {
-    return this.httpClient.get(this.MY_SEREVER + str);
-  }
+  // To get posts in a category, not used any more
+  // public getPostByCat(str : string) {
+  //   return this.httpClient.get(this.MY_SEREVER + "company/getBlogCat/" + str);
+  // }
 
-  public seoCatBySeo(str : string)
-  {
-    let temp = str.replace('-',' ')
-    return this.httpClient.post(this.MY_SEREVER + 'company/seoCatBySeo',{'category':temp})
-  }
+  // To get countries with jobs in each country
+  // public getAllCountries() {
+  //   return this.httpClient.get(this.MY_SEREVER + "company/getAllCountries");
+  // }
 
-  public getAllSeoCat()
-  {
-    return this.httpClient.get(this.MY_SEREVER + 'company/getAllSeoCat')
-  }
-
-  public seoCat(str : string)
-  {
-    let data = {
-      'category' : str
-    }
-    return this.httpClient.post(this.MY_SEREVER + 'company/seoCat',data);
-  }
-
-  public jobTitle(str : string)
-  {
-    return this.httpClient.post(this.MY_SEREVER + 'company/getJobByTitle',{'title':str})
-  }
-
-  public getCustomCountries()
-  {
-    let t = {
-      'Bahrain' : ['Manama','Busaiteen','Muharraq'],
-      'Kuwait' : ['Ahmadi','Kuwait City','Al Asimah'],
-      'Oman' : ['Muscat','Sohar','Salalah'],
-      'Qatar' : ['Al Khor','Al Wakrah','Doha','Umm Salal'],
-      'Suadi Arabia' : ['Jeddah','Al Khobar','Yanbu','Al Jubail','Dhahran','Riyadh'],
-      'United Arab Emirates' : ['Abu Dhabi','Dubai','Ajman','Sharjah','Ras al-Khaimah','Fujairah'],
-      'Jordan' : ['Amman'],
-      'Iraq' : ['Baghdad'],
-    }
-    return t;
-  }
+  // public getAllCategories(){
+  //   return this.httpClient.get(this.MY_SEREVER + "company/getAllCategories");
+  // }
 }

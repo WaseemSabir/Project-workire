@@ -1,9 +1,9 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg pt-3 navbar-light" [containerInside]="true">
+<mdb-navbar SideClass="navbar navbar-expand-lg pt-3 navbar-light" [containerInside]="!isMobile">
   <!-- Navbar brand -->
   <mdb-navbar-brand>
     <a class="ml-auto navbar-brand" href="/">
       <!-- Logo Image -->
-      <img src="/assets/logo-black.png" title="Home" width="120" alt="Workire" class="d-inline-block align-middle mb-2">
+      <img src="/assets/workire-logo.svg" title="Home" width="120" alt="Workire" class="d-inline-block align-middle mb-2">
       <!-- Logo Text -->
     </a>
   </mdb-navbar-brand>
@@ -16,13 +16,13 @@
       <ng-template ngFor let-item [ngForOf]="ObjectKeys(nav)" let-i="index">
         <div *ngIf="nav[item].length==1; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <li class="nav-item ml-3">
-            <a class="fontStyle" href={{nav[item][0]}}>{{item}}</a>
+          <li class="nav-item ml-lg-3 ml-0 pb-2">
+            <a class="fontStyle" [routerLink]="[nav[item][0]]">{{item}}</a>
           </li>
         </ng-template>
         <ng-template #elseBlock>
-          <li class="nav-item ml-4">
-            <a nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomCenter'" class="fontStyle" href="#">{{item}}</a>
+          <li class="nav-item ml-lg-3 ml-0 pb-2">
+            <span nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomCenter'" class="fontStyle">{{item}}</span>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu nzSelectable>
                 <li *ngFor="let k of nav[item];let j = index" [routerLink]="[k[1]]" nz-menu-item>{{k[0]}}</li>

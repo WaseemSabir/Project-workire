@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DeafultLocService } from '../deafult-loc.service';
-import { MetaServiceService } from '../meta-service.service';
+import { SeoServiceService } from '../seo-service.service';
 
 @Component({
   selector: 'app-job-index',
@@ -44,22 +43,17 @@ export class JobIndexComponent implements OnInit {
     }
   }
 
-  constructor(private loc : DeafultLocService,private meta : Meta,private title : Title,private route : ActivatedRoute,private link : MetaServiceService) { }
+  constructor(private loc : DeafultLocService,private seo : SeoServiceService,private route : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.title.setTitle('Find Jobs, Get Career help and Build Resume | Workire');
-    this.meta.updateTag({name: "description",content:"Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."})
-    this.meta.updateTag({name: 'keywords', content: "top resume writing services,Job listing,Find jobs, career advice,best online job sites,free resume builder,online mock interview practice"})
-    this.meta.updateTag({property: 'og:type',content:'job'})
-    this.meta.updateTag({property: 'og:title',content: 'Find Jobs, Get Career help and Build Resume | Workire'})
-    this.meta.updateTag({property: 'og:description',content:"Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."})
-    this.meta.updateTag({property: 'og:url',content:this.domain})
-    this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-    this.meta.updateTag({name: 'twitter:title',content: 'Find Jobs, Get Career help and Build Resume | Workire'})
-    this.meta.updateTag({name: 'twitter:description',content: "Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."})
-    this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-    this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-    this.link.createCanonicalURL(this.domain);
-  }
 
+    let title = 'Find Jobs, Get Career help and Build Resume | Workire'
+    let desc = "Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."
+    let keywords = "top resume writing services,Job listing,Find jobs, career advice,best online job sites,free resume builder,online mock interview practice"
+    let url = this.domain + '/'
+    let type = 'page'
+
+    this.seo.updateSeo(title,desc,keywords,type,url);
+    this.seo.createCanonicalURL(url);
+  }
 }

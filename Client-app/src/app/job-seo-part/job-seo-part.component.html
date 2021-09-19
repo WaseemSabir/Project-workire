@@ -1,0 +1,29 @@
+<div class="py-4 px-1" *ngIf="header.length && valid">
+
+    <div class="row pointer" (click)="showClick(0)">
+        <h3 class="weight-heading col-11">{{header}}</h3>
+        <mat-icon class="pointer" *ngIf="!show[0]">expand_more</mat-icon>
+        <mat-icon class="pointer" *ngIf="show[0]">expand_less</mat-icon>
+    </div>
+    <p *ngIf="show[0]">{{headerDesc}}</p>
+
+
+    <div class="row pointer" (click)="showClick(1)">
+        <h3 class="weight-heading col-11">{{header2}}</h3>
+        <mat-icon class="pointer" *ngIf="!show[1]">expand_more</mat-icon>
+        <mat-icon class="pointer" *ngIf="show[1]">expand_less</mat-icon>
+    </div>
+    <div *ngIf="show[1]">
+        <p *ngFor="let k of list2"><a class="pointer link-tag" [href]="[k[1]]">{{k[0]}}</a></p>
+    </div>
+
+
+    <div class="row pointer" (click)="showClick(2)">
+        <h3 class="weight-heading col-11">{{header3}}</h3>
+        <mat-icon class="pointer" *ngIf="!show[2]">expand_more</mat-icon>
+        <mat-icon class="pointer" *ngIf="show[2]">expand_less</mat-icon>
+    </div>
+    <div *ngIf="show[2]">
+        <p *ngFor="let k of list3"><a class="pointer link-tag" [href]="[k[1]]">{{k[0]}}</a></p>
+    </div>
+</div>

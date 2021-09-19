@@ -9,33 +9,38 @@
 
 .btn-bg{
     background-color: white;
-    color: #4440da;
+    color: #006699;
 }
 
 .btn-bg:hover {
-    background-color: #4440da;
+    background-color: #006699;
     color: white;
 }
 
 .btn-display {
-    border: 2px solid #4440da;
+    border: 2px solid #006699;
     padding: 12px 20px;
     font-size: 16px;
     cursor: pointer;
 }
 
 .btn-bg2 {
-    border-color: #4440da;
+    border-color: #006699;
     border-radius: 1000px;
     background-color: white;
-    color: #4440da;
+    color: #006699;
 }
 
 .btn-bg2:hover {
-    background-color: #4440da;
+    background-color: #006699;
     color: white;
 }
 
 .horiCenter {
     margin: 0 auto;
+}
+
+mat-card img{
+    object-fit: cover; /*this makes the image in src fit to the size specified below*/
+    border-radius: 0;
 }

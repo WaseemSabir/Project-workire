@@ -30,3 +30,17 @@ export class JobFrontBoxComponent implements OnInit {
   }
 
 }
+
+
+@Component({
+  selector: 'app-front-box2',
+  templateUrl: './box.html',
+  styleUrls: ['./box.css']
+})
+export class JobBox2Component implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+}

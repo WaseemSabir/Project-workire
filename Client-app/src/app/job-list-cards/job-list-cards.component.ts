@@ -1,9 +1,8 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DeafultLocService } from '../deafult-loc.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { isPlatformBrowser } from '@angular/common';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FilterValueService } from '../filter-value.service';
+import { Filters } from '../Interfece'
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-job-list-cards',
@@ -12,186 +11,51 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class JobListCardsComponent implements OnInit {
 
-  jsonLD: SafeHtml = '';
-  search : string = 'search';
-  country : string = 'country';
-  category : string = 'category';
-  company : string = 'company';
-  time : number = 0;
-  page : number = 0;
   count : number = 0;
-  totalPages : number = 0;
-
-  jobId : string = 'find-job';
-
-  domain : string = "https://workire.com"
-
-  isMobile : boolean = false;
-
-  filtertext : string = "Show Filter";
-  
-  paginate : any = [];
+  domain : string = environment.APIEndpoint;
   jobs : any = [];
-
-  int = parseInt
+  page : number = 1;
 
   @Input() item : any;
   @Input() load : boolean = false;
   @Input() show : boolean = true;
-  @Input() head : string = '';
-  @Input() head2 : string = '';
+  @Input() toggleView : boolean = false;
+  @Input() isMobile : boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute,private route: Router,private loc: DeafultLocService,private sanitizer: DomSanitizer,@Inject(PLATFORM_ID) private platformId: Object) { 
+  constructor(private activatedRoute: ActivatedRoute,private filter : FilterValueService) { 
   }
 
   ngOnInit(): void {
 
-    this.activatedRoute.paramMap.subscribe(params => {
-
-      if(this.route.url.split('/').includes('Job-category'))
-      {
-        this.country = 'country';
-        this.search = 'search';
-        this.company = 'company';
-        this.loc.seoCatBySeo(this.unrep(params.get('cat')!)).subscribe((res : any)=>{
-          console.log(res)
-          this.category = res.category[0].Name;
-        })
-        this.time = 0;
-        this.page = 1;
-        this.jobId = 'find-job';
-      }
-      else if(this.route.url.split('/').includes('Job-country'))
-      {
-        this.search = 'search';
-        this.company = 'company';
-        this.time = 0;
-        this.page = 1;
-        this.jobId = 'find-job';
-        this.category = 'category'
-        this.country = params.get('count')!
-      }
-      else if(this.route.url.split('/').includes('Job-company'))
-      {
-        this.search = 'search';
-        this.company = params.get('comp')!;
-        this.company = this.company.replace(/-/g,' ')
-        this.time = 0;
-        this.page = 1;
-        this.jobId = 'find-job';
-        this.category = 'category'
-        this.country = 'country'
-      }
-      else if(this.route.url.split('/').includes('Jobs') && this.route.url.split('/').length < 4)
-      {
-        this.country = 'country';
-        this.search = 'search';
-        this.company = 'company';
-        this.category = 'category';
-        this.time = 0;
-        this.page = 1;
-        this.jobId = 'find-job';
-      }
-      else
-      {
-        this.country = params.get('country')!
-        this.search = params.get('search')!
-        this.category = params.get('category')!
-        this.company = params.get('company')!
-        this.time = +params.get('days')!
-        this.page = +params.get('page')!
-        this.jobId = params.get('job')!
-      }
-
-      this.search = (this.search=="search") ? ('') : (this.search)
-      this.company = (this.company=="company") ? ('') : (this.company)
-      this.category = (this.category=="category") ? ('') : (this.category)
-      this.country = (this.country=="country") ? ('') : (this.country)
-
-      if(isPlatformBrowser(this.platformId))
-      {
-        this.isMobile = screen.width < 768;
-      }
-
+    this.filter.filter$.subscribe((res : Filters)=>{
+      this.page = res.page;
       this.count = this.item.count;
+    })
 
-      this.totalPages = Math.floor(this.count/10)
-      this.totalPages = (this.count%10) ? (this.totalPages+1) : (this.totalPages)
-
-      this.paginate = []
-      if(this.page!=1)
-      {
-        this.paginate.push("Previous");
-        this.paginate.push(1)
-        this.paginate.push('...')
-      }
-      else
-      {
-        this.paginate.push(1);
-      }
-
-      let pageSize = 1
-
-      let t1 = (this.page - pageSize < 0) ? (1) : (this.page - pageSize)
-      let t2 = (this.page + pageSize > this.totalPages) ? (this.totalPages) : (this.page + pageSize)
-      for(let i=t1-1;i<t2;i++)
-      {
-        if(i>0)
-        {
-          this.paginate.push(i+1);
-        }
-      }
-      if(this.page!=this.totalPages)
-      {
-        this.paginate.push('...')
-        this.paginate.push(this.totalPages)
-        this.paginate.push("Next");
-      }
-      this.jobs = this.item.data;
+    this.filter.currentMessage.subscribe((res : any)=>{
+      this.jobs = res;
     })
   }
 
-  searchCheck ()
+  pageChange(ev : number)
   {
-    this.search = (this.search=='') ? ("search") : (this.search)
-    return this.search;
+    this.filter.setPage(ev);
   }
 
-  compCheck ()
+  dateParse(d : string) : string
   {
-    this.company = (this.company=='') ? ("company") : (this.company)
-    return this.company;
-  }
-
-  catCheck ()
-  {
-    this.category = (this.category=='') ? ("category") : (this.category)
-    return this.category;
-  }
-
-  countCheck ()
-  {
-    this.country = (this.country=='') ? ("country") : (this.country)
-    return this.country;
-  }
-
-
-  jobReinitiate(){
-    try {
-
-      if(this.jobs.length && !this.isMobile && this.jobId=='find-job' && !this.route.url.split('/').includes('job-category') && !this.route.url.split('/').includes('jobs'))
-      {
-        this.search = (this.search=='') ? ("search") : (this.search)
-        this.company = (this.company=='') ? ("company") : (this.company)
-        this.category = (this.category=='') ? ("category") : (this.category)
-        this.country = (this.country=='') ? ("country") : (this.country)
-
-        this.route.navigate(['/Jobs',this.jobs[0].Position,this.search,this.country,this.category,this.company,this.time,this.page]);
-      }
+    let today = Date.parse(new Date().toString());
+    let curr = Date.parse(d);
+    let j = Math.floor((today - curr)/(86400*1000))
+    if(j==0)
+    {
+      return `Today`
     }
-    catch (err){
-      console.log(err)
+    else if(j==1)
+    {
+      return `Yesterday`
     }
+    return `${j} day ago`
   }
 
   urlParse = (str : string,comp : string) =>{
@@ -215,7 +79,9 @@ export class JobListCardsComponent implements OnInit {
     }
   }
 
-  unrep = (str: string) =>{
-    return str.replace(/-/g,' ')
+  cardClick(title : string,iden : number)
+  {
+    this.filter.setTitle(title,iden);
+    window.scroll(0,0);
   }
 }

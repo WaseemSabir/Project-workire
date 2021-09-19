@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeafultLocService } from '../../deafult-loc.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-landingpage-featured',
@@ -9,8 +10,8 @@ import { DeafultLocService } from '../../deafult-loc.service';
 export class LandingPageFeatured implements OnInit {
 
   featured : any[] = []
-  domain : string = "https://workire.com/mediaimage/"
-  domain2 : string = "https://workire.com/"
+  domain : string = environment.APIEndpoint + "/mediaimage/"
+  domain2 : string = environment.APIEndpoint + '/'
 
   constructor (private loc : DeafultLocService) {}
 
@@ -19,21 +20,9 @@ export class LandingPageFeatured implements OnInit {
     .subscribe(
       data =>{
         this.featured = data.data.slice(0,8)
-        console.log(this.featured)
-      }
+      },
+      err =>{}
     )
-  }
-
-  urlParse = (str : string,comp : string) =>{
-    if(str.includes("default.jpg"))
-    {
-      return this.domain + (comp[0].toUpperCase() + ".png")
-    }
-    else if(str.includes('http'))
-    {
-      return str;
-    }
-    return this.domain2 + str;
   }
 
   getTitle(str : string)
@@ -51,11 +40,42 @@ export class LandingPageFeatured implements OnInit {
     str = str.replace(' )',' ')
     str = str.replace(',','')
     str = str.split(" ").slice(0,2).join(" ")
-    return str;
+    return this.cap(str);
   }
 
   getText(str : string) {
     str = str.replace(/<[^>]+>/g, '');
     return "Apply to this job or view all the job via button below"
+  }
+  
+  cap(str : string)
+  {
+    let temp='';
+    for(let k of str.split(' '))
+    {
+      temp += k[0].toUpperCase() + k.slice(1,k.length).toLowerCase() + ' '
+    }
+    return temp;
+  } 
+
+  urlParse = (str : string,comp : string) =>{
+    if(str =="/mediaimage/default.jpg")
+    {
+      return this.domain + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
+    }
+    else if(str.includes("http"))
+    {
+      str = str.replace("/mediaimage/",'')
+      str = str.replace("%3A",':')
+      return str;
+    }
+    else if(str[0] == '/')
+    {
+      return this.domain + str;
+    }
+    else
+    {
+      return this.domain + '/' + str;
+    }
   }
 }

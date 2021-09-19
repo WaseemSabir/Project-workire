@@ -1,25 +1,42 @@
-<!-- <div class="" [ngClass]="{'container':!isMobile}">
-    <div class="jumbotron">
-        <div class="rounded" [ngClass]="{'mx-5':!isMobile}">
-            <h1 class="h1 cate font-weight-bold" [ngClass]="{'ml-2':isMobile,'mt-5':isMobile}" style="margin-top: 9%;">Land The job You've Been Dreaming Of.</h1>
-            <div class="row mt-3 mb-0" [ngClass]="{'mx-0':isMobile}">
-                <mat-form-field class="col-sm" [ngClass]="{'mr-2':!isMobile}">
-                    <input type="text" placeholder="Search JobTitle; Skill or Company" matInput [formControl]="search" (change)="searchChange($event)">
-                </mat-form-field>
-                <app-job-country-autocomplete class="col-sm" (countryValue)="countChange($event)"></app-job-country-autocomplete>
-                <button (click)="submitClicked()" class="btn btn-primary janu" [ngClass]="{'col-sm':isMobile,'mb-5':!isMobile,'mt-1':!isMobile,'mx-3':isMobile}" mat-button>Search</button>
-            </div>
-            <div class="mb-1" [ngClass]="{'text-center':isMobile,'mt-4':isMobile}">
-                Browse Jobs By <a href='/Jobs/All-Categories' class="lnkMuted">Category</a> or <a href="/Jobs/All-Countries" class="lnkMuted">Location</a>
-            </div>
-        </div>
-    </div>
-</div> -->
-<div class="text-center mb-5">
+<div class="text-center mb-5 mt-5">
     <div class="titleTop">
-        Get the <span class="blue-color">Right Job</span>
-        <div class="pad">You Deserve</div>
+        Get the <span class="black-color">Right Job</span>
+        <div class="pad">You <span class="blue-color">Deserve</span></div>
     </div>
     <h1 style="font-size: 1px;visibility: hidden;">Get The Right Job You Deserve</h1>
     <p class="text-muted">{{totalJobs}}+ jobs listed here! Your dream job is waiting</p>
+
+    <div class="row text-center mt-5" style="display: flex;justify-content: center;">
+        <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+            <nz-input-group class="input1" [nzPrefix]="searchIcon" [nzSize]="'large'">
+                <input type="text"  nz-input placeholder="Job Title or keyword" [(ngModel)]="search"/>
+            </nz-input-group>
+            <ng-template #searchIcon>
+                <mat-icon [ngClass]="{'blue-color':search.length}">search</mat-icon>
+            </ng-template>
+
+            <nz-input-group class="input2" [nzPrefix]="locationIcon" [nzSuffix]="searchBtn" [nzSize]="'large'" *ngIf="!isMobile">
+                <input type="text"  nz-input placeholder="City or Country" [(ngModel)]="country" (input)="inputGiven($event)" [nzAutocomplete]="auto" />
+                <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
+            </nz-input-group>
+
+            <nz-input-group class="input1 mt-2" [nzPrefix]="locationIcon" [nzSize]="'large'" *ngIf="isMobile">
+                <input type="text"  nz-input placeholder="City or Country" [(ngModel)]="country" (input)="inputGiven($event)" [nzAutocomplete]="auto" />
+                <nz-autocomplete [nzDataSource]="options" nzBackfill #auto></nz-autocomplete>
+            </nz-input-group>
+
+            <button mat-raised-button class="btnPrime w-100 mt-2 pad2" (click)="submitClicked()" *ngIf="isMobile">
+                Search
+            </button>
+
+            <ng-template #locationIcon>
+                <mat-icon [ngClass]="{'blue-color':country.length}"> location_on</mat-icon>
+            </ng-template>
+            <ng-template #searchBtn>
+                <button mat-raised-button class="btnPrime" (click)="submitClicked()" >
+                    Search
+                </button>
+            </ng-template>
+        </div>
+    </div>
 </div>

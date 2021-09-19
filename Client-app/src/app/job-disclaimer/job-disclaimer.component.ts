@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoServiceService } from '../seo-service.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-job-disclaimer',
@@ -9,9 +10,9 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class JobDisclaimerComponent implements OnInit {
 
-  constructor(private meta : Meta,private title : Title,@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private seo : SeoServiceService,@Inject(PLATFORM_ID) private platformId: Object) { }
 
-  domain : string = 'https://workire.com'
+  domain : string = environment.APIEndpoint;
   isMobile : boolean = false
 
   ngOnInit(): void {
@@ -19,19 +20,14 @@ export class JobDisclaimerComponent implements OnInit {
     {
       this.isMobile = screen.width < 768;
     }
-    this.title.setTitle('Disclaimer | Workire');
-    this.meta.updateTag({name: "description",content:"By using our website, you hereby consent to our disclaimer and agree to its terms."})
-    this.meta.updateTag({name: 'keywords', content: ""})
-    this.meta.updateTag({name: 'robots', content: 'index, follow'})
-    this.meta.updateTag({property: 'og:type',content:'job'})
-    this.meta.updateTag({property: 'og:title',content: 'Disclaimer | Workire'})
-    this.meta.updateTag({property: 'og:description',content:"By using our website, you hereby consent to our disclaimer and agree to its terms."})
-    this.meta.updateTag({property: 'og:url',content:this.domain + '/disclaimer'})
-    this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-    this.meta.updateTag({name: 'twitter:title',content: 'Disclaimer | Workire'})
-    this.meta.updateTag({name: 'twitter:description',content: "By using our website, you hereby consent to our disclaimer and agree to its terms."})
-    this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-    this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-  }
 
+    let title = 'Disclaimer | Workire'
+    let desc = "By using our website, you hereby consent to our disclaimer and agree to its terms."
+    let keywords = "disclaimer,privacy policy"
+    let url = this.domain + '/disclaimer'
+    let type = 'job'
+
+    this.seo.updateSeo(title,desc,keywords,type,url);
+    this.seo.createCanonicalURL(this.domain + '/disclaimer');
+  }
 }

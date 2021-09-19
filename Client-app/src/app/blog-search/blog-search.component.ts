@@ -1,11 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeafultLocService } from '../deafult-loc.service';
-import { MetaServiceService } from '../meta-service.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SeoServiceService } from '../seo-service.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-blog-search',
@@ -19,11 +19,11 @@ export class BlogSearchComponent implements OnInit {
   searchData : any = [];
   blogSearch : FormControl = new FormControl();
   loaded : boolean = false;
-  domain : string = "https://workire.com"
+  domain : string = environment.APIEndpoint;
   isMobile : boolean = false;
 
 
-  constructor(private activateroute : ActivatedRoute, private loc : DeafultLocService,private route : Router,private title : Title,private meta : Meta,private link : MetaServiceService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService) { }
+  constructor(private activateroute : ActivatedRoute, private loc : DeafultLocService,private route : Router,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private seo : SeoServiceService) { }
 
   ngOnInit(): void {
     if(isPlatformBrowser(this.platformId))
@@ -33,26 +33,22 @@ export class BlogSearchComponent implements OnInit {
     this.activateroute.paramMap.subscribe(params=>{
       this.spinner.show();
       this.searchString = params.get('str')!
-      this.title.setTitle(this.searchString + ' | Search Results | Career Advice | Workire');
-        this.meta.updateTag({name: "description",content:"Search Results for " + this.searchString + " Visit Workire's Advice & Resources and browse through our career tips. Our job tips are guaranteed to make you prepared and set for your next interview!"})
-        this.meta.updateTag({name: 'keywords', content: "Search,Career Advice,Blog," + this.searchString})
-        this.meta.updateTag({property: 'og:type',content:'article'})
-        this.meta.updateTag({property: 'og:title',content: this.searchString + ' | Search Results | Career Advice | Workire'})
-        this.meta.updateTag({property: 'og:description',content:"Search Results for " + this.searchString + " Visit Workire's Advice & Resources and browse through our career tips. Our job tips are guaranteed to make you prepared and set for your next interview!"})
-        this.meta.updateTag({property: 'og:url',content:this.domain+'blog/search'+this.searchString})
-        this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-        this.meta.updateTag({name: 'twitter:title',content: this.searchString + ' | Search Results | Career Advice | Workire'})
-        this.meta.updateTag({name: 'twitter:description',content: "Search Results for " + this.searchString + " Visit Workire's Advice & Resources and browse through our career tips. Our job tips are guaranteed to make you prepared and set for your next interview!"})
-        this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-        this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-        this.link.createCanonicalURL(this.domain + this.route.url)
 
-        this.loc.searchBlog(this.searchString).subscribe((res:any)=>{
-          this.spinner.hide();
-          this.blogSearch.setValue(this.searchString);
-          this.searchData = res.posts;
-          this.loaded = true;
-        })
+      let title = this.searchString + ' | Search Results | Career Advice | Workire'
+      let desc = "Search Results for " + this.searchString + " Visit Workire's Advice & Resources and browse through our career tips. Our job tips are guaranteed to make you prepared and set for your next interview!"
+      let keywords = "Search,Career Advice,Blog," + this.searchString
+      let type = 'article'
+      let url = this.domain + this.route.url
+
+      this.seo.updateSeo(title,desc,keywords,type,url);
+      this.seo.createCanonicalURL(this.domain + this.route.url);
+
+      this.loc.searchBlog(this.searchString).subscribe((res:any)=>{
+        this.spinner.hide();
+        this.blogSearch.setValue(this.searchString);
+        this.searchData = res.posts;
+        this.loaded = true;
+      })
     })
   }
 

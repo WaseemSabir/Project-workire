@@ -1,0 +1,13 @@
+.weight-heading {
+    font-weight: 550;
+}
+
+.link-tag {
+    color: rgb(74, 74, 243);
+    width: 100%;
+}
+
+.link-tag:hover {
+    color: blue;
+    text-decoration: underline;
+}

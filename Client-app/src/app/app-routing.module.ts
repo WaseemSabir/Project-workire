@@ -9,16 +9,15 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CustomResumePageComponent } from './custom-resume-page/custom-resume-page.component';
 import { JobCategoryComponent } from './job-category/job-category.component';
 import { JobCompanyComponent } from './job-company/job-company.component';
-import { JobCountryAutocompleteComponent } from './job-country-autocomplete/job-country-autocomplete.component';
 import { JobCountryComponent } from './job-country/job-country.component';
 import { JobDisclaimerComponent } from './job-disclaimer/job-disclaimer.component';
 import { JobIndexComponent } from './job-index/job-index.component';
 import { JobListComponent } from './job-list/job-list.component';
 import { JobNotFoundComponent } from './job-not-found/job-not-found.component';
-import { JobOneCatComponent } from './job-one-cat/job-one-cat.component';
-import { JobOneCompanyComponent } from './job-one-company/job-one-company.component';
-import { JobOneCountryComponent } from './job-one-country/job-one-country.component';
-import { JobPageComponent } from './job-page/job-page.component';
+import { JobOneCatComponent } from './job-redirect/job-one-cat.component';
+import { JobPositionsComponent } from './job-positions/job-positions.component';
+import { JobSinglePageComponent } from './job-single-page/job-single-page.component';
+import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
 import { UnderDevelopmentComponent } from './under-development/under-development.component';
 
 const routes: Routes = [
@@ -26,24 +25,24 @@ const routes: Routes = [
   {path: 'Jobs/All-Categories',component: JobCategoryComponent},
   {path: 'Jobs/All-Countries',component: JobCountryComponent},
   {path: 'Jobs/All-Companies',component: JobCompanyComponent},
-  {path: 'Jobs/:job/:search/:country/:category/:company/:days/:page', component: JobListComponent},
+  {path: 'Jobs/All-Positions',component: JobPositionsComponent},
+  {path: 'Jobs/Trending-Search',component: JobTrendingSearchComponent},
+  {path: 'Job-search/:search', component: JobOneCatComponent},
+  {path: 'Job-by-position/:position', component: JobOneCatComponent},
   {path: 'Jobs', component: JobListComponent},
   {path: 'career-advice/search/:str',component: BlogSearchComponent},
-  {path: 'career-advice/:category', component: BlogListComponent},
+  {path: 'career-advice', component: BlogListComponent, pathMatch : 'full'},
   {path: 'about-us', component: AboutUsComponent},
   {path: 'contact-us', component: ContactUsComponent},
   {path: 'building', component: UnderDevelopmentComponent},
-  {path: 'search/:search', redirectTo: 'Jobs/find-job/:search/country/category/company/0/1'},
   {path: 'professional-resume-writing-service', component: CustomResumePageComponent},
   {path: 'Job-category/:cat', component: JobOneCatComponent},
-  {path: 'Job-country/:count',component: JobOneCountryComponent},
-  {path: 'Job-company/:comp',component: JobOneCompanyComponent},
-  {path: 'Job/:job', component: JobPageComponent},
+  {path: 'Job-country/:count',component: JobOneCatComponent},
+  {path: 'Job-company/:comp',component: JobOneCatComponent},
+  {path: 'Job/:job', component: JobSinglePageComponent},
   {path: 'disclaimer', component: JobDisclaimerComponent},
-  {path: 'test', component: JobCountryAutocompleteComponent},
-  {path: 'advice/:url', component: BlogCardComponent},
+  {path: 'career-advice/:url', component: BlogCardComponent},
   {path: 'Career-development-tools', component: CareerDevelpmentToolsComponent},
-  {path: 'jobs', redirectTo: '/Jobs', pathMatch: 'full'},
   {path: '**', component: JobNotFoundComponent}
 ];
 

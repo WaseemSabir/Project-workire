@@ -1,5 +1,4 @@
-<div class="" [ngClass]="{'container':!isMobile,'container-fluid':isMobile}">
-    <ngx-spinner bdColor='rgba(51,51,51,0.4)' [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+<div class="container">
     <div class="row mt-4">
         <div class="h5 col-auto mt-4 font-weight-normal">Search Result for {{searchString}}</div>
         <div class="h5 col-auto" [ngClass]="{'ml-auto':!isMobile}">
@@ -14,18 +13,15 @@
         <div class="m-5 text-muted"> No Results for the search</div>
     </div>
     <div *ngIf="searchData.length && loaded">
-        <div class="row w-100 mt-4">
-            <div *ngFor="let k of searchData" class="col-12 col-sm-12 col-md-6 col-lg-4 mb-2">
-                <div class="card mb-3 shadow-sm curse" [routerLink]="['/advice',k.BlogUrl]">
+        <div class="row mt-4">
+            <div *ngFor="let k of searchData" class="curse col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100" [routerLink]="['/career-advice',k.BlogUrl]">
                     <img class="card-img" src={{urlParse(k.image)}} alt={{cap(k.title)}} height="240px">
                     <div class="card-img-overlay">
                         <a [routerLink]="['/career-advice',k.category]" class="btn btn-light btn-sm">{{k.category}}</a>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title h5">{{cap(k.title)}}</h4>
-                        <small class="text-muted cat">
-                            <i class="far fa-clock text-info"></i> 5 minute read
-                        </small>
+                        <h2 class="card-title h5">{{cap(k.title)}}</h2>
                         <p class="card-text" style="font-size: small;">{{k.Description}}</p>
                     </div>
                 </div>

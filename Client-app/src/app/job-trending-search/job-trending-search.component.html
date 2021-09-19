@@ -1,0 +1,18 @@
+<div class="light-bg">
+    <div class="text-center mb-5">
+        <div class="titleTop"> 
+            Find Latest Jobs 
+            <div class="pad">By <span class="blue-color">Search</span></div>
+        </div>
+    </div>
+    <p class="text-muted text-center mb-5">Try out these trending seaches to find dream job!</p>
+
+    <div class="container">
+        <div class="row pb-5 pt-2">
+            <div class="col-md-4 col-6" *ngFor="let team of allCat">
+                <a [routerLink]="['/Job-by-position',team.url]">{{team.search}}</a>
+                <hr class="mt-0">
+            </div>
+        </div>
+    </div>
+</div>

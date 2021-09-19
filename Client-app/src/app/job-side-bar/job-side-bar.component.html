@@ -1,0 +1,18 @@
+<app-job-alert-box></app-job-alert-box>
+
+<div class="my-5">
+    <div class="text-left font-weight-bold">Date Posted</div>
+    <nz-radio-group [(ngModel)]="time">
+        <label nz-radio nzValue="0">Anytime</label>
+        <label nz-radio nzValue="1">A Day ago</label>
+        <label nz-radio nzValue="7">A Week ago</label>
+        <label nz-radio nzValue="30">A Month ago</label>
+        <label nz-radio nzValue="Custom">
+            Custom...
+          <input type="text" nz-input *ngIf="time === 'Custom'" placeholder="enter days" [(ngModel)]="input" />
+        </label>
+    </nz-radio-group>
+    <br />
+    <button mat-button class="w-50 mt-3 dark-bg white-color" *ngIf="toCheck!==time" (click)="handleTime()">Apply</button>
+    <nz-alert *ngIf="showErr" nzType="error" nzMessage="The custom input must be in number of days" class="mt-3"></nz-alert>
+</div>

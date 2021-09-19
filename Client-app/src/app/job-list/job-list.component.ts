@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../deafult-loc.service';
-import { FormControl } from '@angular/forms'
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
+import { FilterValueService } from '../filter-value.service';
+import { Filters, Job } from '../Interfece'
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-job-list',
@@ -14,234 +14,104 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class JobListComponent implements OnInit {
 
   public isMobile : boolean = false;
-  public showFilter : boolean = true;
-
-  currSearch = new FormControl('');
-
-  search : string = 'search';
-  country : string = 'country';
-  category : string = 'category';
-  company : string = 'company';
-  time : number = 0;
-  page : number = 0;
   count : number = 0;
-  job : string = 'find-job';
 
-  header : string = ' Jobs ';
+  @Input() header : string = '';
+  first : boolean = true;
   header2 : string = ' Jobs Found: Showing '
-  filtertext : string = "Show Filter";
 
-  bStr : string = '< Back '
-
-  domain : string = "https://workire.com"
+  domain : string = environment.APIEndpoint;
 
   loaded : boolean = false;
 
   allJobs : any = {}
-
-  firstTime : boolean = true
-
-  change : boolean = false
-
   data : any;
 
-  akjob : any;
-  dekho : boolean = false;
-  haj : boolean = false;
+  currJob : Job = {title:'',id:0};
 
-  h1tag : string = ''
+  toggleView : boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute,private route: Router,public meta: Meta, public title: Title,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService) { }
+  searchFailed : any[] = []
+
+  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-        if(isPlatformBrowser(this.platformId))
-        {
-          this.isMobile = screen.width < 768;
-        }
-        let a,b,c,d,e,g;
-        let f : number = 0;
-        if(this.route.url.split('/').includes('Jobs') && this.route.url.split('/').length < 4)
-        {
-          b = 'search'
-          d = 'company'
-          a = 'country'
-          c = 'category'
-          e = 0
-          f = 1
-          this.job = 'find-job'
-        }
-        else
-        {
-          a = params.get('country')!
-          b = params.get('search')!
-          c = params.get('category')!
-          d = params.get('company')!
-          e = +params.get('days')!
-          f = +params.get('page')!
-          g = params.get('job')!
-          this.job = g;
-        }
 
-        this.loc.jobTitle(this.job).subscribe((res : any) => {
-          this.akjob = res.Jobs[0];
-          if(this.akjob.Location=='Not Specified')
-          {
-            this.h1tag = this.akjob.Position + ' in ' + this.akjob.Country + ' at '  + this.akjob.AdvertiserName;
-          }
-          else
-          {
-            this.h1tag = this.akjob.Position + ' in ' + this.akjob.Location + ' at '  + this.akjob.AdvertiserName;
-          }
-          if(this.header ===' Jobs ')
-          {
-            this.title.setTitle('Jobs | Browse our Job Listing | Workire')
-            this.meta.updateTag({name: "description",content: "Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
-            this.meta.updateTag({name: 'keywords', content: "find jobs,get hired faster"})
-            this.meta.updateTag({property: 'og:type',content:'job'})
-            this.meta.updateTag({property: 'og:title',content: 'Jobs | Browse our Job Listing | Workire'})
-            this.meta.updateTag({property: 'og:description',content:"Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
-            this.meta.updateTag({property: 'og:url',content:this.domain + this.route.url})
-            this.meta.updateTag({property: 'og:image',content:this.domain + '/assets/workire.png'})
-            this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-            this.meta.updateTag({name: 'twitter:title',content: 'Jobs | Browse our Job Listing | Workire'})
-            this.meta.updateTag({name: 'twitter:description',content: "Search and apply on Workire for jobs hiring now. Find a job using our Job Search platform and get hired faster. Many new jobs are updated daily for all categories"})
-            this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-            this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-          }
-        })
-        if(this.job!='find-job')
+    if(isPlatformBrowser(this.platformId))
+    {
+      this.isMobile = screen.width <= 768;
+    }
+
+    this.filter.title$.subscribe((res : Job)=>{
+      this.currJob = res;
+    })
+
+    this.filter.filter$.subscribe((fil : Filters)=>{
+      if(isPlatformBrowser(this.platformId))
+      {
+        this.scrollToTop();
+      }
+      this.spinner.show();
+      this.loaded = false;
+      this.loc.getAllJobs(fil.search,fil.country,fil.category,fil.company,fil.days,fil.page).toPromise()
+      .then((dataRet : any)=>{
+        this.spinner.hide();
+        this.data = dataRet;
+        
+        this.allJobs = dataRet.data;
+        
+        if(this.data.count && !this.isMobile)
         {
-          this.dekho = false;
-          this.loc.jobTitle(this.job).subscribe((res : any) => {
-            this.dekho = true;
-            this.akjob = res.Jobs[0];
-            if(this.akjob.Location=='Not Specified')
-            {
-              this.h1tag = this.akjob.Position + ' in ' + this.akjob.Country + ' at '  + this.akjob.AdvertiserName;
-            }
-            else
-            {
-              this.h1tag = this.akjob.Position + ' in ' + this.akjob.Location + ' at '  + this.akjob.AdvertiserName;
-            }
-          })
+          this.filter.setTitle(this.allJobs[0].Position,this.allJobs[0].id);
+        }
+        this.loaded = true;
+        this.count = this.data.count;
+
+        if(!this.header || !this.first)
+        {
+          this.header = ' Jobs ';
+          this.header2 = 'Showing '
+          this.header = (fil.search.length==0) ? (this.header) : (fil.search + this.header) 
+          this.header = (fil.country.length!=0) ? (this.header + "in " + fil.country.split(',').join(' , ')) : this.header
+          let temp = (((fil.page-1)*10)+10)
+          this.header2 = this.header2 + (((fil.page-1)*10)+1).toString() + ' - ';
+          this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
         }
 
-        this.search = (this.search=='') ? ("search") : (this.search)
-        this.company = (this.company=='') ? ('company') : (this.company)
-        this.category = (this.category=='') ? ('category') : (this.category)
-        this.country = (this.country=='') ? ('country') : (this.country)
-
-        if(!(this.country==a && this.search==b && this.category==c && this.company==d && this.time==e && this.page==f) || this.firstTime || this.change)
+        this.header = this.count.toString() + '+ ' + this.header
+        this.first = false;
+        
+        this.filter.changeMessage(this.allJobs);
+        if(!this.allJobs.length)
         {
-          this.spinner.show();
-          this.country=a
-          this.search=b
-          this.category=c
-          this.company=d
-          this.time=e
-          this.page=f
-          this.change = false
-          this.firstTime = false;
-          this.loaded = false
-          this.search = (this.search=="search") ? ('') : (this.search)
-          this.company = (this.company=="company") ? ('') : (this.company)
-          this.category = (this.category=="category") ? ('') : (this.category)
-          this.country = (this.country=="country") ? ('') : (this.country)
-          if(this.route.url.split('/').includes('job-category'))
-          {
-            this.header = params.get("str")!
-          }
-          else
-          {
-            this.header = ' Jobs ';
-          }
-          this.header2 = ' Jobs Found: Showing '
-          this.currSearch.setValue(this.search);
-          this.loc.getAllJobs(this.search,this.country,this.category,this.company,this.time,this.page).subscribe((res : any)=>{
-              this.spinner.hide();
-              this.data = res;
-              this.allJobs = res.data;
-
-              if(this.data.count && this.job==='find-job' && !this.isMobile)
-              {
-                this.job = this.allJobs[0].Position;
-                this.dekho = false;
-                this.loc.jobTitle(this.job).subscribe((res : any) => {
-                  this.dekho = true;
-                  this.akjob = res.Jobs[0];
-                })
-              }
-              this.header = ' Jobs ';
-              this.header2 = 'Showing '
-              this.loaded = true;
-              this.count = this.data.count
-              this.header = (this.search.length==0) ? (this.header) : (this.search + this.header) 
-              this.header = (this.country.length!=0) ? (this.header + "in " + this.country.split(',').join(' , ')) : this.header
-              let SeoHead = this.header;
-              let SeoLoc = (this.country.length!=0) ? ("in " + this.country.split(',').join(' , ')) : ''
-              this.header = this.count.toString() + '+ ' + this.header
-              let temp = (((this.page-1)*10)+10)
-              this.header2 = this.header2 + (((this.page-1)*10)+1).toString() + ' - ';
-              this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
-
-              this.title.setTitle("Find latest " + SeoHead + ' | Workire')
-              this.meta.updateTag({name: "description",content: "Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
-              this.meta.updateTag({name: 'keywords', content: `${SeoHead},new ${SeoHead},${this.search} Job ${SeoLoc},${this.search} Job opportunity ${SeoLoc},${this.search} Job openings ${SeoLoc}`})
-              this.meta.updateTag({property: 'og:type',content:'job'})
-              this.meta.updateTag({property: 'og:title',content: "Find latest " + SeoHead + ' | Workire'})
-              this.meta.updateTag({property: 'og:description',content:"Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
-              this.meta.updateTag({property: 'og:url',content:this.domain + this.route.url})
-              this.meta.updateTag({property: 'og:image',content:this.domain + '/assets/workire.png'})
-              this.meta.updateTag({name: 'og:site_name',content: 'Workire'})
-              this.meta.updateTag({name: 'twitter:title',content: "Find latest " + SeoHead + ' | Workire'})
-              this.meta.updateTag({name: 'twitter:description',content: "Top " + SeoHead + ".  Many new " + SeoHead + " are updated daily."})
-              this.meta.updateTag({name: 'twitter:site',content: '@Workire'})
-              this.meta.updateTag({name: 'twitter:creator',content: '@WaseemSabir01'})
-          })
+          this.prepareCategoryList();
         }
+      })
+      .catch()
     })
   }
 
-  filterButton () {
-    this.filtertext = (this.filtertext=="Show Filter") ? "Hide Filter" : "Show Filter";
-    this.showFilter = (!this.showFilter)
+  scrollToTop() {
+    window.scroll(0,0);
   }
 
-  changeInSearch() {
-
-    this.search = (this.currSearch.value=="") ? ("search") : (this.currSearch.value)
-    this.company = (this.company=='') ? ("company") : (this.company)
-    this.category = (this.category=='') ? ("category") : (this.category)
-    this.country = (this.country=='') ? ("country") : (this.country)
-
-    this.change = true;
-
-    this.route.navigate(['/Jobs','find-job',this.search,this.country,this.category,this.company,0,1])
-  }
-
-  searchCheck ()
+  goBackMobile()
   {
-    this.search = (this.search=='') ? ("search") : (this.search)
-    return this.search;
+    this.filter.setTitle('',0);
   }
 
-  compCheck ()
+  prepareCategoryList()
   {
-    this.company = (this.company=='') ? ("company") : (this.company)
-    return this.company;
+    this.loc.getAllSeoCat().toPromise()
+    .then((res : any)=>{
+      let rand = Math.floor(Math.random() * res.category.length);
+      if(rand>20)
+      {
+        rand=rand-5;
+      }
+      this.searchFailed = res.category.slice(rand,rand+5).map((val : any)=>{
+        return [val.SEO_NAME,'/Job-category/'+val.SEO_NAME.replace(/ /g,'-')]
+      })
+    })
   }
-
-  catCheck ()
-  {
-    this.category = (this.category=='') ? ("category") : (this.category)
-    return this.category;
-  }
-
-  countCheck ()
-  {
-    this.country = (this.country=='') ? ("country") : (this.country)
-    return this.country;
-  }
-
 }

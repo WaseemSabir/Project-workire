@@ -125,24 +125,12 @@ export class JobFooterComponent implements OnInit {
           let k = decodeURIComponent(location.path())
           let j = k.split('/')
           let j2 = router.url.split('/')
-          this.links.push([j[1]+ ' > ' + j[2],'Job'+'/'+j2[2]])
+          this.links.push(['Jobs >','/Jobs'])
+          this.links.push([j[2],`/Job/${j[2]}`])
           temp = false;
         }
       }
       this.isRoot = (this.route.length==1) ? true : false;
-      if(this.isRoot)
-      {
-        this.cat = {
-          'Iraq' : [],
-          'Bahrain' : ['Manama','Busaiteen','Muharraq'],
-          'Kuwait' : ['Ahmadi','Kuwait City','Al Asimah'],
-          'Oman' : ['Muscat','Sohar','Salalah'],
-          'Qatar' : ['Al Khor','Al Wakrah','Doha','Umm Salal'],
-          'Suadi Arabia' : ['Jeddah','Al Khobar','Yanbu','Al Jubail','Dhahran','Riyadh'],
-          'United Arab Emirates' : ['Abu Dhabi','Dubai','Ajman','Sharjah','Ras al-Khaimah','Fujairah'],
-          'Jordan' : ['Amman']
-        }
-      }
     })
   }
 
@@ -156,11 +144,10 @@ export class JobFooterComponent implements OnInit {
         let temp2 = []
         for(let k of nh)
         {
-          temp2.push([k,'career-advice/'+k]);
+          temp2.push([k,'career-advice/']);
         }
-        temp2.unshift(["All Career Advice",'career-advice/All'])
+        temp2.unshift(["All Career Advice",'career-advice/'])
         this.blogCat = temp2;
       })
   }
-
 }
