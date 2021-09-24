@@ -1,3 +1,4 @@
+from re import search
 from django.db import models
 
 # Create your models here.
@@ -16,7 +17,35 @@ class Company(models.Model):
     class Meta:
         ordering = ['-id']
 
+class TrendingSearch(models.Model):
+    search = models.CharField(max_length=100,null=False,unique=True)
+    url = models.CharField(max_length=100,null=False,unique=True)
 
+    def __str__(self):
+        return self.search
+
+    class Meta:
+        ordering = ['search']
+
+class Countries(models.Model):
+    Country = models.CharField(max_length=100,null=False,unique=True)
+    cities = models.CharField(max_length=300,null=True)
+
+    def __str__(self):
+        return self.Country
+
+    class Meta:
+        ordering = ['Country']
+
+class Designation(models.Model):
+    designation = models.CharField(max_length=100,null=False,unique=True)
+    close_designations_comma_separted = models.CharField(max_length=500,null=True)
+
+    def __str__(self):
+        return self.designation
+
+    class Meta:
+        ordering = ['designation']
 
 class Category(models.Model):
     Name = models.CharField(max_length=100,null=True,unique=True)
@@ -28,7 +57,6 @@ class Category(models.Model):
 
     class Meta:
         ordering = ['-id']
-
 
 class Job(models.Model):
     Position = models.TextField(null=True,blank=True)
@@ -73,7 +101,6 @@ class Job(models.Model):
 
     class Meta:
         ordering = ['-id']
-
 
 class Blog(models.Model):
     title = models.CharField(max_length=100,null=True,blank=True)

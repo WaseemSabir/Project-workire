@@ -3,13 +3,16 @@ from django.contrib.sitemaps.views import sitemap
 from .sitemaps import *
 
 sitemaps = {
-    'job':JobSiteMap,
-    'blog':BlogSiteMap,
     'static':StaticSitemap,
-    'blogCat':BlogCatSitemap,
+    'job':JobSiteMap,
+    'SearchJobsByCountry':JobsInCount,
+    'blog':BlogSiteMap,
     'job-category':JobCatSiteMap,
     'job-country':JobCompSiteMap,
-    'job-company':JobCountSiteMap
+    'job-company':JobCountSiteMap,
+    'job-position':JobPositionSiteMap,
+    'Job-by-position':JobTrendSiteMap,
+    'job-by-search':JobTrendSiteMap
 }
 
 urlpatterns = [

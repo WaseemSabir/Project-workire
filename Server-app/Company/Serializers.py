@@ -10,7 +10,22 @@ class CompanySerializer(serializers.ModelSerializer):
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = '__all__'    
+        fields = '__all__'   
+
+class TrendingSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrendingSearch
+        fields = '__all__'
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Countries
+        fields = '__all__' 
+
+class DesignationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Designation
+        fields = '__all__' 
 
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:

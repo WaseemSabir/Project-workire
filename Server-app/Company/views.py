@@ -4,10 +4,6 @@ from rest_framework.response import Response
 from .models import *
 from .Serializers import *
 from rest_framework import status
-import datetime
-import xml.etree.ElementTree as ET
-# Create your views here.
-
 
 class getId(APIView):
     def get(self, request, *args, **kwargs):
@@ -21,7 +17,6 @@ class getId(APIView):
             message = {'detail': 'Company by Id don\'t exists'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-
 class getName(APIView):
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Name')
@@ -34,13 +29,11 @@ class getName(APIView):
             message = {'detail': 'Company by this Name don\'t exists'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-
 class getAll(APIView):
     def get(self, request):
         data = Company.objects.all()
         dataall = CompanySerializer(data, many=True)
         return Response(dataall.data)
-
 
 class addNewCompany(APIView):
     def post(self, request):
@@ -62,7 +55,6 @@ class addNewCompany(APIView):
             message = {'detail': 'Company by this Name Already Exists!!'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-
 class getAllCategories(APIView):
     def get(self, request):
         categories = Job.objects.all().values('Classification')
@@ -76,7 +68,6 @@ class getAllCategories(APIView):
                 cat[i] = l.count(i)
             return Response({'data': cat})
         return Response({'data': None})
-
 
 class getAllCountries(APIView):
     def get(self, request):
@@ -92,7 +83,6 @@ class getAllCountries(APIView):
             return Response({'data': cat})
         return Response({'data': None})
 
-
 class getAllCompanies(APIView):
     def get(self, request):
         company = Job.objects.all().values('AdvertiserName', 'LogoURL')
@@ -107,7 +97,6 @@ class getAllCompanies(APIView):
             return Response({'data': cat})
         return Response({'data': None})
 
-
 class getjobCountry(APIView):
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Country')
@@ -115,7 +104,6 @@ class getjobCountry(APIView):
         jobs = Job.objects.filter(Country=Name)
         jobs = JobSerializer(jobs, many=True)
         return Response({'Jobs': jobs.data})
-
 
 class getJobsName(APIView):
     def get(self, request, *args, **kwargs):
@@ -132,10 +120,27 @@ class getJobByTitle(APIView):
         jobs = JobSerializer(jobs, many=True)
         return Response({'Jobs': jobs.data})
 
-
 class getJobsCategory(APIView):
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Category')
         jobs = Job.objects.filter(Classification=Name)
         jobs = JobSerializer(jobs, many=True)
         return Response({'Jobs': jobs.data})
+
+class getTrendingSearch(APIView):
+    def get(self, request):
+        search = TrendingSearch.objects.all()
+        search = TrendingSearchSerializer(search,many=True)
+        return Response(search.data)
+
+class getCountries(APIView):
+    def get(self, request):
+        countries = Countries.objects.all()
+        countries = CountrySerializer(countries,many=True)
+        return Response(countries.data)
+
+class getDesignantion(APIView):
+    def get(self, request):
+        desg = Designation.objects.all()
+        desg = DesignationSerializer(desg,many=True)
+        return Response(desg.data)

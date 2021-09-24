@@ -21,11 +21,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include('LogIn.urls')),
+    # path('api/',include('LogIn.urls')), currently not using login
     path('api/company/',include('Company.urls')),
     path('',include('Company.mapurl')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
+# Admin portal update
 admin.site.site_header = "Workire Admin"
 admin.site.site_title = "Workire Admin Portal"
 admin.site.index_title = "Welcome to Workire Admin Portal"

@@ -99,4 +99,4 @@ class searchbyval(APIView):
             return  Response({'posts':post.data})
         except:
             message = {'Invalid Search'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)            
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)

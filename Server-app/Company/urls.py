@@ -28,6 +28,8 @@ urlpatterns = [
 
     path('search', AddJobView.Search.as_view()), #search jobs
 
+    path('fullsearch', AddJobView.FullSearch.as_view()), #full search jobs
+
     # path('addJobs', AddJobView.addJobs.as_view()), #add jobs
  
     path('getallposts', BlogView.getallposts.as_view()), #get all posts
@@ -44,5 +46,11 @@ urlpatterns = [
 
     path('getAllSeoCat', BlogView.getAllSeoCat.as_view()),
 
-    path('featured', AddJobView.featured.as_view())
+    path('featured', AddJobView.featured.as_view()),
+
+    path('getTrendingSearch', views.getTrendingSearch.as_view()),
+
+    path('getCountries', views.getCountries.as_view()),
+
+    path('getDesignation', views.getDesignantion.as_view())
 ]
