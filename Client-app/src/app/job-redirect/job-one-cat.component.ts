@@ -11,6 +11,7 @@ import { FilterValueService } from '../filter-value.service';
 export class JobOneCatComponent implements OnInit {
 
   hedo : string = '';
+  payload : string = '';
 
   constructor(private activatedRoute: ActivatedRoute,private route: Router,private filter : FilterValueService,private loc : DeafultLocService) { }
 
@@ -20,19 +21,17 @@ export class JobOneCatComponent implements OnInit {
       this.filter.refresh();
       if(url.includes('Job-country'))
       {
-        this.filter.addCountry(params.get("count")!);
+        this.payload = this.filter.valuesToPayload('',params.get("count")!,'','',0,1);
         this.hedo = `Jobs in ${params.get("count")!}`
       }
       else if(url.includes('Job-company'))
       {
-        this.filter.addCompany(params.get("comp")!);
+        this.payload = this.filter.valuesToPayload('','','',params.get("comp")!,0,1);
         this.hedo = `Jobs in ${params.get("comp")!}`
       }
       else if(url.includes('Job-category'))
       {
-        this.loc.seoCatBySeo(this.unrep(params.get('cat')!)).subscribe((res : any)=>{
-          this.filter.addCategory(res.category[0].Name)
-        })
+        this.payload = this.filter.valuesToPayload('','',this.unrep(params.get('cat')!.replace(' Jobs','').replace('Jobs','').replace(' jobs','').replace('jobs','')),'',0,1);
         this.hedo = this.unrep(params.get("cat")!)
       }
       else if(url.includes('Job-search'))
@@ -41,8 +40,7 @@ export class JobOneCatComponent implements OnInit {
         let b = k.toLowerCase().split('-in-')
         try{
           b[0] = b[0].toLowerCase().replace('-jobs','')
-          this.filter.addSearch(b[0])
-          this.filter.addCountry(b[1])
+          this.payload = this.filter.valuesToPayload(b[0],b[1],'','',0,1);
           this.hedo = this.unrep(b[0]) + ' in ' + b[1];
         }
         catch{}
@@ -53,13 +51,12 @@ export class JobOneCatComponent implements OnInit {
         let b = j.split('-in-')
         if(b.length==1)
         {
-          this.filter.addSearch(b[0])
+          this.payload = this.filter.valuesToPayload(b[0],'','','',0,1);
           this.hedo = this.unrep(b[0])
         }
         else if(b.length==2)
         {
-          this.filter.addSearch(b[0])
-          this.filter.addCountry(b[1])
+          this.payload = this.filter.valuesToPayload(b[0],b[1],'','',0,1);
           this.hedo = this.unrep(b[0]) + ' in ' + b[1];
         }
       }

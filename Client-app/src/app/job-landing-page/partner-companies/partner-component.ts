@@ -24,24 +24,9 @@ export class LandingPagePartner implements OnInit {
       this.isMobile = screen.width < 768;
     }
 
-    this.loc.getAllCompanies().toPromise()
+    this.loc.getFeaturedCompanies().toPromise()
     .then((res: any)=>{
-      let count = 0
-      let t = 12;
-      if(this.isMobile)
-      {
-        t = 9;
-      }
-      this.companies = []
-
-      for(let k of Object.keys(res.data))
-      {
-        if(count < t && res.data[k][1]!="default.jpg")
-        {
-          this.companies.push([k,res.data[k][1]])
-          count+=1
-        }
-      }
+      this.companies = res.data;
     })
     .catch()
   }

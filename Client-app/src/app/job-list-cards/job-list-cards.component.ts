@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilterValueService } from '../filter-value.service';
 import { Filters } from '../Interfece'
 import { environment } from '../../environments/environment';
@@ -22,13 +22,25 @@ export class JobListCardsComponent implements OnInit {
   @Input() toggleView : boolean = false;
   @Input() isMobile : boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute,private filter : FilterValueService) { 
+  payload : string = ''
+
+  constructor(private activatedRoute: ActivatedRoute,private filter : FilterValueService,private route : Router) { 
   }
 
   ngOnInit(): void {
 
-    this.filter.filter$.subscribe((res : Filters)=>{
-      this.page = res.page;
+    this.activatedRoute.paramMap.subscribe((params : any)=>{
+      this.payload = params.get("payload")!
+
+      if(this.payload)
+      {
+        let output = this.filter.payloadToValues(this.payload);
+        this.page = output.page!;
+      }
+      else
+      {
+        this.page = 1;
+      }
       this.count = this.item.count;
     })
 
@@ -39,7 +51,12 @@ export class JobListCardsComponent implements OnInit {
 
   pageChange(ev : number)
   {
-    this.filter.setPage(ev);
+    let output : any;
+    if (this.payload) output = this.filter.payloadToValues(this.payload);
+    else output = this.filter.payloadToValues('');
+    output.page = ev;
+    let p = this.filter.valuesToPayload(output.search,output.country,output.category,output.company,output.days,output.page)
+    this.route.navigate(['/Jobs',p]);
   }
 
   dateParse(d : string) : string

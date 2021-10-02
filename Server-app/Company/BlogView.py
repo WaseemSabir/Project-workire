@@ -5,18 +5,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import *
 from rest_framework import status
-from datetime import datetime, timedelta
 from django.db.models import Q
-from django.db.models import Count
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 class getallposts(APIView):
+    @method_decorator(cache_page(60*60*24))
     def get(self,request):
         blog = Blog.objects.all()
         blog = BlogSerializer(blog, many = True)
         return Response({'data':blog.data})
 
 class getBlogbyCat((APIView)):
+    @method_decorator(cache_page(60*60*24))
     def get(self, request, *args, **kwargs):
         try:
             Name = self.kwargs.get('Category')
@@ -34,6 +35,7 @@ def getdate(blog):
     return blog.values('addDate')
 
 class getBlogbyUrl(APIView):
+    @method_decorator(cache_page(60*60*24))
     def get(self, request, *args, **kwargs):
         try:
             Name = self.kwargs.get('search')
@@ -55,41 +57,8 @@ class getBlogbyUrl(APIView):
             message = {'Invalid Search'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)  
 
-class seoCat(APIView):
-    def post(self,request):
-        try:
-            Name = request.data['category']
-            lookup = Q(Name__icontains=Name)
-            cat = Category.objects.filter(lookup)
-            cat = CatSerializer(cat, many = True)
-            return Response({'category':cat.data})
-        except:
-            message = {'Invalid Category'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)  
-
-class seoCatBySeo(APIView):
-    def post(self,request):
-        try:
-            Name = request.data['category']
-            lookup = Q(SEO_NAME__icontains=Name)
-            cat = Category.objects.filter(lookup)
-            cat = CatSerializer(cat, many = True)
-            return Response({'category':cat.data})
-        except:
-            message = {'Invalid Category'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-
-class getAllSeoCat(APIView):
-    def get(self, request, *args, **kwargs):
-        try:
-            cat = Category.objects.all()
-            cat = CatSerializer(cat, many = True)
-            return Response({'category':cat.data})
-        except:
-            message = {'Invalid Request'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-
 class searchbyval(APIView):
+    @method_decorator(cache_page(60*60*24))
     def post(self,request):
         try:
             data = request.data['search']

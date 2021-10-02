@@ -5,6 +5,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
 import { Filters, Job } from '../Interfece'
 import { environment } from '../../environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-list',
@@ -33,7 +34,9 @@ export class JobListComponent implements OnInit {
 
   searchFailed : any[] = []
 
-  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService) { }
+  @Input() payloadFromAbove : string = ''
+
+  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private route : ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -45,15 +48,38 @@ export class JobListComponent implements OnInit {
     this.filter.title$.subscribe((res : Job)=>{
       this.currJob = res;
     })
+    
+    this.route.paramMap
+    .subscribe((params : any)=>{
+      let payload = params.get("payload")!
+      let search : string = "", country : string = "", category : string = "", company : string = "", days : number = 0, page : number = 1
+      if(this.header.length && this.first)
+      {
+        payload = this.payloadFromAbove;
+      }
+      else
+      {
+        this.header = ''
+      }
+      this.first = true
+      if(payload)
+      {
+        let output = this.filter.payloadToValues(payload);
+        search = output.search!
+        country = output.country!
+        category = output.category!
+        company = output.company!
+        days = output.days!
+        page = output.page!
+      }
 
-    this.filter.filter$.subscribe((fil : Filters)=>{
       if(isPlatformBrowser(this.platformId))
       {
         this.scrollToTop();
       }
       this.spinner.show();
       this.loaded = false;
-      this.loc.getAllJobs(fil.search,fil.country,fil.category,fil.company,fil.days,fil.page).toPromise()
+      this.loc.getAllJobs(search,country,category,company,days,page).toPromise()
       .then((dataRet : any)=>{
         this.spinner.hide();
         this.data = dataRet;
@@ -71,10 +97,10 @@ export class JobListComponent implements OnInit {
         {
           this.header = ' Jobs ';
           this.header2 = 'Showing '
-          this.header = (fil.search.length==0) ? (this.header) : (fil.search + this.header) 
-          this.header = (fil.country.length!=0) ? (this.header + "in " + fil.country.split(',').join(' , ')) : this.header
-          let temp = (((fil.page-1)*10)+10)
-          this.header2 = this.header2 + (((fil.page-1)*10)+1).toString() + ' - ';
+          this.header = (search.length==0) ? (this.header) : (search + this.header) 
+          this.header = (country.length!=0) ? (this.header + "in " + country.split(',').join(' , ')) : this.header
+          let temp = (((page-1)*10)+10)
+          this.header2 = this.header2 + (((page-1)*10)+1).toString() + ' - ';
           this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
         }
 

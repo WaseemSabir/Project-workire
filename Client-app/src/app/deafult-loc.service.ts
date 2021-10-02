@@ -24,6 +24,10 @@ export class DeafultLocService {
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompanies");
   }
 
+  public getFeaturedCompanies(){
+    return this.httpClient.get(this.MY_SEREVER + "company/getFeaturedCompanies");
+  }
+
   public getAllCompany(){
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompany");
   }
@@ -65,6 +69,10 @@ export class DeafultLocService {
   // Job related Reterival from Server
   public getAllJobs(s : string, count : string, cat : string, comp : string, day : number, page : any) {
     return this.httpClient.post<any>(this.MY_SEREVER + "company/search",{'search' : s,'Country' : count, 'category' : cat, 'companies' : comp,'day': day,'page': page})
+  }
+
+  public getFilterSuggestions(search : string) {
+    return this.httpClient.post<any>(this.MY_SEREVER + "company/getFilterSuggestions",{'search' : search})
   }
 
   public jobById(str : any) {

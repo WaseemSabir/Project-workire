@@ -30,6 +30,7 @@ const routes: Routes = [
   {path: 'Job-search/:search', component: JobOneCatComponent},
   {path: 'Job-by-position/:position', component: JobOneCatComponent},
   {path: 'Jobs', component: JobListComponent},
+  {path: 'Jobs/:payload', component: JobListComponent},
   {path: 'career-advice/search/:str',component: BlogSearchComponent},
   {path: 'career-advice', component: BlogListComponent, pathMatch : 'full'},
   {path: 'about-us', component: AboutUsComponent},

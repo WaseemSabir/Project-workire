@@ -25,7 +25,7 @@ export class JobSearchComponent implements OnInit {
   public categories: any = {};
   public countries: any = {};
   public seocat: any = {};
-  public totalJobs : number = 0;
+  public totalJobs : number = 50000;
 
   // country autocomplete
   private list: string[] = [];

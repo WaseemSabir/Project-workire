@@ -34,14 +34,23 @@ export class JobPageComponent implements OnInit {
     {
       this.isMobile = screen.width < 768;
     }
+
     this.filter.title$.subscribe((res : Job) =>{
       this.jobid = res.title;
       this.spinner.show();
 
       this.loc.jobTitle(this.jobid).subscribe((res : any)=>{
         this.spinner.hide();
-
         this.jobDetails = res.Jobs[0];
+
+        this.loc.featured(this.jobDetails.Classification).toPromise()
+        .then((res : any)=>{
+          this.target_feature = res.job;
+          this.target_feature = this.target_feature.filter((val)=>{
+            return this.jobid !== val.Position;
+          })
+        })
+        .catch()
 
         this.schema = {
           "@context": "https://schema.org/",
@@ -77,15 +86,6 @@ export class JobPageComponent implements OnInit {
             }
           }
         }
-
-        this.loc.featured(this.jobDetails.Classification).toPromise()
-        .then((res : any)=>{
-          this.target_feature = res.job;
-          this.target_feature = this.target_feature.filter((val)=>{
-            return this.jobid !== val.Position;
-          })
-        })
-        .catch()
       })
 
       if(isPlatformBrowser(this.platformId))

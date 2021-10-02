@@ -100,7 +100,7 @@ class Job(models.Model):
         return self.Position
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-PostDate']
 
 class Blog(models.Model):
     title = models.CharField(max_length=100,null=True,blank=True)

@@ -2,6 +2,8 @@ import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FilterValueService } from '../filter-value.service';
 import { Filters } from '../Interfece'
+import { ActivatedRoute, Router} from '@angular/router';
+import { DeafultLocService } from '../deafult-loc.service';
 
 @Component({
   selector: 'app-job-list-filter',
@@ -44,7 +46,7 @@ export class JobListFilterComponent implements OnInit {
     'A month ago' : 30
   }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,private filter : FilterValueService) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,private filter : FilterValueService, private activatedRoute : ActivatedRoute,private route : Router,private loc : DeafultLocService) {
   }
 
   ngOnInit(): void {
@@ -53,18 +55,39 @@ export class JobListFilterComponent implements OnInit {
       this.isMobile = screen.width <= 768;
     }
 
-    this.filter.filter$.subscribe((res : Filters ) =>{
-      this.filterChips = {
-        search : this.filterEmpty(res.search),
-        location_on : this.filterEmpty(res.country),
-        category : this.filterEmpty(res.category),
-        home : this.filterEmpty(res.company)
+    this.activatedRoute.paramMap.subscribe((params : any)=>{
+      let payload = params.get("payload")!
+      let search : string= "",country : string="",category : string="",company : string="",days = 0, page = 1
+      
+      if(payload)
+      {
+        let output = this.filter.payloadToValues(payload);
+        search = output.search!
+        country = output.country!
+        category = output.category!
+        company = output.company!
+        days = output.days!
+        page = output.page!
       }
-      this.days = res.days;
+
+      this.filter.setFilterCustom(search,country,category,company,days,page);
+
+      this.filterChips = {
+        search : this.filterEmpty(search),
+        location_on : this.filterEmpty(country),
+        category : this.filterEmpty(category),
+        home : this.filterEmpty(company)
+      }
+      this.days = days;
+
+      this.loc.getFilterSuggestions(search).toPromise()
+      .then((res : any)=>{
+        this.countryList = Object.keys(res.Countrycount)
+        this.catList = Object.keys(res.categorycount)
+        this.compList = Object.keys(res.companiescount)
+      })
     })
-    this.countryList = Object.keys(this.all.Countrycount)
-    this.catList = Object.keys(this.all.categorycount)
-    this.compList = Object.keys(this.all.companiescount)
+
     this.mobileObj = {
       search : {
         icon : "search",
@@ -142,6 +165,7 @@ export class JobListFilterComponent implements OnInit {
         this.filter.removeCompany(chip);
         break;
     }
+    this.routeRefresh()
   }
 
   applyFilter()
@@ -166,6 +190,8 @@ export class JobListFilterComponent implements OnInit {
       this.filter.addCompany(this.company);
       this.company = '';
     }
+    
+    this.routeRefresh()
   }
 
   mobileApply() {
@@ -193,6 +219,17 @@ export class JobListFilterComponent implements OnInit {
         }
         break;
     }
+    
+    this.routeRefresh();
+  }
+
+  routeRefresh()
+  {
+    let payload = ""
+    this.filter.filter$.subscribe((res : Filters)=>{
+      payload = this.filter.valuesToPayload(res.search,res.country,res.category,res.company,res.days,res.page)
+      this.route.navigate(['/Jobs',payload])
+    })
   }
 
   setTime()
