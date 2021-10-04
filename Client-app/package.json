@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run FrontEnd:serve-ssr",
-    "serve:ssr": "pm2 kill && pm2 start dist/FrontEnd/server/main.js",
+    "serve:ssr": "pm2 kill && pm2 start dist/FrontEnd/server/main.js -i max",
     "build:ssr": "ng build && ng run FrontEnd:server",
     "deploy":"npm run build:ssr && npm run serve:ssr",
     "prerender": "ng run FrontEnd:prerender"
