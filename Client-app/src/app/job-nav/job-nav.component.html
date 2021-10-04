@@ -12,16 +12,16 @@
   <links class="ml-5">
 
     <!-- Links -->
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto mt-2">
       <ng-template ngFor let-item [ngForOf]="ObjectKeys(nav)" let-i="index">
         <div *ngIf="nav[item].length==1; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <li class="nav-item ml-lg-3 ml-0 pb-2">
-            <a class="fontStyle" [routerLink]="[nav[item][0]]">{{item}}</a>
+          <li class="nav-item ml-lg-4 ml-0 pb-2">
+            <a class="fontStyle noselect" [routerLink]="[nav[item][0]]">{{item}}</a>
           </li>
         </ng-template>
         <ng-template #elseBlock>
-          <li class="nav-item ml-lg-3 ml-0 pb-2">
+          <li class="nav-item ml-lg-4 ml-0 pb-2 noselect">
             <span nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomCenter'" class="fontStyle">{{item}}</span>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu nzSelectable>
@@ -38,9 +38,10 @@
     <ul class="navbar-nav ml-auto mr-n3 nav-flex-icons">
         <li class="nav-item">
           <div class="nav-link">
-            <div *ngIf="saved.length!==0" class="btn-group" mdbDropdown>
-              <div mdbDropdownToggle>
+            <div *ngIf="saved.length!==0" class="btn-group pointer noselect" mdbDropdown>
+              <div style="display: flex;" mdbDropdownToggle>
                 <mat-icon class="blue-color">bookmark</mat-icon>
+                <div class="fontStyle2 ml-1 my-auto">Saved Jobs</div>
               </div>
               <div class="dropdown-menu dropdown-menu-right dropdown-primary">
                 <div *ngFor="let item of saved; let k = index" class="dropdown-item">

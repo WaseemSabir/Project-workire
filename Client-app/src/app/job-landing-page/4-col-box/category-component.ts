@@ -9,6 +9,7 @@ import { DeafultLocService } from 'src/app/deafult-loc.service';
 export class LandingPageCategory implements OnInit {
 
     keys = Object.keys
+    country : string = ''
 
     constructor (private loc : DeafultLocService) {}
 
@@ -78,7 +79,7 @@ export class LandingPageCategory implements OnInit {
         this.loc.getPositions().toPromise()
         .then((res : any)=>{
             this.all['Jobs By Designation'].fullData = res.map((val : any)=>{
-                return [val.designation,'/Job-by-position/'+val.designation.replace(/ /g,'-')]
+                return [val.designation+ ' Jobs','/Job-by-position/'+val.designation.replace(/ /g,'-')]
             })
             this.initData();
         })
@@ -94,6 +95,14 @@ export class LandingPageCategory implements OnInit {
             this.initData();
         })
         .catch((err)=>console.log(err))
+
+
+        this.loc.featued$.subscribe(
+            data =>{
+                this.country = data.country;
+                this.reArrangeCountries();
+            }
+        )
     }
 
     initData()
@@ -110,6 +119,19 @@ export class LandingPageCategory implements OnInit {
                 temp.data = temp.fullData.slice(0,10);
             }
         }
+
+        if(this.country.length) this.reArrangeCountries();
+    }
+
+    reArrangeCountries() {
+        let list1 : any[] = []
+        let list2 : any[] = []
+        for(let k of this.all['Jobs By Location'].fullData)
+        {
+            if(k[1].includes(this.country)) list1.push(k);
+            else list2.push(k);
+        }
+        this.all['Jobs By Location'].fullData = [...list1,...list2];
     }
 
     seeMoreClick(str : string)

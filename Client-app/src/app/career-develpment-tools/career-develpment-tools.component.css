@@ -58,3 +58,11 @@
 .list-group-item {
     background-color: #f5f7fb;
 }
+
+.dark-bg{
+    background-color: #006699;
+}
+
+.white-color {
+    color : white;
+}

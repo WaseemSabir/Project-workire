@@ -8,7 +8,7 @@
       <ng-template #elseBlock>
         <div class="row mx-2">
           <div *ngFor="let item of links">
-            <a href={{item[1]}} class="link-white text-muted">&nbsp;{{item[0]}}</a>
+            <a href={{item[1]}} class="link-white text-muted">&nbsp;{{strRepDash(item[0]) | titlecase}}</a>
           </div>
         </div>
       </ng-template>
@@ -31,7 +31,7 @@
             <img src="/assets/workire-logo.svg" title="Home" width="150" alt="Workire" class="d-inline-block align-middle mb-2" alt="Workire" />
             <!-- Logo Text -->
           </a>
-          <p class="text-muted">Workire is an emerging job site in the Gulf Region, connecting job seekers with potential employers. Launched as a vertical search engine, our website gives regular job updates to our visitors. Latest vacancies are posted every day on the platform for job seekers to grab their dream career.</p>
+          <p class="text-muted">Workire is an emerging job site in the UK and Gulf Region, connecting job seekers with potential employers and provide access to ATS resume builder, career advice and tools. Giving regular job updates, we help job seekers grab their dream career.</p>
           <div class="d-flex-inline mb-3" *ngIf="!isMobile">
             <a href='https://www.facebook.com/workire' rel="noreferrer" target="_blank" class="mr-1">
                 <img class="img-fluid" src="/assets/fb.png" width="20" alt="Workire Facebook Page"/>
@@ -92,7 +92,7 @@
         <div class="col-md-2 mb-md-0 mb-3">
 
             <!-- Links -->
-            <h4 class="text font-weight-bold">Job Seekers</h4>
+            <h4 class="text font-weight-bold">Job Search</h4>
 
             <ul class="list-unstyled">
               <li>
@@ -108,7 +108,7 @@
                 <a [routerLink]="['Jobs/All-Companies']" class="text-muted">Jobs By Companies</a>
               </li>
               <li>
-                <a [routerLink]="['/Career-development-tools']" class="text-muted">Career Tools</a>
+                <a [routerLink]="['/Jobs/All-Positions']" class="text-muted">Jobs by Designation</a>
               </li>
             </ul>
 
@@ -119,11 +119,14 @@
           <div class="col-md-2 mb-md-0 mb-3">
 
             <!-- Links -->
-            <h4 class="text font-weight-bold">Career Advice</h4>
+            <h4 class="text font-weight-bold">Career Help</h4>
 
             <ul class="list-unstyled">
-              <li *ngFor="let k of blogCat">
-                <a [routerLink]="k[1]" class="text-muted">{{k[0]}}</a>
+              <li>
+                <a [routerLink]="['/career-advice']" class="text-muted">Career Advice</a>
+              </li>
+              <li>
+                <a [routerLink]="['/Career-development-tools']" class="text-muted">Career Tools</a>
               </li>
             </ul>
 

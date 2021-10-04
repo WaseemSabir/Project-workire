@@ -2,7 +2,7 @@
     <div class="text-center mb-5">
         <div class="titleTop"> 
             Find Latest Jobs 
-            <div class="pad">By <span class="blue-color">Company</span></div>
+            <div class="pad">By <span class="blue-color">Top Hiring Companies</span></div>
         </div>
     </div>
     <p class="text-muted text-center mb-5">New Careers in all Companies are added daily!</p>
@@ -10,9 +10,13 @@
     <div class="container">
         <div class="row pb-5 pt-2">
             <div class="col-md-4 col-6" *ngFor="let comp of allCat">
-                <a [routerLink]="['/Job-company',rep(comp.Name)]">{{comp.Name}}</a>
+                <a [routerLink]="['/Job-company',rep(comp.AdvertiserName)]">{{comp.AdvertiserName}}</a>
                 <hr class="mt-0">
             </div>
         </div>
+    </div>
+
+    <div class="text-center pt-4">
+        <button class="btn-display btn-bg2" (click)="more()">{{str}}</button>
     </div>
 </div>

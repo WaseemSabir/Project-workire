@@ -38,55 +38,20 @@ export class JobPageComponent implements OnInit {
     this.filter.title$.subscribe((res : Job) =>{
       this.jobid = res.title;
       this.spinner.show();
-
-      this.loc.jobTitle(this.jobid).subscribe((res : any)=>{
-        this.spinner.hide();
-        this.jobDetails = res.Jobs[0];
-
-        this.loc.featured(this.jobDetails.Classification).toPromise()
+      if(res.id) {
+        this.loc.jobById(res.id).toPromise()
         .then((res : any)=>{
-          this.target_feature = res.job;
-          this.target_feature = this.target_feature.filter((val)=>{
-            return this.jobid !== val.Position;
-          })
+          this.spinner.hide()
+          this.initJob(res, false);
         })
-        .catch()
-
-        this.schema = {
-          "@context": "https://schema.org/",
-          "@type": "JobPosting",
-          "title": this.jobDetails.Position,
-          "description": this.jobDetails.Description,
-          "hiringOrganization" : {
-            "@type": "Organization",
-            "name": this.jobDetails.AdvertiserName
-          },
-          "industry": this.jobDetails.Classification,
-          "employmentType": this.jobDetails.EmploymentType,
-          "workHours": this.jobDetails.WorkHours,
-          "datePosted": this.jobDetails.PostDate,
-          "jobLocation": {
-            "@type": "Place",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": this.jobDetails.Area,
-              "addressLocality": this.jobDetails.Location,
-              "postalCode": this.jobDetails.PostalCode,
-              "addressCountry": this.jobDetails.Country
-            }
-          },
-          "baseSalary": {
-            "@type": "MonetaryAmount",
-            "currency": this.jobDetails.SalaryCurrency,
-            "value": {
-              "@type": "QuantitativeValue",
-              "minValue": this.jobDetails.SalaryMinimum,
-              "maxValue": this.jobDetails.SalaryMaximum,
-              "unitText": this.jobDetails.SalaryPeriod
-            }
-          }
-        }
-      })
+      }
+      else {
+        this.loc.jobTitle(this.jobid).toPromise()
+        .then((res : any)=>{
+          this.spinner.hide()
+          this.initJob(res, true);
+        })
+      }
 
       if(isPlatformBrowser(this.platformId))
       {
@@ -96,6 +61,57 @@ export class JobPageComponent implements OnInit {
         }
       }
     })
+  }
+
+  initJob(jobData : any, getFeatured : boolean) {
+    this.spinner.hide();
+    this.jobDetails = jobData.Jobs[0];
+
+    if(getFeatured) {
+      this.loc.featured(this.jobDetails.Classification).toPromise()
+      .then((res : any)=>{
+        this.target_feature = res.job;
+        this.target_feature = this.target_feature.filter((val)=>{
+          return this.jobid !== val.Position;
+        })
+      })
+      .catch()
+    }
+
+    this.schema = {
+      "@context": "https://schema.org/",
+      "@type": "JobPosting",
+      "title": this.jobDetails.Position,
+      "description": this.jobDetails.Description,
+      "hiringOrganization" : {
+        "@type": "Organization",
+        "name": this.jobDetails.AdvertiserName
+      },
+      "industry": this.jobDetails.Classification,
+      "employmentType": this.jobDetails.EmploymentType,
+      "workHours": this.jobDetails.WorkHours,
+      "datePosted": this.jobDetails.PostDate,
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": this.jobDetails.Area,
+          "addressLocality": this.jobDetails.Location,
+          "postalCode": this.jobDetails.PostalCode,
+          "addressCountry": this.jobDetails.Country
+        }
+      },
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": this.jobDetails.SalaryCurrency,
+        "value": {
+          "@type": "QuantitativeValue",
+          "minValue": this.jobDetails.SalaryMinimum,
+          "maxValue": this.jobDetails.SalaryMaximum,
+          "unitText": this.jobDetails.SalaryPeriod
+        }
+      }
+    }
   }
 
   saveIcon() {

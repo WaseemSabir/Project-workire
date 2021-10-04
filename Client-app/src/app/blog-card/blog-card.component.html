@@ -31,10 +31,7 @@
                 </div>
             </div>
             <div class="col-md-10 col-12 row pt-5">
-                <div class="col-md-3 col-12 px-5">
-                    <img class="img-fluid rounded" style="width: 100%;height: auto;" src="/assets/workire.png" alt="Workire Editor"/>
-                </div>
-                <div class="col-md-9 col-12">
+                <div class="col-12">
                     <h3 class="blue-color" style="font-weight: 550;">Written By Workire Editor</h3>
                     <p>Workire is an emerging job site, connecting job seekers with potential employers. We keep a collection of blog posts that guide you in taking the best career decisions. Our easy-to-use guides deal with the major areas of job-seeking, resume, interview, and self-improvement. Start your job search or build your resume and connect with us on Facebook, and LinkedIn!</p>
                 </div>
@@ -46,10 +43,10 @@
             <div class="h4 text-left py-5">More Posts</div>
             <div class="row">
                 <div *ngFor="let k of additional" class="col-12 col-sm-12 col-md-6 col-lg-6 pb-4">
-                    <div class="card shadow-sm h-100 pointer" [routerLink]="['/advice',k.BlogUrl]">
+                    <div class="card shadow-sm h-100 pointer" [routerLink]="['/career-advice',k.BlogUrl]">
                         <img class="card-img" src={{urlParse(k.image)}} alt={{k.title}} height="240px">
                         <div class="card-img-overlay">
-                            <a [routerLink]="['/career-advice',k.category]" class="btn btn-light btn-sm">{{k.category}}</a>
+                            <a class="btn btn-light btn-sm">{{k.category}}</a>
                         </div>
                         <div class="card-body">
                             <h2 class="card-title h5">{{k.title | titlecase}}</h2>

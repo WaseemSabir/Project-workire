@@ -85,37 +85,10 @@ export class JobListFilterComponent implements OnInit {
         this.countryList = Object.keys(res.Countrycount)
         this.catList = Object.keys(res.categorycount)
         this.compList = Object.keys(res.companiescount)
-      })
+        this.initMobileFilters();
+      }) 
+      this.initMobileFilters();
     })
-
-    this.mobileObj = {
-      search : {
-        icon : "search",
-        placeholder: "Job Title or keyword",
-        list : []
-      },
-      country : {
-        icon : "location_on",
-        placeholder : "City or Country",
-        list : this.countryList
-      },
-      category : {
-        icon : "category",
-        placeholder : "Category Keywords",
-        list : this.catList
-      },
-      company : {
-        icon : "home",
-        placeholder : "Company Keyword",
-        list : this.compList
-      },
-      time : {
-        icon : "schedule",
-        placeholder : "Time",
-        list : Object.keys(this.timeFilter)
-      }
-    };
-    this.MobileFilters = this.parseObj(this.mobileObj);
   }
 
   selcted(str : string)
@@ -235,5 +208,36 @@ export class JobListFilterComponent implements OnInit {
   setTime()
   {
     this.filter.setTime(this.days);
+  }
+
+  initMobileFilters() {
+    this.mobileObj = {
+      search : {
+        icon : "search",
+        placeholder: "Job Title or keyword",
+        list : []
+      },
+      country : {
+        icon : "location_on",
+        placeholder : "City or Country",
+        list : this.countryList
+      },
+      category : {
+        icon : "category",
+        placeholder : "Category Keywords",
+        list : this.catList
+      },
+      company : {
+        icon : "home",
+        placeholder : "Company Keyword",
+        list : this.compList
+      },
+      time : {
+        icon : "schedule",
+        placeholder : "Time",
+        list : Object.keys(this.timeFilter)
+      }
+    };
+    this.MobileFilters = this.parseObj(this.mobileObj);
   }
 }

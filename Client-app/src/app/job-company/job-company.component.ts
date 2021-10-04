@@ -17,6 +17,9 @@ export class JobCompanyComponent implements OnInit {
   keys = Object.keys
   check : any[] = []
   isMobile : boolean = false
+  moreInt : number = 0
+
+  str : string = "Load more"
   
   constructor(private seo : SeoServiceService,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -29,7 +32,7 @@ export class JobCompanyComponent implements OnInit {
 
     this.loc.getAllCompany().toPromise()
     .then((res : any)=>{
-      this.allCat = res;
+      this.allCat = res.data;
 
       let date = new Date();
       const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
@@ -49,6 +52,17 @@ export class JobCompanyComponent implements OnInit {
   rep(str : string)
   {
     return str.replace(/ /g,'-')
+  }
+
+  more() {
+    this.moreInt+=1
+    this.str = "Load more ..."
+    this.loc.getAllCompanyMore(this.moreInt).toPromise()
+    .then((res : any)=>{
+      this.allCat.push(...res.data);
+      this.str = "Load more"
+    })
+    .catch()
   }
 
 }

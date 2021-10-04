@@ -11,9 +11,25 @@ mdb-navbar {
 
 .fontStyle {
     color: black;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
 }
+
+.fontStyle2 {
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
 
 @media (min-width : 995px)
 {

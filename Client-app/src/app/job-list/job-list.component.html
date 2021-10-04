@@ -7,10 +7,9 @@
             </div>
             
             <div class="my-2" style="display: flex;" >
-                <nz-switch [(ngModel)]="toggleView" nzCheckedChildren="3 Col" nzUnCheckedChildren="2 Col" *ngIf="!isMobile" [nzDisabled]="!allJobs.length" ></nz-switch>
-                <h1 class="text-left px-2 m-0 mt-n1 text-dark" style="font-size: small;font-weight: 500;" *ngIf="!isMobile || !currJob.id">
+                <!-- <nz-switch [(ngModel)]="toggleView" nzCheckedChildren="3 Col" nzUnCheckedChildren="2 Col" *ngIf="!isMobile" [nzDisabled]="!allJobs.length" ></nz-switch> -->
+                <h1 class="text-left px-2 m-0 mt-n1 text-dark" style="font-size: large;font-weight: 500;" *ngIf="!isMobile || !currJob.id">
                     {{header}}
-                    <span class="text-success" style="font-weight: 400;">({{header2}})</span>
                 </h1>
             </div>
             <div *ngIf="!isMobile && allJobs.length" class="row">

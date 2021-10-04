@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterValueService } from '../filter-value.service';
-import { Filters } from '../Interfece'
 import { environment } from '../../environments/environment';
+import { urlParseCommon } from '../Interfece';
 
 @Component({
   selector: 'app-job-list-cards',
@@ -75,25 +75,8 @@ export class JobListCardsComponent implements OnInit {
     return `${j} day ago`
   }
 
-  urlParse = (str : string,comp : string) =>{
-    if(str =="/mediaimage/default.jpg")
-    {
-      return this.domain + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
-    }
-    else if(str.includes("http"))
-    {
-      str = str.replace("/mediaimage/",'')
-      str = str.replace("%3A",':')
-      return str;
-    }
-    else if(str[0] == '/')
-    {
-      return this.domain + str;
-    }
-    else
-    {
-      return this.domain + '/' + str;
-    }
+  urlParse(str : string,comp : string) {
+    return urlParseCommon(str,comp);
   }
 
   cardClick(title : string,iden : number)

@@ -84,3 +84,26 @@ a:hover {
 .list-group-item {
     background-color: #f5f7fb;
 }
+
+.btn-display {
+    border: 2px solid #006699;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-bg2 {
+    border-color: #006699;
+    border-radius: 1000px;
+    background-color: white;
+    color: #006699;
+}
+
+.btn-bg2:hover {
+    background-color: #006699;
+    color: white;
+}
+
+.horiCenter {
+    margin: 0 auto;
+}

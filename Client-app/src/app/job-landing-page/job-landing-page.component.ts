@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../deafult-loc.service';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -56,18 +56,6 @@ export class JobLandingPageComponent implements OnInit {
       temp += k[0].toUpperCase() + k.slice(1,k.length) + ' '
     }
     return temp;
-  }
-
-  urlParse = (str : string,comp : string) =>{
-    if(str =="default.jpg")
-    {
-      return this.domain + (comp[0].toUpperCase() + ".png")
-    }
-    if(str.includes('http'))
-    {
-      return str;
-    }
-    return this.domain + str;
   }
 
 }

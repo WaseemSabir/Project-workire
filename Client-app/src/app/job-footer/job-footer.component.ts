@@ -150,4 +150,9 @@ export class JobFooterComponent implements OnInit {
         this.blogCat = temp2;
       })
   }
+
+
+  strRepDash(str : string) {
+    return str.replace(/-/g,' ');
+  }
 }

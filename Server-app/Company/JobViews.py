@@ -38,12 +38,18 @@ class getCompanyByName(APIView):
             message = {'detail': 'Company by this Name don\'t exists'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-class getAllCompaniesDataRaw(APIView):
+class getAllCompaniesWithCountFirst100(APIView):
     @method_decorator(cache_page(60*60*24))
     def get(self, request):
-        data = Company.objects.all()
-        dataall = CompanySerializer(data, many=True)
-        return Response(dataall.data)
+        a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[:100]
+        return Response({'data':a})
+
+class getAllCompaniesWithCountFirst100More(APIView):
+    @method_decorator(cache_page(60*60*24))
+    def post(self, request):
+        page = int(request.data['more'])
+        a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[page*100:page*100+100]
+        return Response({'data':a})
 
 class addNewCompany(APIView):
     def post(self, request):
@@ -130,7 +136,7 @@ class getjobByCountry(APIView):
         return Response({'Jobs': jobs.data})
 
 class getJobByID(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('id')
         k = int(Name)
@@ -139,7 +145,7 @@ class getJobByID(APIView):
         return Response({'Jobs': jobs.data})
 
 class getJobByTitle(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def post(self, request):
         Name = request.data['title']
         jobs = Job.objects.filter(Position=Name)
@@ -205,38 +211,40 @@ class Search(APIView):
                 else:
                     pureCountry.append(i)
 
+            lookup = Q()
             for i in pureCountry:
-                lookup2.append(Q(Country__icontains=i))
+                lookup = lookup | Q(Country__icontains=i)
 
+            lookup2.append(lookup)
+            
+            lookup = Q()
             for i in location:
-                lookup2.append(Q(Location__icontains=i))
+                lookup = lookup | Q(Location__icontains=i)
 
+            lookup2.append(lookup)
+            
+            lookup = Q()
             for i in companies:
-                lookup2.append(Q(AdvertiserName__icontains=i))
+                lookup = lookup | Q(AdvertiserName__icontains=i)
 
+            lookup2.append(lookup)
+
+            lookup = Q()
             for i in category:
-                lookup2.append(Q(Classification__icontains=i))
+                lookup = lookup | Q(Classification__icontains=i)
+
+            lookup2.append(lookup)
 
             if days != 0:
                 d = datetime.today() - timedelta(days=days)
                 lookup2.append(Q(PostDate__gte = d))
 
-            job = Job.objects.filter(reduce(operator.and_, lookup2))
-
-            Countrycount = []
-            companiescount = []
-            categorycount = []
-
-            totalCount = len(job)
-
-            if page*10>totalCount:
-                job = job[(page-1)*10:totalCount]
-            else:
-                job = job[(((page-1)*10)+2):((page*10)+1)]
+            count = Job.objects.filter(reduce(operator.and_, lookup2)).count()
+            job = Job.objects.filter(reduce(operator.and_, lookup2))[(page-1)*10:(page*10)]
 
             job = JobSerializer(job, many=True)
-            return Response({'Countrycount':Countrycount,'categorycount':categorycount,'companiescount':companiescount,'count':totalCount,'data':job.data})
-                
+            return Response({'count':count,'data':job.data})
+
         except:
                 message = {'detail': 'Search Query not valid'}
                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -271,21 +279,12 @@ class featured(APIView):
             try:
                 data = request.data
                 search = data['search']
-                if(search!=""):
-                    lookup = Q(AdvertiserName__icontains=search) | Q(AdvertiserType__icontains=search) | Q(Classification__icontains=search) | Q(
-                            Position__icontains=search) | Q(Description__icontains=search) | Q(Country__icontains=search) | Q(Location__icontains=search)
-                    j = Job.objects.filter(lookup)
-                    count = 0
-                    for i in j:
-                        count+=1
-                    if count<4:
-                        j = Job.objects.all()
-                else:
-                    j = Job.objects.all()
-
-                j = j.order_by("?")[:4]
-                j = JobFeaturedSerializer(j, many=True)
-                return Response({'job':j.data})
+                lookup = Q(AdvertiserName__icontains=search) | Q(AdvertiserType__icontains=search) | Q(Classification__icontains=search) | Q(
+                        Position__icontains=search) | Q(Description__icontains=search) | Q(Country__icontains=search) | Q(Location__icontains=search)
+                job = Job.objects.filter(lookup)[:4]
+                job = JobFeaturedSerializer(job, many=True)
+                return Response({'job':job.data})
+                
             except:
                 message = {'Invalid Search'}
                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -327,6 +326,22 @@ class getAllSeoCat(APIView):
             message = {'Invalid Request'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
+class FeaturedJobFrontPage(APIView):
+    @method_decorator(cache_page(60*60*2))
+    def get(self, request, *args, **kwargs):
+            try:
+                country = self.kwargs.get('country')
+                job = Job.objects.filter(Country__icontains=country)[:6]
+                count = Job.objects.all().count()
+                if len(job)!=6:
+                    job =Job.objects.all()[:6]
+                
+                job = JobSerializer(job, many=True)
+                return Response({'count':count,'data':job.data})
+            except:
+                message = {'Invalid Request'}
+                return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 # Helper Functions
 def getOrderedCatByCount(cat,job):
     a = job.values(cat).annotate(Count(cat)).order_by('{}__count'.format(cat)).reverse()[:25]
@@ -361,9 +376,9 @@ class FullSearch(APIView):
         else:
             job = Job.objects.all()
             
-        Countrycount = getCount("Country",job)
-        companiescount = getCount("AdvertiserName",job)
-        categorycount = getCount("Classification",job)
+        Countrycount = getOrderedCatByCount("Country",job)
+        companiescount = getOrderedCatByCount("AdvertiserName",job)
+        categorycount = getOrderedCatByCount("Classification",job)
         Country = request.data['Country'].split(",")
         category = request.data['category'].split(",")
         companies = request.data['companies'].split(",")

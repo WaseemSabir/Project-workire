@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../../deafult-loc.service';
 import { environment } from '../../../environments/environment';
+import { urlParseCommon } from 'src/app/Interfece';
 
 @Component({
     selector: 'app-landingpage-partner',
@@ -13,7 +14,8 @@ export class LandingPagePartner implements OnInit {
   companies : any = [];
   isMobile : boolean = false;
 
-  domain : string = environment.APIEndpoint + "/mediaimage/"
+  domain : string = environment.APIEndpoint
+  domain2 : string = environment.APIEndpoint + '/'
   
   constructor (private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -31,24 +33,7 @@ export class LandingPagePartner implements OnInit {
     .catch()
   }
 
-  urlParse = (str : string,comp : string) =>{
-    if(str =="/mediaimage/default.jpg")
-    {
-      return this.domain + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
-    }
-    else if(str.includes("http"))
-    {
-      str = str.replace("/mediaimage/",'')
-      str = str.replace("%3A",':')
-      return str;
-    }
-    else if(str[0] == '/')
-    {
-      return this.domain + str;
-    }
-    else
-    {
-      return this.domain + '/' + str;
-    }
+  urlParse(str : string,comp : string) {
+    return urlParseCommon(str,comp);
   }
 }

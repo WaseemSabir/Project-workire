@@ -47,6 +47,8 @@ export class JobIndexComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loc.initFeatured_and_Country_and_count();
+
     let title = 'Find Jobs, Get Career help and Build Resume | Workire'
     let desc = "Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."
     let keywords = "top resume writing services,Job listing,Find jobs, career advice,best online job sites,free resume builder,online mock interview practice"

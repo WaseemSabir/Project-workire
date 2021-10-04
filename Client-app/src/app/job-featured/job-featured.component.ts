@@ -3,6 +3,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../deafult-loc.service';
 import { environment } from '../../environments/environment';
 
+// Not used
 @Component({
   selector: 'app-job-featured',
   templateUrl: './job-featured.component.html',

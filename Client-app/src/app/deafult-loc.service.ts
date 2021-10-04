@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from './../environments/environment';
+import { two_letter_to_full } from './Interfece';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class DeafultLocService {
 
   public getAllCompany(){
     return this.httpClient.get(this.MY_SEREVER + "company/getAllCompany");
+  }
+
+  public getAllCompanyMore(more : number){
+    return this.httpClient.post(this.MY_SEREVER + "company/getAllCompanyMore", {"more":more});
   }
 
   public seoCatBySeo(str : string)
@@ -75,8 +80,8 @@ export class DeafultLocService {
     return this.httpClient.post<any>(this.MY_SEREVER + "company/getFilterSuggestions",{'search' : search})
   }
 
-  public jobById(str : any) {
-    return this.httpClient.get(this.MY_SEREVER + "company/job/" + str)
+  public jobById(jobID : number) {
+    return this.httpClient.get(this.MY_SEREVER + `company/job/${jobID}`)
   }
 
   public jobTitle(str : string)
@@ -101,6 +106,50 @@ export class DeafultLocService {
   public searchBlog(str : string)
   {
     return this.httpClient.post(this.MY_SEREVER + 'company/searchPosts',{'search':str})
+  }
+
+  // Handling Featured
+  _featued = new BehaviorSubject<any>({
+    country : "",
+    data : [],
+    count : 50000
+  })
+
+  featued$ = this._featued.asObservable();
+
+  get featued(): any {
+    return this._featued.getValue();
+  }
+
+  set featued(val: any) {
+    this._featued.next(val);
+  }
+
+  initFeatured_and_Country_and_count() {
+    if(!this.featued.data.length) {
+      this.httpClient.get("https://ipinfo.io/?token=dbf414e483f306").toPromise()
+      .then((res : any)=>{
+        try {
+          let country = "",count = 50000, data = []
+          country = two_letter_to_full(res.country)
+          this.httpClient.get(this.MY_SEREVER + `company/FeaturedJobFrontPage/${res.country}`).toPromise()
+          .then((feature : any)=>{
+            count = feature.count;
+            data = feature.data
+            this.featued = {
+              country : country,
+              data : data,
+              count : count
+            }
+          })
+          .catch()
+        }
+        catch(err){
+
+        }
+      })
+      .catch()
+    }
   }
 
   // To get the users location via reverse ip, not used anymore

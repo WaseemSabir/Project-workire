@@ -9,7 +9,9 @@ urlpatterns = [
 
     path('getName/<str:Name>', JobViews.getCompanyByName.as_view()),  # get company by name
 
-    path('getAllCompany', JobViews.getAllCompaniesDataRaw.as_view()),  # get all comapnies data
+    path('getAllCompany', JobViews.getAllCompaniesWithCountFirst100.as_view()),  # get all comapnies data
+
+    path('getAllCompanyMore', JobViews.getAllCompaniesWithCountFirst100More.as_view()),  # get all comapnies more
 
     path('getAllCategories', JobViews.getAllCategories.as_view()), # Get all categories from Jobs
 
@@ -42,6 +44,8 @@ urlpatterns = [
     path('getFeaturedCompanies', JobViews.getFeaturedCompany.as_view()),
 
     path('getFilterSuggestions', JobViews.getFilterSuggestions.as_view()),
+
+    path('FeaturedJobFrontPage/<str:country>', JobViews.FeaturedJobFrontPage.as_view()),
 
     # Blog View Patterns 
  
