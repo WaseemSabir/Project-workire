@@ -200,7 +200,7 @@ export class JobListFilterComponent implements OnInit {
   {
     let payload = ""
     this.filter.filter$.subscribe((res : Filters)=>{
-      payload = this.filter.valuesToPayload(res.search,res.country,res.category,res.company,res.days,res.page)
+      payload = this.filter.valuesToPayload(res.search,res.country,res.category,res.company,res.days,0)
       this.route.navigate(['/Jobs',payload])
     })
   }
