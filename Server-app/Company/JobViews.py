@@ -187,11 +187,11 @@ class Search(APIView):
         try:
             data = request.data
             search = filter(isNotEmptyString, data['search'].split(","))
-            Country = filter(isNotEmptyString, request.data['Country'].split(","))
+            Country = filter(isNotEmptyString, request.data['country'].split(","))
             category = filter(isNotEmptyString, request.data['category'].split(","))
-            companies = filter(isNotEmptyString, request.data['companies'].split(","))
+            companies = filter(isNotEmptyString, request.data['company'].split(","))
 
-            days = int(request.data['day'])
+            days = int(request.data['days'])
             page = int(data['page'])
             location = []
 
@@ -319,7 +319,7 @@ class getAllSeoCat(APIView):
     @method_decorator(cache_page(60*60*24))
     def get(self, request, *args, **kwargs):
         try:
-            cat = Category.objects.all()
+            cat = Category.objects.exclude(SEO_NAME=None)
             cat = CatSerializer(cat, many = True)
             return Response({'category':cat.data})
         except:

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
 import { Filters } from '../Interfece'
 import { environment } from '../../environments/environment';

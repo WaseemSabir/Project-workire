@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
-import { Filters, Job } from '../Interfece'
+import { Job, SearchPayload, getPayloadByRoute } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -36,7 +36,7 @@ export class JobListComponent implements OnInit {
 
   @Input() payloadFromAbove : string = ''
 
-  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private route : ActivatedRoute) { }
+  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router) { }
 
   ngOnInit(): void {
 
@@ -49,37 +49,21 @@ export class JobListComponent implements OnInit {
       this.currJob = res;
     })
     
-    this.route.paramMap
+    this.activated.paramMap
     .subscribe((params : any)=>{
       let payload = params.get("payload")!
-      let search : string = "", country : string = "", category : string = "", company : string = "", days : number = 0, page : number = 1
-      if(this.header.length && this.first)
-      {
-        payload = this.payloadFromAbove;
-      }
-      else
-      {
-        this.header = ''
-      }
-      this.first = true
-      if(payload)
-      {
-        let output = this.filter.payloadToValues(payload);
-        search = output.search!
-        country = output.country!
-        category = output.category!
-        company = output.company!
-        days = output.days!
-        page = output.page!
-      }
+      let variable = params.get("var")!
+
+      let values : SearchPayload = getPayloadByRoute(this.route.url,payload,variable)
 
       if(isPlatformBrowser(this.platformId))
       {
         this.scrollToTop();
       }
+
       this.spinner.show();
       this.loaded = false;
-      this.loc.getAllJobs(search,country,category,company,days,page).toPromise()
+      this.loc.getAllJobsSearchPayload(values).toPromise()
       .then((dataRet : any)=>{
         this.spinner.hide();
         this.data = dataRet;
@@ -97,10 +81,10 @@ export class JobListComponent implements OnInit {
         {
           this.header = ' Jobs ';
           this.header2 = 'Showing '
-          this.header = (search.length==0) ? (this.header) : (search + this.header) 
-          this.header = (country.length!=0) ? (this.header + "in " + country.split(',').join(' , ')) : this.header
-          let temp = (((page-1)*10)+10)
-          this.header2 = this.header2 + (((page-1)*10)+1).toString() + ' - ';
+          this.header = (values.search.length==0) ? (this.header) : (values.search + this.header) 
+          this.header = (values.country.length!=0) ? (this.header + "in " + values.country.split(',').join(' , ')) : this.header
+          let temp = (((values.page-1)*10)+10)
+          this.header2 = this.header2 + (((values.page-1)*10)+1).toString() + ' - ';
           this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
         }
 

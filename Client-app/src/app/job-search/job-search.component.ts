@@ -1,8 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router'
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
+import { valuesToPayload } from '../Interfece';
 
 @Component({
   selector: 'app-job-search',
@@ -61,15 +62,8 @@ export class JobSearchComponent implements OnInit {
   submitClicked(){
     this.check = true;
     localStorage.setItem('search',this.search)
-    if(this.country.length)
-    {
-      this.filter.addCountry(this.country);
-    }
-    if(this.search.length)
-    {
-      this.filter.addSearch(this.search);
-    }
-    this.router.navigate(['/Jobs'])
+    let payload : string = valuesToPayload(this.search,this.country,'','',0,1)
+    this.router.navigate(['/Jobs',payload])
   }
 
   rep(str : any)

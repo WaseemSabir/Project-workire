@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
+import { valuesToPayload } from '../Interfece';
+// Component Not being Used anymore 
 
 @Component({
   selector: 'app-job-one-cat',
@@ -21,17 +23,17 @@ export class JobOneCatComponent implements OnInit {
       this.filter.refresh();
       if(url.includes('Job-country'))
       {
-        this.payload = this.filter.valuesToPayload('',params.get("count")!,'','',0,1);
+        this.payload = valuesToPayload('',params.get("count")!,'','',0,1);
         this.hedo = `Jobs in ${params.get("count")!}`
       }
       else if(url.includes('Job-company'))
       {
-        this.payload = this.filter.valuesToPayload('','','',params.get("comp")!,0,1);
+        this.payload = valuesToPayload('','','',params.get("comp")!,0,1);
         this.hedo = `Jobs in ${params.get("comp")!}`
       }
       else if(url.includes('Job-category'))
       {
-        this.payload = this.filter.valuesToPayload('','',this.unrep(params.get('cat')!.replace(' Jobs','').replace('Jobs','').replace(' jobs','').replace('jobs','')),'',0,1);
+        this.payload = valuesToPayload('','',this.unrep(params.get('cat')!.replace(' Jobs','').replace('Jobs','').replace(' jobs','').replace('jobs','')),'',0,1);
         this.hedo = this.unrep(params.get("cat")!)
       }
       else if(url.includes('Job-search'))
@@ -40,7 +42,7 @@ export class JobOneCatComponent implements OnInit {
         let b = k.toLowerCase().split('-in-')
         try{
           b[0] = b[0].toLowerCase().replace('-jobs','')
-          this.payload = this.filter.valuesToPayload(b[0],b[1],'','',0,1);
+          this.payload = valuesToPayload(b[0],b[1],'','',0,1);
           this.hedo = this.unrep(b[0]) + ' in ' + b[1];
         }
         catch{}
@@ -51,12 +53,12 @@ export class JobOneCatComponent implements OnInit {
         let b = j.split('-in-')
         if(b.length==1)
         {
-          this.payload = this.filter.valuesToPayload(b[0],'','','',0,1);
+          this.payload = valuesToPayload(b[0],'','','',0,1);
           this.hedo = this.unrep(b[0])
         }
         else if(b.length==2)
         {
-          this.payload = this.filter.valuesToPayload(b[0],b[1],'','',0,1);
+          this.payload = valuesToPayload(b[0],b[1],'','',0,1);
           this.hedo = this.unrep(b[0]) + ' in ' + b[1];
         }
       }

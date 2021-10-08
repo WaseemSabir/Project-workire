@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
 import { SeoServiceService } from '../seo-service.service';
 import { environment } from '../../environments/environment';

@@ -1,0 +1,17 @@
+#! /bin/sh
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+echo "Pulling from git ..."
+git pull origin master
+echo "moving into Client Application..."
+cd /home/ubuntu/Project-workire/Client-app
+echo "in $pwd"
+echo "Running deploy service..."
+npm run deploy
+echo "Restarting apache!!!"
+sudo service apache2 restart
+echo "Restarting Nginx!!!"
+sudo service nginx restart

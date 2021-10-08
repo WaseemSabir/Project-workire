@@ -14,7 +14,6 @@ import { JobDisclaimerComponent } from './job-disclaimer/job-disclaimer.componen
 import { JobIndexComponent } from './job-index/job-index.component';
 import { JobListComponent } from './job-list/job-list.component';
 import { JobNotFoundComponent } from './job-not-found/job-not-found.component';
-import { JobOneCatComponent } from './job-redirect/job-one-cat.component';
 import { JobPositionsComponent } from './job-positions/job-positions.component';
 import { JobSinglePageComponent } from './job-single-page/job-single-page.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
@@ -27,8 +26,12 @@ const routes: Routes = [
   {path: 'Jobs/All-Companies',component: JobCompanyComponent},
   {path: 'Jobs/All-Positions',component: JobPositionsComponent},
   {path: 'Jobs/Trending-Search',component: JobTrendingSearchComponent},
-  {path: 'Job-search/:search', component: JobOneCatComponent},
-  {path: 'Job-by-position/:position', component: JobOneCatComponent},
+  {path: 'Job-search/:var', component: JobListComponent},
+  {path: 'Job-by-position/:var', component: JobListComponent},
+  {path: 'Job-category/:var', component: JobListComponent},
+  {path: 'Job-country/:var',component: JobListComponent},
+  {path: 'Job-company/:var',component: JobListComponent},
+  {path: 'trending-search/:var',component: JobListComponent},
   {path: 'Jobs', component: JobListComponent},
   {path: 'Jobs/:payload', component: JobListComponent},
   {path: 'career-advice/search/:str',component: BlogSearchComponent},
@@ -37,9 +40,6 @@ const routes: Routes = [
   {path: 'contact-us', component: ContactUsComponent},
   {path: 'building', component: UnderDevelopmentComponent},
   {path: 'professional-resume-writing-service', component: CustomResumePageComponent},
-  {path: 'Job-category/:cat', component: JobOneCatComponent},
-  {path: 'Job-country/:count',component: JobOneCatComponent},
-  {path: 'Job-company/:comp',component: JobOneCatComponent},
   {path: 'Job/:job', component: JobSinglePageComponent},
   {path: 'disclaimer', component: JobDisclaimerComponent},
   {path: 'career-advice/:url', component: BlogCardComponent},

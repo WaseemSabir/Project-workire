@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterValueService } from '../filter-value.service';
 import { environment } from '../../environments/environment';
-import { urlParseCommon } from '../Interfece';
+import { urlParseCommon, payloadToValues, valuesToPayload, getPayloadByRoute, SearchPayload } from '../Interfece';
 
 @Component({
   selector: 'app-job-list-cards',
@@ -30,17 +30,12 @@ export class JobListCardsComponent implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.paramMap.subscribe((params : any)=>{
-      this.payload = params.get("payload")!
+      let payload = params.get("payload")!
+      let variable = params.get("var")!
 
-      if(this.payload)
-      {
-        let output = this.filter.payloadToValues(this.payload);
-        this.page = output.page!;
-      }
-      else
-      {
-        this.page = 1;
-      }
+      let fil : SearchPayload = getPayloadByRoute(this.route.url,payload,variable);
+
+      this.page = fil.page;
       this.count = this.item.count;
     })
 
@@ -52,10 +47,10 @@ export class JobListCardsComponent implements OnInit {
   pageChange(ev : number)
   {
     let output : any;
-    if (this.payload) output = this.filter.payloadToValues(this.payload);
-    else output = this.filter.payloadToValues('');
+    if (this.payload) output = payloadToValues(this.payload);
+    else output = payloadToValues('');
     output.page = ev;
-    let p = this.filter.valuesToPayload(output.search,output.country,output.category,output.company,output.days,output.page)
+    let p = valuesToPayload(output.search,output.country,output.category,output.company,output.days,output.page)
     this.route.navigate(['/Jobs',p]);
   }
 

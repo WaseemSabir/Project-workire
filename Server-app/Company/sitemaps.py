@@ -66,14 +66,13 @@ class JobsInCount(Sitemap):
         for cat in catList:
             for country in countList:
                 temp = []
-                temp.append(quote(cat['SEO_NAME'].replace(' ','-')))
+                temp.append(quote(cat['SEO_NAME']))
                 temp.append(quote(country.replace(' , ','-')))
                 allList.append(temp)
         return allList
 
     def location(self,obj):
-        return ('/Job-search/{}-in-{}'.format(obj[0],obj[1]))
-
+        return ('/trending-search/{}-in-{}'.format(obj[0],obj[1]))
 
 class BlogSiteMap(Sitemap):
     changefreq = "weekly"
@@ -98,7 +97,7 @@ class JobCatSiteMap(Sitemap):
         return Category.objects.all()
 
     def location(self,obj):
-        return '/Job-category/%s' % (quote(obj.SEO_NAME.replace(' ','-')))
+        return '/Job-category/%s' % (quote(obj.SEO_NAME))
 
 class JobCompSiteMap(Sitemap):
     changefreq = "daily"
@@ -142,4 +141,4 @@ class JobTrendSiteMap(Sitemap):
         return TrendingSearch.objects.all()
 
     def location(self,obj):
-        return '/Job-search/%s' % (quote(obj.url))
+        return '/trending-search/%s' % (quote(obj.url))

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeafultLocService } from 'src/app/deafult-loc.service';
+import { DeafultLocService } from 'src/app/api-call.service';
 
 @Component({
     selector: 'app-landingpage-category',

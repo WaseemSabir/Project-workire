@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandler, HttpRequest } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
+// This includes interfaces and commonly used global functions
 export interface Filters {
     search : string,
     country : string,
@@ -11,15 +12,23 @@ export interface Filters {
     page : number
 };
 
+export interface SearchPayload {
+  search : string,
+  country : string,
+  company : string,
+  category : string,
+  days : number,
+  page : number
+};
+
 export interface Job {
     title : string,
     id : number
 };
 
 export interface HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>;
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>;
 }
-
 
 // Helper Global Functions
 
@@ -31,10 +40,10 @@ export function two_letter_to_full(two_letter : string) {
 
 
 // url parse for Job Company Logo
-export function urlParseCommon (str : string,comp : string) : string { 
+export function urlParseCommon(str : string,comp : string) : string { 
     if(str.includes("default.jpg"))
     {
-      return environment.APIEndpoint + "/" + (comp[0].toUpperCase() + ".png")
+      return environment.APIEndpoint + "/mediaimage/" + (comp[0].toUpperCase() + ".png")
     }
     else if(str.includes("http"))
     {
@@ -50,4 +59,86 @@ export function urlParseCommon (str : string,comp : string) : string {
     {
       return environment.APIEndpoint + str;
     }
+}
+
+// Determine payload values by route
+export function getPayloadByRoute(route : string, payload : string, variable : string) : SearchPayload {
+  if(payload)
+  {
+    return payloadToValues(payload);
+  }
+  else if(route.includes('Job-by-position'))
+  {
+    let payload_temp = valuesToPayload(variable,'','','',0,1)
+    return payloadToValues(payload_temp);
+  }
+  else if(route.includes('Job-country'))
+  {
+    let payload_temp = valuesToPayload('',variable,'','',0,1)
+    return payloadToValues(payload_temp);
+  }
+  else if(route.includes('Job-company'))
+  {
+    let payload_temp = valuesToPayload('','','',variable,0,1)
+    return payloadToValues(payload_temp);
+  }
+  else if(route.includes('trending-search'))
+  {
+    let arr = variable.split('-in-')
+    let search : string = arr[0].replace('-Jobs','').replace('-jobs','')
+    search = search.replace('Jobs','').replace('jobs','')
+    let country : string = arr[1] 
+    let payload_temp = valuesToPayload(search,country,'','',0,1)
+    return payloadToValues(payload_temp);
+  }
+  else if(route.includes('Job-category'))
+  {
+    
+  }
+
+  return payloadToValues("");
+}
+
+export function payloadToValues(payload : string) : SearchPayload
+{
+  let search : string = "" , country : string = "", category : string = "", company : string = ""
+  let days = 0
+  let page = 1
+
+  let splited = payload.split("&")
+  
+  splited.forEach((each : any)=>{
+    if(each.includes("search:")) search = each.replace("search:","")
+    else if(each.includes("country:")) country = each.replace("country:","")
+    else if(each.includes("category:")) category = each.replace("category:","")
+    else if(each.includes("company:")) company = each.replace("company:","")
+    else if(each.includes("days:")){ 
+      if(Number(each.replace("days:",""))) days = Number(each.replace("days:",""))
+    }
+    else if(each.includes("page:")){ 
+      if(Number(each.replace("page:",""))) page = Number(each.replace("page:",""))
+    }
+    else console.log("Ignored: ",each)
+  })
+  let values : SearchPayload = {
+    search : search,
+    country : country,
+    company : company,
+    category : category,
+    days : days,
+    page : page
+  };
+  return values
+}
+
+export function valuesToPayload(search : string, country : string, category : string, company : string,daysAgo : number, page: number)
+{
+  let payload = ""
+  if (search.length) payload +=`search:${search}&`
+  if (country.length) payload +=`country:${country}&`
+  if (category.length) payload +=`category:${category}&`
+  if (company.length) payload +=`company:${company}&`
+  payload +=`days:${daysAgo}&`
+  payload +=`page:${page}`
+  return payload
 }

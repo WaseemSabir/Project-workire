@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row pb-5 pt-2">
             <div class="col-md-4 col-6" *ngFor="let team of allCat">
-                <a [routerLink]="['/Job-by-position',team.url]">{{team.search}}</a>
+                <a [routerLink]="['/trending-search',team.url]">{{team.search}}</a>
                 <hr class="mt-0">
             </div>
         </div>

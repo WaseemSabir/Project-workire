@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from './../environments/environment';
-import { two_letter_to_full } from './Interfece';
+import { environment } from '../environments/environment';
+import { two_letter_to_full, SearchPayload } from './Interfece';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +74,10 @@ export class DeafultLocService {
   // Job related Reterival from Server
   public getAllJobs(s : string, count : string, cat : string, comp : string, day : number, page : any) {
     return this.httpClient.post<any>(this.MY_SEREVER + "company/search",{'search' : s,'Country' : count, 'category' : cat, 'companies' : comp,'day': day,'page': page})
+  }
+
+  public getAllJobsSearchPayload(payload : SearchPayload) {
+    return this.httpClient.post<any>(this.MY_SEREVER + "company/search",payload)
   }
 
   public getFilterSuggestions(search : string) {

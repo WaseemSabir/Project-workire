@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FilterValueService } from '../filter-value.service';
-import { Filters } from '../Interfece'
+import { Filters, valuesToPayload, SearchPayload, getPayloadByRoute } from '../Interfece'
 import { ActivatedRoute, Router} from '@angular/router';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 
 @Component({
   selector: 'app-job-list-filter',
@@ -57,30 +57,21 @@ export class JobListFilterComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe((params : any)=>{
       let payload = params.get("payload")!
-      let search : string= "",country : string="",category : string="",company : string="",days = 0, page = 1
-      
-      if(payload)
-      {
-        let output = this.filter.payloadToValues(payload);
-        search = output.search!
-        country = output.country!
-        category = output.category!
-        company = output.company!
-        days = output.days!
-        page = output.page!
-      }
+      let variable = params.get("var")!
 
-      this.filter.setFilterCustom(search,country,category,company,days,page);
+      let fil : SearchPayload = getPayloadByRoute(this.route.url,payload,variable);
+
+      this.filter.setFilterCustom(fil.search,fil.country,fil.category,fil.company,fil.days,fil.page);
 
       this.filterChips = {
-        search : this.filterEmpty(search),
-        location_on : this.filterEmpty(country),
-        category : this.filterEmpty(category),
-        home : this.filterEmpty(company)
+        search : this.filterEmpty(fil.search),
+        location_on : this.filterEmpty(fil.country),
+        category : this.filterEmpty(fil.category),
+        home : this.filterEmpty(fil.company)
       }
-      this.days = days;
+      this.days = fil.days;
 
-      this.loc.getFilterSuggestions(search).toPromise()
+      this.loc.getFilterSuggestions(fil.search).toPromise()
       .then((res : any)=>{
         this.countryList = Object.keys(res.Countrycount)
         this.catList = Object.keys(res.categorycount)
@@ -200,7 +191,7 @@ export class JobListFilterComponent implements OnInit {
   {
     let payload = ""
     this.filter.filter$.subscribe((res : Filters)=>{
-      payload = this.filter.valuesToPayload(res.search,res.country,res.category,res.company,res.days,0)
+      payload = valuesToPayload(res.search,res.country,res.category,res.company,res.days,0)
       this.route.navigate(['/Jobs',payload])
     })
   }

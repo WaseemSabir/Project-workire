@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeoServiceService } from '../seo-service.service';
 import { environment } from '../../environments/environment';
-import { DeafultLocService } from '../deafult-loc.service';
+import { DeafultLocService } from '../api-call.service';
 
 @Component({
   selector: 'app-about-us',

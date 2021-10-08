@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { DeafultLocService } from '../../deafult-loc.service';
+import { DeafultLocService } from '../../api-call.service';
 import { environment } from '../../../environments/environment';
 import { urlParseCommon } from 'src/app/Interfece';
 
