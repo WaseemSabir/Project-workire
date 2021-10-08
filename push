@@ -11,6 +11,10 @@ then
    git add .
    git commit -m "Bugs Fixed and performance improved"
    git push origin master
+
+   echo "Pushed all changes"
+   echo "Current Status"
+   git status
 else
    echo "Changes not pushed!"
    echo "Exiting!"
