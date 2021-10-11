@@ -43,6 +43,8 @@ urlpatterns = [
 
     path('getFeaturedCompanies', JobViews.getFeaturedCompany.as_view()),
 
+    path('getFilterSuggestions', JobViews.getFilterSuggestions.as_view()),
+
     path('getFilterSuggestions/<str:search>', JobViews.getFilterSuggestions.as_view()),
 
     path('FeaturedJobFrontPage/<str:country>', JobViews.FeaturedJobFrontPage.as_view()),

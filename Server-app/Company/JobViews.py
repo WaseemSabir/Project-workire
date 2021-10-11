@@ -257,7 +257,11 @@ class getFilterSuggestions(APIView):
     @method_decorator(cache_page(60*60*2))
     def get(self, request):
         try:
-            search = self.kwargs.get('search').split(",")
+            try:
+                search = self.kwargs.get('search').split(",")
+            except:
+                search = []
+                
             search = filter(isNotEmptyString, search)
 
             lookup = Q()
