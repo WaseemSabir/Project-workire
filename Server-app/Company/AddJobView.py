@@ -39,6 +39,7 @@ def read_xml_from_url(url, count, abs_path):
         print(f"{count}. Found and deleted the previous XML file...")
     except:
         print(f"{count}. No XML file found! Carrying on...")
+        return None,True
 
     try:
         print(f"{count}. Now getting the XML files")
@@ -54,12 +55,12 @@ def read_xml_from_url(url, count, abs_path):
             data = (read_xml(abs_path+i))
         print(f"{count}. file read successfully...")
         
-        return data
+        return data,False
 
     except Exception as e:
         print(f"{count}. unable to retreive or read XML file... ")
         print(f"{count}. Exception : ",e)
-        return {}
+        return None,True
 
 
 # Takes company and job data objects and tries to save them in db
@@ -161,15 +162,15 @@ def post():
         curr_link = count % len(urls)
 
         # To-do : to make paths dynamic 
-        abs_path = '/home/ubuntu/Project-workire/Server-app'
+        abs_path = '/home/ubuntu/Project-workire/Server-app/'
 
-        data = read_xml_from_url(urls[curr_link], count, abs_path)
+        data, file_read_err = read_xml_from_url(urls[curr_link], count, abs_path)
         for job in data:
             check = Job.objects.filter(DisplayReference=job['DisplayReference'])
             if not len(check):
                 process_job_data(job,count)
-
-        delete_jobs(count, data)
+        if file_read_err:
+            delete_jobs(count, data)
         save_count(count+1)
 
     except Exception as e:

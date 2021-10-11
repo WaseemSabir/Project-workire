@@ -62,7 +62,9 @@ export class JobSearchComponent implements OnInit {
   submitClicked(){
     this.check = true;
     localStorage.setItem('search',this.search)
-    let payload : string = valuesToPayload(this.search,this.country,'','',0,1)
+
+    let country : string = this.country.replace(' , ','-')
+    let payload : string = valuesToPayload(this.search,country,'','',0,1)
     this.router.navigate(['/Jobs',payload])
   }
 
