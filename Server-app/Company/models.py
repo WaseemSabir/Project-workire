@@ -95,6 +95,7 @@ class Job(models.Model):
     AdditionalClassification4 = models.TextField(null=True,blank=True)
     LogoURL = models.ImageField(null=True,default='default.jpg')
     JobType = models.TextField(null=True)
+    Region = models.IntegerField(null=False, default=1)
 
     def __str__(self):
         return self.Position

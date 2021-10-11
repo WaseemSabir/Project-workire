@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
-import { Filters } from '../Interfece'
+import { getPayloadByRoute, SearchPayload, getMonthAndYear } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { SeoServiceService } from '../seo-service.service';
 
@@ -27,15 +27,19 @@ export class JobSeoPartComponent implements OnInit {
 
   @Input() data : any = {};
 
-  constructor(private route : Router,private filter : FilterValueService,private loc : DeafultLocService,private seo : SeoServiceService) { }
+  constructor(private route : Router,private filter : FilterValueService,private loc : DeafultLocService,private seo : SeoServiceService, private active : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.filter.filter$.subscribe((res : Filters)=>{
-      this.dataGenerate(res);
+    this.active.paramMap
+    .subscribe((params : any)=>{
+      let payload = params.get("payload")!
+      let variable = params.get("var")!
+
+      let values : SearchPayload = getPayloadByRoute(this.route.url,payload,variable)
     })
   }
 
-  dataGenerate(fil : Filters)
+  dataGenerate(fil : SearchPayload)
   {
     let checking = false;
     if(!this.firstTime || this.route.url=='/Jobs' || this.route.url.includes('Job-search'))
@@ -48,7 +52,6 @@ export class JobSeoPartComponent implements OnInit {
       this.header3 = `Who are the top companies hiring for ${search} Jobs in ${fil.country}?`
       let desc = "Top " + search + 'Jobs' + SeoLoc + ".  Many new " + search + 'Jobs' + SeoLoc + " are updated daily. Get one step closer to your dream job by easily browsing and applying to various jobs on platform."
       this.updatePageSeo(`Find latest ${search} Jobs ${SeoLoc}`,desc,fil)
-
       checking = true
     }
     else
@@ -153,7 +156,7 @@ export class JobSeoPartComponent implements OnInit {
     this.firstTime = false;
   }
 
-  updatePageSeo(header : string,desc : string,fil : Filters)
+  updatePageSeo(header : string,desc : string,fil : SearchPayload)
   {
     let SeoLoc = (fil.country.length!=0) ? ("in " + fil.country.split(',').join(' , ')) : ''
 
@@ -161,10 +164,7 @@ export class JobSeoPartComponent implements OnInit {
     let url = this.domain + this.route.url
     let type = 'job'
 
-    let date = new Date();
-    const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-
-    let title = `${header} (${monthNames[date.getMonth()]}-${date.getFullYear()}) | Workire`
+    let title = `${header} (with Salaries) ${getMonthAndYear()} | Workire`
 
     this.seo.updateSeo(title,desc,keywords,type,url);
     this.seo.createCanonicalURL(url);

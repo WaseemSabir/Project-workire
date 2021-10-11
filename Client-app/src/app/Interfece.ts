@@ -61,6 +61,10 @@ export function urlParseCommon(str : string,comp : string) : string {
     }
 }
 
+export function toProperCase(str : string) {
+  return str.replace(/\w\S*/g, function(txt : string){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
 // Determine payload values by route
 export function getPayloadByRoute(route : string, payload : string, variable : string) : SearchPayload {
   if(payload)
@@ -84,16 +88,18 @@ export function getPayloadByRoute(route : string, payload : string, variable : s
   }
   else if(route.includes('trending-search'))
   {
-    let arr = variable.split('-in-')
+    let arr = variable.toLocaleLowerCase().split('-in-')
     let search : string = arr[0].replace('-Jobs','').replace('-jobs','')
     search = search.replace('Jobs','').replace('jobs','')
-    let country : string = arr[1] 
+    search = toProperCase(search.replace(/-/g,' '))
+    let country : string = toProperCase(arr[1].replace(/-/g,' '))
     let payload_temp = valuesToPayload(search,country,'','',0,1)
     return payloadToValues(payload_temp);
   }
   else if(route.includes('Job-category'))
   {
-    
+    let payload_temp = valuesToPayload('','',variable,'',0,1)
+    return payloadToValues(payload_temp);
   }
 
   return payloadToValues("");
@@ -141,4 +147,11 @@ export function valuesToPayload(search : string, country : string, category : st
   payload +=`days:${daysAgo}&`
   payload +=`page:${page}`
   return payload
+}
+
+export function getMonthAndYear() {
+  let date = new Date();
+  const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+
+  return `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
 }

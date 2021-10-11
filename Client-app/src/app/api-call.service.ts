@@ -81,7 +81,7 @@ export class DeafultLocService {
   }
 
   public getFilterSuggestions(search : string) {
-    return this.httpClient.post<any>(this.MY_SEREVER + "company/getFilterSuggestions",{'search' : search})
+    return this.httpClient.get(this.MY_SEREVER + "company/getFilterSuggestions/"+ search)
   }
 
   public jobById(jobID : number) {

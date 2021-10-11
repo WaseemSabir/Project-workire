@@ -231,7 +231,11 @@ class Search(APIView):
 
             lookup = Q()
             for i in category:
-                lookup = lookup | Q(Classification__icontains=i)
+                temp = i
+                cat_seo = Category.objects.filter(SEO_NAME=i)
+                if len(cat_seo):
+                    temp = cat_seo[0].Name
+                lookup = lookup | Q(Classification__icontains=temp)
 
             lookup2.append(lookup)
 
@@ -251,10 +255,10 @@ class Search(APIView):
 
 class getFilterSuggestions(APIView):
     @method_decorator(cache_page(60*60*2))
-    def post(self, request):
+    def get(self, request):
         try:
-            data = request.data
-            search = filter(isNotEmptyString, data['search'].split(","))
+            search = self.kwargs.get('search').split(",")
+            search = filter(isNotEmptyString, search)
 
             lookup = Q()
 
