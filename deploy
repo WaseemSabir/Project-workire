@@ -1,9 +1,5 @@
 #! /bin/sh
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
-  exit
-fi
 echo "Pulling from git ..."
 git pull origin master
 echo "moving into Client Application..."
