@@ -160,11 +160,14 @@ def post():
 
         curr_link = count % len(urls)
 
+        # To-do : to make paths dynamic 
         abs_path = '/home/ubuntu/Project-workire/Server-app'
 
         data = read_xml_from_url(urls[curr_link], count, abs_path)
         for job in data:
-            process_job_data(job,count)
+            check = Job.objects.filter(DisplayReference=job['DisplayReference'])
+            if not len(check):
+                process_job_data(job,count)
 
         delete_jobs(count, data)
         save_count(count+1)
