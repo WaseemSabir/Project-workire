@@ -12,6 +12,7 @@ from django.core.management.color import no_style
 from django.db import connection
 from dateutil.parser import parse
 from .globalFunc import save_count, get_count
+from django.conf import settings
 
 # Helper Functions
 def read_tag(list):
@@ -35,11 +36,10 @@ def read_xml(file):
 def read_xml_from_url(url, count, abs_path):
     try:
         print(f"{count}. Checking for xml file in ...")
-        os.remove(f'{abs_path}/Jobs.xml')
+        os.remove(os.path.join(abs_path,'Jobs.xml'))
         print(f"{count}. Found and deleted the previous XML file...")
     except:
         print(f"{count}. No XML file found! Carrying on...")
-        return None,True
 
     try:
         print(f"{count}. Now getting the XML files")
@@ -52,7 +52,7 @@ def read_xml_from_url(url, count, abs_path):
         data = None
         for i in f.namelist():
             print(f"{count}. Trying to read file")
-            data = (read_xml(abs_path+i))
+            data = read_xml(os.path.join(abs_path,i))
         print(f"{count}. file read successfully...")
         
         return data,False
@@ -85,9 +85,8 @@ def save_job(i,company, count):
                     Region=count
                 )
         job.save()
-        return True
-    except:
-        return False
+    except Exception as e:
+        print(f"{count}: Exception while saving : ", e)
 
 # Takes one job data and process it and triggers save_job func
 def process_job_data(i, count):
@@ -97,6 +96,7 @@ def process_job_data(i, count):
             datatime[0] = datatime[0].split("-")
             datatime[1] = datatime[1].split(":")
             i['PostDate'] = datetime(int(datatime[0][0]), int(datatime[0][1]), int(datatime[0][2]), int(datatime[1][0]), int(datatime[1][1]), int(datatime[1][2]))
+            start = parse(i['PostDate'])
         except:
             i['PostDate'] = datetime.now()
 
@@ -121,9 +121,7 @@ def process_job_data(i, count):
             category.save()
 
         company = Company.objects.filter(Name=i['AdvertiserName'])[0]
-        saved = save_job(i,company, count)
-        if not saved:
-            print(f"{count}. Exception: Failed to save a job via save_job\n")
+        save_job(i,company, count)
     
     except Exception as e:
         print(f"{count}. Exception: Failed to save a job\n",e,'\n')
@@ -161,17 +159,18 @@ def post():
 
         curr_link = count % len(urls)
 
-        # To-do : to make paths dynamic 
-        abs_path = '/home/ubuntu/Project-workire/Server-app/'
+        abs_path = settings.BASE_DIR
 
-        data, file_read_err = read_xml_from_url(urls[curr_link], count, abs_path)
+        data, file_read_err = read_xml_from_url(urls[curr_link], curr_link, abs_path)
         for job in data:
             check = Job.objects.filter(DisplayReference=job['DisplayReference'])
             if not len(check):
-                process_job_data(job,count)
-        if file_read_err:
-            delete_jobs(count, data)
-        save_count(count+1)
+                process_job_data(job,curr_link)
+        
+        if not file_read_err:
+            delete_jobs(curr_link, data)
+
+        save_count(curr_link+1)
 
     except Exception as e:
         print("Mega Exception: Post function errored out!\n", e)
@@ -180,5 +179,5 @@ def post():
 def start():
     if os.environ.get('RUN_MAIN') != 'true':
         scheduler = BackgroundScheduler()
-        scheduler.add_job(post, 'interval', minutes = 2*60)
+        scheduler.add_job(post, 'interval', minutes = 60*2)
         scheduler.start()

@@ -1,10 +1,11 @@
 import pickle
 import os
+from django.conf import settings
 
 # To-do : to make all the paths dynamic
 
 def save_count(count):
-    path = '/home/ubuntu/Project-workire/Server-app/Company'
+    path = os.path.join(settings.BASE_DIR, 'Company')
     to_open = os.path.join(path,'count.data')
     with open(to_open, 'wb') as file:
         pickle.dump({
@@ -12,7 +13,7 @@ def save_count(count):
         }, file)
 
 def get_count():
-    path = '/home/ubuntu/Project-workire/Server-app/Company'
+    path = os.path.join(settings.BASE_DIR, 'Company')
     to_open = os.path.join(path,'count.data')
     with open(to_open, 'rb') as file:
         obj = pickle.load(file)

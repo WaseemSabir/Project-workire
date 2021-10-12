@@ -49,7 +49,7 @@ export class LandingPageCategory implements OnInit {
                 try{
                     if(val.SEO_NAME)
                     {
-                        this.all['Jobs By Category'].fullData.push([val.SEO_NAME,'/Job-category/'+val.SEO_NAME.replace(/ /g,'-')]);
+                        this.all['Jobs By Category'].fullData.push([val.SEO_NAME,'/Job-category/'+val.SEO_NAME]);
                     }  
                 }
                 catch{}
@@ -79,7 +79,7 @@ export class LandingPageCategory implements OnInit {
         this.loc.getPositions().toPromise()
         .then((res : any)=>{
             this.all['Jobs By Designation'].fullData = res.map((val : any)=>{
-                return [val.designation+ ' Jobs','/Job-by-position/'+val.designation.replace(/ /g,'-')]
+                return [val.designation+ ' Jobs','/Job-by-position/'+val.designation]
             })
             this.initData();
         })
@@ -90,7 +90,7 @@ export class LandingPageCategory implements OnInit {
             this.all['Trending Searches'].fullData = res.map((val : any)=>{
                 val.search = val.search.replace("United Arab Emirates","UAE") 
                 val.search = val.search.replace("Manufacturing Operations","Operations")
-                return [val.search,'/Job-search/'+val.url];
+                return [val.search,'/trending-search/'+val.url];
             })
             this.initData();
         })
