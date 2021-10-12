@@ -144,6 +144,10 @@ export class FilterValueService {
     }
   }
 
+  getFilter() : Filters {
+    return this.filter;
+  }
+
   _title = new BehaviorSubject<Job>({title:'',id:0})
   title$ = this._title.asObservable();
 

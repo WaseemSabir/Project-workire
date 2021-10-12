@@ -12,6 +12,21 @@ export interface Filters {
     page : number
 };
 
+export interface SeoObject {
+  header : string,
+  description : string,
+  show : boolean
+}
+
+export interface SeoPaths {
+  isJobs: boolean,
+  isPosition: boolean,
+  isCountry: boolean,
+  isCompany : boolean,
+  isCategory : boolean,
+  isTrending: boolean
+}
+
 export interface SearchPayload {
   search : string,
   country : string,
@@ -126,6 +141,10 @@ export function payloadToValues(payload : string) : SearchPayload
     }
     else console.log("Ignored: ",each)
   })
+  if(page<1)
+  {
+    page = 1;
+  }
   let values : SearchPayload = {
     search : search,
     country : country,
@@ -145,6 +164,10 @@ export function valuesToPayload(search : string, country : string, category : st
   if (category.length) payload +=`category:${category}&`
   if (company.length) payload +=`company:${company}&`
   payload +=`days:${daysAgo}&`
+  if(page<1)
+  {
+    page = 1;
+  }
   payload +=`page:${page}`
   return payload
 }
@@ -154,4 +177,43 @@ export function getMonthAndYear() {
   const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
 
   return `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
+}
+
+
+export function pathMatcher(route : string, payload : string) : SeoPaths {
+  let isJobs: boolean = false, isPosition: boolean = false, isCountry: boolean = false, isCompany : boolean = false, isCategory : boolean = false, isTrending: boolean = false;
+  
+  if(payload || route=='/Jobs')
+  {
+    isJobs = true;
+  }
+  else if(route.includes('Job-by-position'))
+  {
+    isPosition = true;
+  }
+  else if(route.includes('Job-country'))
+  {
+    isCountry = true;
+  }
+  else if(route.includes('Job-company'))
+  {
+    isCompany = true;
+  }
+  else if(route.includes('trending-search'))
+  {
+    isTrending = true;
+  }
+  else if(route.includes('Job-category'))
+  {
+    isCategory = true;
+  }
+
+  return {
+    isJobs: isJobs,
+    isPosition: isPosition,
+    isCountry: isCountry,
+    isCompany : isCompany,
+    isCategory : isCategory,
+    isTrending: isTrending
+  }
 }

@@ -190,10 +190,9 @@ export class JobListFilterComponent implements OnInit {
   routeRefresh()
   {
     let payload = ""
-    this.filter.filter$.subscribe((res : Filters)=>{
-      payload = valuesToPayload(res.search,res.country,res.category,res.company,res.days,0)
-      this.route.navigate(['/Jobs',payload])
-    })
+    let res : Filters = this.filter.getFilter();
+    payload = valuesToPayload(res.search,res.country,res.category,res.company,res.days,1)
+    this.route.navigate(['/Jobs',payload])
   }
 
   setTime()

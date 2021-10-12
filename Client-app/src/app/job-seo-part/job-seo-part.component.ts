@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
-import { getPayloadByRoute, SearchPayload, getMonthAndYear } from '../Interfece'
+import { getPayloadByRoute, SearchPayload, getMonthAndYear, SeoObject, pathMatcher, SeoPaths } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { SeoServiceService } from '../seo-service.service';
 
@@ -13,15 +13,10 @@ import { SeoServiceService } from '../seo-service.service';
 })
 export class JobSeoPartComponent implements OnInit {
 
-  header : string = ''
-  headerDesc : string = ''
-  header2 : string = ''
-  list2 : any[] = []
-  header3 : string = ''
-  list3 : any[] = []
-  firstTime : boolean = true;
-  show : boolean[] = [false,false,false]
-  valid : boolean = false
+  seoObject : SeoObject[] = []
+  valid : boolean = false;
+
+  FilterData : any = {}
 
   domain : string = environment.APIEndpoint;
 
@@ -35,125 +30,104 @@ export class JobSeoPartComponent implements OnInit {
       let payload = params.get("payload")!
       let variable = params.get("var")!
 
+      if(this.data) this.valid = this.data.count;
+
       let values : SearchPayload = getPayloadByRoute(this.route.url,payload,variable)
+
+      this.loc.getFilterSuggestions(values.search).subscribe(
+        (data : any) =>{
+          this.FilterData = data;
+          this.dataGenerate(values, payload, variable);
+        }
+      )
+
+      this.dataGenerate(values, payload, variable);
     })
   }
 
-  dataGenerate(fil : SearchPayload)
+  dataGenerate(payload : SearchPayload, payload_from_url : string, variable : string)
   {
-    let checking = false;
-    if(!this.firstTime || this.route.url=='/Jobs' || this.route.url.includes('Job-search'))
-    {
-      let SeoLoc = (fil.country.length!=0) ? ("in " + fil.country.split(',').join(' , ')) : '';
-      let search = fil.search;
-      this.header =  `More about ${search} Jobs ${SeoLoc}`
-      this.headerDesc = `Many ${search} jobs ${SeoLoc} are available in many fields, by top employers.`
-      this.header2 = `What type of ${search} jobs in ${SeoLoc} are available?`
-      this.header3 = `Who are the top companies hiring for ${search} Jobs in ${fil.country}?`
-      let desc = "Top " + search + 'Jobs' + SeoLoc + ".  Many new " + search + 'Jobs' + SeoLoc + " are updated daily. Get one step closer to your dream job by easily browsing and applying to various jobs on platform."
-      this.updatePageSeo(`Find latest ${search} Jobs ${SeoLoc}`,desc,fil)
-      checking = true
-    }
-    else
-    {
-      if(this.route.url.includes('Job-country'))
-      {
-        this.header = `More About jobs in ${fil.country}`;
-        this.headerDesc = `There are many open jobs offered by different companies in ${fil.country}.`
-        this.header2 = `What type of  jobs in ${fil.country} are available?`
-        this.header3 = `Who are the top companies hiring for Jobs in ${fil.country}?`
-        checking = true;
-
-        this.updatePageSeo(`Jobs in ${fil.country}`,this.headerDesc,fil);
-      }
-      else if(this.route.url.includes('Job-category'))
-      {
-        let k = this.route.url.split('/');
-        let p = k.slice(k.length-1,k.length)[0].replace(/-/g,' ')
-        this.header = `More about ${p}`;
-        this.headerDesc = `Many ${p} are being offered in different locations by different employers.Browse and apply easily`
-        this.header2 = `Similar Categories to ${p}`
-        this.header3 = `Who are the top companies hiring for ${p}? `
-        checking = true;
-
-        this.updatePageSeo(`${p}`,this.headerDesc,fil);
-      }
-      else if(this.route.url.includes('Job-company'))
-      {
-        let p = fil.company;
-        this.header = `More about ${p}`;
-        this.headerDesc = `Jobs in many differnt categories are being offered by ${p}. Easily browse and apply!`
-        this.header2 = `People looking for jobs in ${p} also search for `
-        this.header3 = `Other top companies hiring? `
-        checking = true;
-
-        this.updatePageSeo(`${p}`,this.headerDesc,fil);
-      }
-      else if(this.route.url.includes('Job-by-position'))
-      {
-        let k = this.route.url.split('/');
-        let p = k.slice(k.length-1,k.length)[0].replace(/-/g,' ')
-        this.header = `More about ${p}`;
-        this.headerDesc = `Many ${p} jobs are being offered in different locations by different employers. Browse and apply easily!`
-        this.header2 = `People looking for ${p} jobs also search for `
-        this.header3 = `Who are the top companies hiring for ${p} jobs? `
-        checking = true;
-
-        this.updatePageSeo(`${p} Jobs`,this.headerDesc,fil);
-      }
-      else
-      {
-        checking = false;
-      }
+    this.seoObject = []
+    let paths : SeoPaths = pathMatcher(this.route.url,payload_from_url);
+    let main : string = ''
+    let count : number = 0
+    let category : string = ''
+    let country : string = ''
+    let company : string = ''
+    let desc : string = ''
+    if(this.data) {
+      count = this.data.count;
     }
 
-    let check = false
-    try {
-      check = checking && this.data.count
-      this.valid = this.data.count
-    }
-    catch{}
-
-    if(check)
-    {
-      let country = ''
-      let c_within = '' 
-      let c_3 = ''
-
-      if(this.route.url.includes('Job-country'))
-      {
-        country = fil.country;
-        c_within = `-in-${fil.country}`
-        c_3 = ` in ${fil.country}`
-      }
-
-      let temp = this.data.categorycount
-      temp = Object.keys(temp).sort((a : any,b : any)=>{
-        return (temp[b]-temp[a]);
-      })
-
-      this.list2=[]
-      for(let cat of temp.slice(0,5))
-      {
-        this.loc.seoCat(cat).toPromise()
-        .then((seoData : any)=>{
-          seoData = seoData.category[0]
-          this.list2.push([seoData.SEO_NAME + c_3,'/Job-search/'+seoData.SEO_NAME.replace(/ /g,'-')+c_within])
-        })
-        .catch()
-      }
-      
-      temp = this.data.companiescount;
-      temp = Object.keys(temp).sort((a : any,b : any)=>{
-        return (temp[b]-temp[a]);
-      })
-
-      this.list3=temp.slice(0,5).map((val : any)=>{
-        return [val,'/Job-company/'+val];
-      })
+    if(Object.keys(this.FilterData).length) {
+      let temp = Object.keys(this.FilterData['categorycount']).slice(0,5);
+      category =  this.reduceToLinks(temp, '/Job-category')
+      temp = Object.keys(this.FilterData['Countrycount']).slice(0,5);
+      country =  this.reduceToLinks(temp, '/Job-country')
+      temp = Object.keys(this.FilterData['companiescount']).slice(0,5);
+      company =  this.reduceToLinks(temp, '/Job-company')
     }
 
-    this.firstTime = false;
+    if (paths.isJobs) {
+      let temp : string = payload.country.length ? `in ${payload.country}` : '';
+      main = payload.search + ' Jobs ' + temp;
+    }
+    else {
+      main = variable.toLowerCase().includes('jobs') ? variable : variable + ' Jobs';
+    }
+
+    if(paths.isJobs || paths.isCountry || paths.isCategory || paths.isCompany) {
+      desc = `Apply for the best ${main}.New careers in “location”  are added daily on Workire.com. Apply quickly to various ${main} openings that are hiring near you`
+    }
+    else {
+      desc = `Top ${main}. Many new ${main} are updated daily.`
+    }
+
+    this.updatePageSeo(main,desc,payload);
+
+    let seo_one : SeoObject = {
+      header: `What should I search on Workire to find ${main}?`,
+      description: `People who usually search for ${main} also look for ${category}. If you're getting few results, try a more general search term. Using a more generic term can help you land an advanced list of vacancies that suit your qualifications. If you're getting irrelevant result, try a more narrow and specific term.`,
+      show: false
+    }
+    this.seoObject.push(seo_one);
+
+    let seo_two : SeoObject = {
+      header: `How many ${main} are available in Workire?`,
+      description: `There are almost ${count} ${main} available on workire.com right now. We keep a fair database of various job vacancies and the list of specific ones can easily be searched by typing the keyword in the respective tabs.`,
+      show: false
+    }
+    this.seoObject.push(seo_two);
+
+    let seo_3 : SeoObject = {
+      header: `Who are the top companies hiring for ${main}`,
+      description: `There are many companies advertising ${main} including ${company}. Since, we post vacancies on our website daily, it’s necessary to be regularly updated with the list for the names of top companies that are hiring keep changing.`,
+      show: false
+    }
+    this.seoObject.push(seo_3);
+
+    if(!paths.isCountry) {
+      let seo_4 : SeoObject = {
+        header: "Where are the majority of these jobs being advertised?",
+        description: `You can find the majority of ${main} in ${country}. You can easily assess the list on each locations to finalize what you really have to choose to apply.`,
+        show: false
+      }
+      this.seoObject.push(seo_4);
+    }
+
+    let seo_5 : SeoObject = {
+      header: `What other similar jobs are there to ${main}?`,
+      description: `You can find the majority of ${main} in ${country}. You can easily assess the list on each locations to finalize what you really have to choose to apply.`,
+      show: false
+    }
+    this.seoObject.push(seo_5);
+
+    let seo_6 : SeoObject = {
+      header: "How to make an ATS resume?",
+      description: "ATS or the Applicant Tracking System is the most commonly used software these days for the efficient management of the application process. Workire offers ATS friendly resume builder to help the job seekers get the perfect resume for the job hunt.",
+      show: false
+    }
+    this.seoObject.push(seo_6);
   }
 
   updatePageSeo(header : string,desc : string,fil : SearchPayload)
@@ -170,8 +144,24 @@ export class JobSeoPartComponent implements OnInit {
     this.seo.createCanonicalURL(url);
   }
 
+  reduceToLinks(arr : any[], linkStart: string) {
+    let reduced : string = '';
+    for(let i of arr)
+    {
+      if(i==arr[arr.length-1])
+      {
+        reduced += `and <a href='${linkStart}/${i}'>${i}</a>`
+      }
+      else
+      {
+        reduced += ` <a href='${linkStart}/${i}'>${i}</a>, `
+      }
+    }
+    return reduced;
+  }
+
   showClick(i : number)
   {
-    this.show[i] = !this.show[i];
+    this.seoObject[i].show = !this.seoObject[i].show;
   }
 }
