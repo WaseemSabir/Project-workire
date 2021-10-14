@@ -217,3 +217,19 @@ export function pathMatcher(route : string, payload : string) : SeoPaths {
     isTrending: isTrending
   }
 }
+
+export function getHeaderFromRoute(route : string, payload : string, variable : string, count : number, values : SearchPayload) {
+  let paths = pathMatcher(route, payload);
+  let header = '';
+  if(paths.isJobs) {
+    header = ' Jobs ';
+    header = (values.search.length==0) ? (header) : (values.search + header) 
+    header = (values.country.length!=0) ? (header + "in " + values.country.split(',').join(' , ')) : header
+  }
+  else {
+    let cleaned_var : string = toProperCase(variable.replace(/-/g,' '))
+    header = variable.toLowerCase().includes('jobs') ? cleaned_var : cleaned_var+ ' Jobs'
+  }
+  header = count.toString() + '+ ' + header
+  return header;
+}

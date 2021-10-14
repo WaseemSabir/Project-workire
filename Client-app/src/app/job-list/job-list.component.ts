@@ -1,9 +1,9 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../api-call.service';
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
-import { Job, SearchPayload, getPayloadByRoute } from '../Interfece'
+import { Job, SearchPayload, getPayloadByRoute, getHeaderFromRoute } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -17,7 +17,8 @@ export class JobListComponent implements OnInit {
   public isMobile : boolean = false;
   count : number = 0;
 
-  @Input() header : string = '';
+  header : string = '';
+
   first : boolean = true;
   header2 : string = ' Jobs Found: Showing '
 
@@ -33,8 +34,6 @@ export class JobListComponent implements OnInit {
   toggleView : boolean = false;
 
   searchFailed : any[] = []
-
-  @Input() payloadFromAbove : string = ''
 
   constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router) { }
 
@@ -77,18 +76,8 @@ export class JobListComponent implements OnInit {
         this.loaded = true;
         this.count = this.data.count;
 
-        if(!this.header || !this.first)
-        {
-          this.header = ' Jobs ';
-          this.header2 = 'Showing '
-          this.header = (values.search.length==0) ? (this.header) : (values.search + this.header) 
-          this.header = (values.country.length!=0) ? (this.header + "in " + values.country.split(',').join(' , ')) : this.header
-          let temp = (((values.page-1)*10)+10)
-          this.header2 = this.header2 + (((values.page-1)*10)+1).toString() + ' - ';
-          this.header2 = (temp<this.count) ? (this.header2 + temp.toString()) : (this.header2 + this.count)
-        }
-
-        this.header = this.count.toString() + '+ ' + this.header
+        this.header = getHeaderFromRoute(this.route.url, payload, variable, this.count, values);
+        
         this.first = false;
         
         this.filter.changeMessage(this.allJobs);

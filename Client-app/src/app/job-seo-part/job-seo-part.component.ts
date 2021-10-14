@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { FilterValueService } from '../filter-value.service';
-import { getPayloadByRoute, SearchPayload, getMonthAndYear, SeoObject, pathMatcher, SeoPaths } from '../Interfece'
+import { getPayloadByRoute, SearchPayload, getMonthAndYear, SeoObject, pathMatcher, SeoPaths, toProperCase } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { SeoServiceService } from '../seo-service.service';
 
@@ -75,6 +75,8 @@ export class JobSeoPartComponent implements OnInit {
     else {
       main = variable.toLowerCase().includes('jobs') ? variable : variable + ' Jobs';
     }
+
+    main = toProperCase(main.replace(/-/g,' '))
 
     if(paths.isJobs || paths.isCountry || paths.isCategory || paths.isCompany) {
       desc = `Apply for the best ${main}.New careers in “location”  are added daily on Workire.com. Apply quickly to various ${main} openings that are hiring near you`
