@@ -13,6 +13,8 @@ from django.db import connection
 from dateutil.parser import parse
 from .globalFunc import save_count, get_count
 from django.conf import settings
+from django.utils.dateparse import parse_datetime
+from django.utils.timezone import is_aware, make_aware
 
 # Helper Functions
 def read_tag(list):
@@ -88,25 +90,29 @@ def save_job(i,company, count):
     except Exception as e:
         print(f"{count}: Exception while saving : ", e)
 
+
+def fix_date_time(date):
+    to_ret = datetime.now()
+    try:
+        try:
+            to_ret = parse_datetime(date)
+        except Exception as e:
+            print("Ran into exception (in fix_date_time): ", e)
+            to_ret = datetime.now()
+
+        if is_aware(to_ret):
+            return to_ret
+        else:
+            return make_aware(to_ret)
+    except Exception as e:
+        print("Exception: (in fix_date_time) :: ", e)
+        return datetime.now()
+
 # Takes one job data and process it and triggers save_job func
 def process_job_data(i, count):
     try:
-        try:
-            datatime = i['PostDate'].split("T")
-            datatime[0] = datatime[0].split("-")
-            datatime[1] = datatime[1].split(":")
-            i['PostDate'] = datetime(int(datatime[0][0]), int(datatime[0][1]), int(datatime[0][2]), int(datatime[1][0]), int(datatime[1][1]), int(datatime[1][2]))
-            start = parse(i['PostDate'])
-        except:
-            i['PostDate'] = datetime.now()
-
-        if i['StartDate'] == "":
-            i["StartDate"] = datetime.now()
-        else:
-            try:
-                start = parse(i['StartDate'])
-            except:
-                i['StartDate'] = datetime.now()
+        i['PostDate'] = fix_date_time(i['PostDate'])
+        i['StartDate'] = fix_date_time(i['StartDate'])
 
         if not Company.objects.filter(Name=i['AdvertiserName']).exists():
             if i['LogoURL'] == "":
