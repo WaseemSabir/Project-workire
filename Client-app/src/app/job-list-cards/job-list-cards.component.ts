@@ -22,7 +22,14 @@ export class JobListCardsComponent implements OnInit {
   @Input() toggleView : boolean = false;
   @Input() isMobile : boolean = false;
 
-  payload : string = ''
+  currvalues : SearchPayload = {
+    search : '',
+    country : '',
+    company : '',
+    category : '',
+    page : 1,
+    days : 0
+  }
 
   constructor(private activatedRoute: ActivatedRoute,private filter : FilterValueService,private route : Router) { 
   }
@@ -33,9 +40,9 @@ export class JobListCardsComponent implements OnInit {
       let payload = params.get("payload")!
       let variable = params.get("var")!
 
-      let fil : SearchPayload = getPayloadByRoute(this.route.url,payload,variable);
+      this.currvalues = getPayloadByRoute(this.route.url,payload,variable);
 
-      this.page = fil.page;
+      this.page = this.currvalues.page;
       this.count = this.item.count;
     })
 
@@ -46,11 +53,8 @@ export class JobListCardsComponent implements OnInit {
 
   pageChange(ev : number)
   {
-    let output : any;
-    if (this.payload) output = payloadToValues(this.payload);
-    else output = payloadToValues('');
-    output.page = ev;
-    let p = valuesToPayload(output.search,output.country,output.category,output.company,output.days,output.page)
+    this.currvalues.page = ev;
+    let p = valuesToPayload(this.currvalues.search,this.currvalues.country,this.currvalues.category,this.currvalues.company,this.currvalues.days,this.currvalues.page)
     this.route.navigate(['/Jobs',p]);
   }
 
