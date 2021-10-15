@@ -10,17 +10,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import is_aware, make_aware
-from django.conf import Settings
 
-class Counter:
-    def __init__(self):
-        self.count = 0
-
-    def increment(self):
-        self.count = self.count +1
-    
-    def getcount(self):
-        return self.count
+my_count = 0
 
 # Helper Functions
 def read_tag(list):
@@ -163,11 +154,12 @@ def delete_jobs(count, data):
     except Exception as e:
         print(f'{count} : Mega Exception: failed to delete jobs\n', e)
 
-def post(count_inst):
+def post():
     try:
         urls = ["https://www.jobg8.com/fileserver/jobs.aspx?username=c052j!9B8EF0&password=fhj479!_569E032&accountnumber=818829&filename=Jobs.zip","https://www.jobg8.com/fileserver/jobs.aspx?username=7CBB9D3C5D&password=5BFE685C0F&accountnumber=819521&filename=Jobs.zip"]
 
-        count = count_inst.getcount()
+        global my_count
+        count = my_count
 
         curr_link = count % len(urls)
 
@@ -182,7 +174,7 @@ def post(count_inst):
         if not file_read_err:
             delete_jobs(curr_link, data)
 
-        count_inst.increment()
+        my_count +=1
 
     except Exception as e:
         print("Mega Exception: Post function errored out!\n", e)
@@ -190,7 +182,6 @@ def post(count_inst):
 
 def start():
     if os.environ.get('RUN_MAIN') != 'true':
-        my_count = Counter()
         scheduler = BackgroundScheduler()
-        scheduler.add_job(post(my_count), 'interval', minutes = 60*2)
+        scheduler.add_job(post, 'interval', minutes = 60*2)
         scheduler.start()
