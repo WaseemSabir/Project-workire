@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import *
 from .Serializers import *
 from datetime import datetime
@@ -8,9 +7,6 @@ from io import BytesIO
 from zipfile import ZipFile
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-from django.core.management.color import no_style
-from django.db import connection
-from dateutil.parser import parse
 from .globalFunc import save_count, get_count
 from django.conf import settings
 from django.utils.dateparse import parse_datetime

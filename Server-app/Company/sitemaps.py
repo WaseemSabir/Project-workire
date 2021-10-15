@@ -3,7 +3,7 @@ from django.contrib.admin.sites import site
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from .models import *
-from urllib.parse import quote,quote_plus
+from urllib.parse import quote
 from Company.Serializers import CatSerializer
 from rest_framework.response import Response
 import json
@@ -25,7 +25,7 @@ def getCountList(count):
     return modifiedList
 
 def getAllCat():
-    cat = Category.objects.all()
+    cat = Category.objects.exclude(SEO_NAME=None)
     cat = CatSerializer(cat, many = True)
     return Response(cat.data)
 
@@ -94,7 +94,7 @@ class JobCatSiteMap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return Category.objects.all()
+        return Category.objects.exclude(SEO_NAME=None)
 
     def location(self,obj):
         return '/Job-category/%s' % (quote(obj.SEO_NAME))
