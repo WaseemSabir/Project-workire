@@ -7,7 +7,6 @@ from io import BytesIO
 from zipfile import ZipFile
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-from .globalFunc import save_count, get_count
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import is_aware, make_aware
