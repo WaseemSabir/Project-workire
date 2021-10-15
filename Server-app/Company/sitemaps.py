@@ -6,7 +6,6 @@ from .models import *
 from urllib.parse import quote
 from Company.Serializers import CatSerializer
 from rest_framework.response import Response
-import json
 
 def getCountries():
     count = Countries.objects.all()
