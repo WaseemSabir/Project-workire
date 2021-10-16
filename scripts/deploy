@@ -1,0 +1,24 @@
+#! /bin/sh
+
+if [ "$EUID" -eq 0 ]
+  then echo "Don't run as root"
+  exit
+fi
+
+echo "Moving to Project folder! "
+cd ~/Project-workire
+echo "In : "
+pwd
+echo "Pulling from git ..."
+git pull origin master
+echo "Moving into Client Application..."
+cd ~/Project-workire/Client-app
+echo "In: "
+pwd
+echo ""
+echo "Running deploy service..."
+npm run deploy
+echo "Restarting apache!!!"
+sudo service apache2 restart
+echo "Restarting Nginx!!!"
+sudo service nginx restart

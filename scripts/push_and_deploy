@@ -1,0 +1,30 @@
+#! /bin/sh
+
+echo "In Folder: "
+echo ""
+pwd
+echo ""
+echo "This should be project folder (Where git is)"
+echo "git status"
+git status
+
+read -p 'Should I add all(y/n): ' addall
+
+if [ $addall == 'y' ] || [ $addall == 'Y' ]
+then
+   echo "pushing all changes!"
+   git add .
+   git commit -m "Bugs Fixed and performance improved"
+   git push origin master
+
+   echo "Pushed all changes"
+   echo "Current Status"
+   git status
+
+   echo "Running command on server"
+   ssh -i "~/Desktop/Workire/Hello.pem" ubuntu@ec2-18-190-52-36.us-east-2.compute.amazonaws.com 'bash ~/Project-workire/scripts/deploy'
+   echo "Deployed!"
+else
+   echo "Changes not pushed!"
+   echo "Exiting!"
+fi

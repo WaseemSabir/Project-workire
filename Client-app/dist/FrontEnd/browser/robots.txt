@@ -1,3 +1,0 @@
-Sitemap: https://workire.com/sitemap.xml
-User-agent: *
-Disallow:
