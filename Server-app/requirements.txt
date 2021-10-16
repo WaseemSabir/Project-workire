@@ -20,6 +20,7 @@ command-not-found==0.3
 cryptography==3.3.2
 cupshelpers==1.0
 dbus-python==1.2.16
+decorator==5.1.0
 distro==1.5.0
 distro-info==1.0
 Django==3.2.3
@@ -30,6 +31,9 @@ djangorestframework==3.12.4
 djangorestframework-simplejwt==4.6.0
 docutils==0.16
 evdev==1.4.0
+future==0.18.2
+geographiclib==1.52
+geopy==2.2.0
 gpg===1.14.0-unknown
 html5lib==1.1
 httplib2==0.18.1
@@ -70,6 +74,7 @@ python-magic==0.4.20
 pytz==2021.1
 pyxdg==0.27
 PyYAML==5.3.1
+ratelim==0.1.6
 reportlab==3.5.66
 requests==2.25.1
 roman==2.0.0

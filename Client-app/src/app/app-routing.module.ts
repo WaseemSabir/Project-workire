@@ -38,12 +38,21 @@ const routes: Routes = [
   {path: 'career-advice', component: BlogListComponent, pathMatch : 'full'},
   {path: 'about-us', component: AboutUsComponent},
   {path: 'contact-us', component: ContactUsComponent},
-  {path: 'building', component: UnderDevelopmentComponent},
   {path: 'professional-resume-writing-service', component: CustomResumePageComponent},
   {path: 'Job/:job', component: JobSinglePageComponent},
   {path: 'disclaimer', component: JobDisclaimerComponent},
   {path: 'career-advice/:url', component: BlogCardComponent},
   {path: 'Career-development-tools', component: CareerDevelpmentToolsComponent},
+
+  /* Dublicate url for seo and bread crums */
+  {path: 'Job-category',component: JobCategoryComponent},
+  {path: 'Job-country',component: JobCountryComponent},
+  {path: 'Job-company',component: JobCompanyComponent},
+  {path: 'Job-by-position',component: JobPositionsComponent},
+  {path: 'trending-search',component: JobTrendingSearchComponent},
+
+  /* Under Development & Url 404 */
+  {path: 'building', component: UnderDevelopmentComponent},
   {path: '**', component: JobNotFoundComponent}
 ];
 

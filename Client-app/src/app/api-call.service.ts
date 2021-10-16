@@ -122,6 +122,7 @@ export class DeafultLocService {
   // Handling Featured
   _featued = new BehaviorSubject<any>({
     country : "",
+    company : [],
     data : [],
     count : 50000
   })
@@ -142,8 +143,9 @@ export class DeafultLocService {
       .then((res : any)=>{
         try {
           let country = "",count = 50000, data = []
+          console.log(res.country)
           country = two_letter_to_full(res.country)
-          this.httpClient.get(this.MY_SEREVER + `company/FeaturedJobFrontPage/${res.country}`).toPromise()
+          this.httpClient.get(this.MY_SEREVER + `company/FeaturedJobFrontPage/${country}`).toPromise()
           .then((feature : any)=>{
             count = feature.count;
             data = feature.data
