@@ -17,6 +17,7 @@ import { JobNotFoundComponent } from './job-not-found/job-not-found.component';
 import { JobPositionsComponent } from './job-positions/job-positions.component';
 import { JobSinglePageComponent } from './job-single-page/job-single-page.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
+import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
 import { UnderDevelopmentComponent } from './under-development/under-development.component';
 
 const routes: Routes = [
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'trending-search',component: JobTrendingSearchComponent},
 
   /* Under Development & Url 404 */
+  {path: 'test', component: ResumeBuilderHomeComponent},
   {path: 'building', component: UnderDevelopmentComponent},
   {path: '**', component: JobNotFoundComponent}
 ];

@@ -59,6 +59,7 @@ import { JobPositionsComponent } from './job-positions/job-positions.component';
 import { JobSeoPartComponent } from './job-seo-part/job-seo-part.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     AlterBox,
     JobPositionsComponent,
     JobSeoPartComponent,
-    JobTrendingSearchComponent
+    JobTrendingSearchComponent,
+    ResumeBuilderHomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

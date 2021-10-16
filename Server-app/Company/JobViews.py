@@ -198,7 +198,7 @@ class Search(APIView):
             lookup = Q()
 
             for i in search:
-                lookup = lookup | Q(AdvertiserName__icontains=i) | Q(AdvertiserType__icontains=i) | Q(Classification__icontains=i) | Q(Position__icontains=i) | Q(Description__icontains=i) | Q(Country__icontains=i) | Q(Location__icontains=i)
+                lookup = lookup | Q(AdvertiserName__icontains=i) | Q(Classification__icontains=i) | Q(Position__icontains=i)
 
             lookup2 = [lookup]
 
