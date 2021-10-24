@@ -4,7 +4,7 @@
             <div class="col-md-3 col-6 py-md-0" *ngFor="let k of keys(all)">
                 <h2 class="Weight550">{{k}}</h2>
                 <p class="m-0 py-1 pointer link-tag" style="font-size: medium;" *ngFor="let item of all[k].data" [routerLink]="[item[1]]">{{item[0]}}</p>
-                <p class="blue-color pointer py-2" style="font-size: medium;" (click)="seeMoreClick(k)">{{all[k].showMore ? '- See Less' : '+ See More'}}</p>
+                <p class="blue-color pointer pt-1" style="font-size: medium;" (click)="seeMoreClick(k)">{{all[k].showMore ? '- See Less' : '+ See More'}}</p>
                 <p *ngIf="all[k].showMore" class="m-0 blue-color pointer" style="font-size: medium;" [routerLink]="all[k].link">View All</p>
             </div>
         </div>

@@ -24,7 +24,7 @@ export class LandingPageCategory implements OnInit {
             showMore : false,
             fullData : [],
             data : [],
-            link : '/Jobs/All-Companies'
+            link : '/Jobs/All-Countries'
         },
         'Jobs By Designation' : {
             showMore : false,

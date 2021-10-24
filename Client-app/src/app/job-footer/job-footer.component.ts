@@ -29,9 +29,11 @@ export class JobFooterComponent implements OnInit {
         this.isRoot = this.location.path().split('/').length ? false : true
         let link_1 : string = ''
         this.location.path().split('/').forEach((each : any)=>{
-          let to_push_0 = decodeURI((each == '') ? 'home' : each)
-          link_1 += link_1.slice(-1)=='/' ? each : '/'+each
-          this.breadCrums.push([to_push_0,link_1])
+          if(this.should_add(each)) {
+            let to_push_0 = decodeURI((each == '') ? 'home' : each)
+            link_1 += link_1.slice(-1)=='/' ? each : '/'+each
+            this.breadCrums.push([to_push_0,link_1])
+          }
         })
       }
     )
@@ -46,5 +48,14 @@ export class JobFooterComponent implements OnInit {
   arrowOrNot(index : number) : string {
     let arrow : string = index ? '&nbsp;&gt;' : ''
     return arrow;
+  }
+
+  should_add(str : string) : boolean {
+    // Checks all the each with certain conditions and returns whether they shuould be added
+    if(str.toLocaleLowerCase().includes('days:') || str.toLocaleLowerCase().includes('page:'))
+    {
+      return false;
+    }
+    return true;
   }
 }
