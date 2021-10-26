@@ -23,11 +23,6 @@ def getCountList(count):
             modifiedList.append(temp)
     return modifiedList
 
-def getAllCat():
-    cat = Category.objects.exclude(SEO_NAME=None)
-    cat = CatSerializer(cat, many = True)
-    return Response(cat.data)
-
 class StaticSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.7
@@ -52,26 +47,6 @@ class JobSiteMap(Sitemap):
 
     def location(self,obj):
         return ('/Job/' + quote(obj.Position).replace("/","%2F"))
-
-class JobsInCount(Sitemap):
-    changefreq = "hourly"
-    priority = 0.9
-    protocol = 'https'
-
-    def items(self):
-        countList = getCountList(getCountries())
-        catList = getAllCat().data
-        allList = []
-        for cat in catList:
-            for country in countList:
-                temp = []
-                temp.append(quote(cat['SEO_NAME']))
-                temp.append(quote(country.replace(' , ','-')))
-                allList.append(temp)
-        return allList
-
-    def location(self,obj):
-        return ('/trending-search/{}-in-{}'.format(obj[0],obj[1]))
 
 class BlogSiteMap(Sitemap):
     changefreq = "weekly"
@@ -104,7 +79,7 @@ class JobCompSiteMap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return Company.objects.all()
+        return Company.objects.all()[:150]
 
     def location(self,obj):
         return '/Job-company/%s' % (quote(obj.Name.replace(' ','-')))

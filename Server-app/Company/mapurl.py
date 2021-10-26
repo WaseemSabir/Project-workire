@@ -5,7 +5,6 @@ from .sitemaps import *
 sitemaps = {
     'static':StaticSitemap,
     'job':JobSiteMap,
-    'SearchJobsByCountry':JobsInCount,
     'blog':BlogSiteMap,
     'job-category':JobCatSiteMap,
     'job-country':JobCompSiteMap,
