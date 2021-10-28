@@ -2,18 +2,30 @@ from django.urls import path
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import *
 
-sitemaps = {
+basicSitemaps = {
     'static':StaticSitemap,
-    'job':JobSiteMap,
     'blog':BlogSiteMap,
+    'job-position':JobPositionSiteMap,
+    'trending-search':JobTrendSiteMap
+}
+
+jobSitemap1 = {
+    'job':JobSiteMap1,
+}
+
+jobSitemap2 = {
+    'job':JobSiteMap2,
+}
+
+mega3Sitemap = {
     'job-category':JobCatSiteMap,
     'job-country':JobCompSiteMap,
     'job-company':JobCountSiteMap,
-    'job-position':JobPositionSiteMap,
-    'Job-by-position':JobTrendSiteMap,
-    'job-by-search':JobTrendSiteMap
 }
 
 urlpatterns = [
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    path('sitemap.xml', sitemap, {'sitemaps': basicSitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap-job1.xml', sitemap, {'sitemaps': jobSitemap1}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap-job2.xml', sitemap, {'sitemaps': jobSitemap2}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap-mega3.xml', sitemap, {'sitemaps': mega3Sitemap}, name='django.contrib.sitemaps.views.sitemap'),
 ]

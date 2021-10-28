@@ -34,13 +34,27 @@ class StaticSitemap(Sitemap):
     def location(self, item):
         return '/%s' % (item)
 
-class JobSiteMap(Sitemap):
+class JobSiteMap1(Sitemap):
     changefreq = "hourly"
     priority = 1
     protocol = 'https'
 
     def items(self):
-        return Job.objects.all()
+        return Job.objects.all()[:25000]
+
+    def lastmod(self, obj):
+        return obj.PostDate
+
+    def location(self,obj):
+        return ('/Job/' + quote(obj.Position).replace("/","%2F"))
+
+class JobSiteMap2(Sitemap):
+    changefreq = "hourly"
+    priority = 1
+    protocol = 'https'
+
+    def items(self):
+        return Job.objects.all()[25000:]
 
     def lastmod(self, obj):
         return obj.PostDate
@@ -79,7 +93,7 @@ class JobCompSiteMap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return Company.objects.all()[:150]
+        return Company.objects.all()
 
     def location(self,obj):
         return '/Job-company/%s' % (quote(obj.Name.replace(' ','-')))
