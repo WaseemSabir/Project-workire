@@ -87,11 +87,23 @@ export class LandingPageCategory implements OnInit {
 
         this.loc.getTrendingSearches().toPromise()
         .then((res : any)=>{
+            let countries = res.map((val : any)=>{
+                try {
+                    let url = val.url.toLowerCase()
+                    let c = url.split('-in-')[1].replace(/-/g,' ')
+                    return c
+                }
+                catch {
+                    return 'random'
+                }
+            })
+
             this.all['Trending Searches'].fullData = res.map((val : any)=>{
-                val.search = val.search.replace("United Arab Emirates","UAE") 
+                val.search = val.search.replace("United Arab Emirates","UAE")
                 val.search = val.search.replace("Manufacturing Operations","Operations")
                 return [val.search,'/trending-search/'+val.url];
             })
+            this.reArrangeTredingsearch(countries)
             this.initData();
         })
         .catch((err)=>console.log(err))
@@ -132,6 +144,18 @@ export class LandingPageCategory implements OnInit {
             else list2.push(k);
         }
         this.all['Jobs By Location'].fullData = [...list1,...list2];
+    }
+
+    reArrangeTredingsearch(countries : string[]) {
+        let list1 : any[] = []
+        let list2 : any[] = []
+        console.log(countries.length,this.all['Trending Searches'].fullData.length)
+        for(let k=0;k<this.all['Trending Searches'].fullData.length;k++)
+        {
+            if(countries[k].includes(this.country.toLowerCase())) list1.push(this.all['Trending Searches'].fullData[k]);
+            else list2.push(this.all['Trending Searches'].fullData[k]);
+        }
+        this.all['Trending Searches'].fullData = [...list1,...list2];
     }
 
     seeMoreClick(str : string)

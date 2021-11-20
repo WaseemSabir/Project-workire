@@ -55,6 +55,19 @@ export class JobSeoPartComponent implements OnInit {
     let country : string = ''
     let company : string = ''
     let desc : string = ''
+    let job : string = ''
+
+    try {
+      let len = this.data.data.length;
+      let jobData = this.data.data.slice(len-2,len).map((job : any)=>{
+        return job.Position;
+      })
+      job = this.reduceToLinks(jobData,'/Job')
+    }
+    catch {
+      job = ''
+    }
+
     if(this.data) {
       count = this.data.count;
     }
@@ -78,14 +91,7 @@ export class JobSeoPartComponent implements OnInit {
 
     main = toProperCase(main.replace(/-/g,' '))
 
-    if(paths.isJobs || paths.isCountry || paths.isCategory || paths.isCompany) {
-      desc = `Apply for the best ${main}.New careers in “location”  are added daily on Workire.com. Apply quickly to various ${main} openings that are hiring near you`
-    }
-    else {
-      desc = `Top ${main}. Many new ${main} are updated daily.`
-    }
-
-    this.updatePageSeo(main,desc,payload);
+    this.setSeoForPage(paths,main,payload);
 
     let seo_one : SeoObject = {
       header: `What should I search on Workire to find ${main}?`,
@@ -119,7 +125,7 @@ export class JobSeoPartComponent implements OnInit {
 
     let seo_5 : SeoObject = {
       header: `What other similar jobs are there to ${main}?`,
-      description: `You can find the majority of ${main} in ${country}. You can easily assess the list on each locations to finalize what you really have to choose to apply.`,
+      description: `As well as ${main} vacancies, you can find ${job} roles on workire.com, amongst many others. Although there might be slight changes in the names of positions, there can be a number of jobs that share the same responsibilities and qualifications. Hence, using a more general term as the keyword seems to be desirable in getting a long list of vacancies.`,
       show: false
     }
     this.seoObject.push(seo_5);
@@ -132,15 +138,31 @@ export class JobSeoPartComponent implements OnInit {
     this.seoObject.push(seo_6);
   }
 
-  updatePageSeo(header : string,desc : string,fil : SearchPayload)
+  setSeoForPage(paths : SeoPaths, main : string, payload : SearchPayload) {
+    let title = '', desc = ''
+    if(paths.isCountry) {
+      main = main.replace('Jobs','').replace('Job','')
+      title = `Jobs in ${main} (${getMonthAndYear()}) | Workire`
+      desc = `Apply for the best jobs in ${main}.New careers in ${main} are added daily on Workire.com. Apply quickly to various ${main} job openings that are hiring near you`
+    }
+    else if(paths.isTrending) {
+      title = `${main} (with Salaries) ${getMonthAndYear()} | Workire`
+      desc = `Top ${main}. Many new job vacancies updated daily. Get one step closer to your dream job by easily browsing and applying to various jobs on platform.`
+    }
+    else {
+      title = `${main} (with Salaries) ${getMonthAndYear()} | Workire`
+      desc = `Check out best ${main} Jobs vacancies with eligibility, location, salary etc. ${main} vacancies & careers in top companies`
+    }
+    this.updatePageSeo(title,main,desc,payload);
+  }
+
+  updatePageSeo(title : string, header : string,desc : string,fil : SearchPayload)
   {
     let SeoLoc = (fil.country.length!=0) ? ("in " + fil.country.split(',').join(' , ')) : ''
 
     let keywords = `${header},new ${header},${fil.search} Job ${SeoLoc},${fil.search} Job opportunity ${SeoLoc},${fil.search} Job openings ${SeoLoc}`
     let url = this.domain + this.route.url
     let type = 'job'
-
-    let title = `${header} (with Salaries) ${getMonthAndYear()} | Workire`
 
     this.seo.updateSeo(title,desc,keywords,type,url);
     this.seo.createCanonicalURL(url);

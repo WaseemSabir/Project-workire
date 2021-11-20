@@ -226,6 +226,9 @@ export function getHeaderFromRoute(route : string, payload : string, variable : 
     header = (values.search.length==0) ? (header) : (values.search + header) 
     header = (values.country.length!=0) ? (header + "in " + values.country.split(',').join(' , ')) : header
   }
+  else if(paths.isCountry) {
+    header = "Jobs in " + values.country;
+  }
   else {
     let cleaned_var : string = toProperCase(variable.replace(/-/g,' '))
     header = variable.toLowerCase().includes('jobs') ? cleaned_var : cleaned_var+ ' Jobs'

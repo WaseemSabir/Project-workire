@@ -29,7 +29,7 @@ class TrendingSearch(models.Model):
 
 class Countries(models.Model):
     Country = models.CharField(max_length=100,null=False,unique=True)
-    cities = models.CharField(max_length=300,null=True)
+    cities = models.CharField(max_length=700,null=True)
 
     def __str__(self):
         return self.Country

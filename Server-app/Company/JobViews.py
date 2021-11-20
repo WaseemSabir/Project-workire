@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 import operator
 
 class getCompanyById(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         id = self.kwargs.get('id')
         try:
@@ -26,7 +26,7 @@ class getCompanyById(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class getCompanyByName(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Name')
         try:
@@ -39,13 +39,13 @@ class getCompanyByName(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class getAllCompaniesWithCountFirst100(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[:100]
         return Response({'data':a})
 
 class getAllCompaniesWithCountFirst100More(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def post(self, request):
         page = int(request.data['more'])
         a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[page*100:page*100+100]
@@ -72,7 +72,7 @@ class addNewCompany(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class getAllCategories(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         categories = Job.objects.all().values('Classification')
         if categories is not None:
@@ -87,7 +87,7 @@ class getAllCategories(APIView):
         return Response({'data': None})
 
 class getAllCountries(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         countries = Job.objects.all().values('Country')
         if countries is not None:
@@ -102,7 +102,7 @@ class getAllCountries(APIView):
         return Response({'data': None})
 
 class getAllCompanies(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         company = Job.objects.all().values('AdvertiserName', 'LogoURL')[:100]
         if company is not None:
@@ -127,7 +127,7 @@ class getFeaturedCompany(APIView):
         return Response({'data': company.data})
 
 class getjobByCountry(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Country')
         jobs = None
@@ -153,7 +153,7 @@ class getJobByTitle(APIView):
         return Response({'Jobs': jobs.data})
 
 class getJobByCategory(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         Name = self.kwargs.get('Category')
         jobs = Job.objects.filter(Classification=Name)
@@ -161,21 +161,21 @@ class getJobByCategory(APIView):
         return Response({'Jobs': jobs.data})
 
 class getTrendingSearch(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         search = TrendingSearch.objects.all()
         search = TrendingSearchSerializer(search,many=True)
         return Response(search.data)
 
 class getCountries(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         countries = Countries.objects.all()
         countries = CountrySerializer(countries,many=True)
         return Response(countries.data)
 
 class getDesignantion(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request):
         desg = Designation.objects.all()
         desg = DesignationSerializer(desg,many=True)
@@ -298,7 +298,7 @@ class featured(APIView):
                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class seoCat(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def post(self,request):
         try:
             Name = request.data['category']
@@ -311,7 +311,7 @@ class seoCat(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)  
 
 class seoCatBySeo(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def post(self,request):
         try:
             Name = request.data['category']
@@ -324,7 +324,7 @@ class seoCatBySeo(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class getAllSeoCat(APIView):
-    @method_decorator(cache_page(60*60*24))
+    @method_decorator(cache_page(60*60*2))
     def get(self, request, *args, **kwargs):
         try:
             cat = Category.objects.exclude(SEO_NAME=None)
@@ -335,7 +335,7 @@ class getAllSeoCat(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 class FeaturedJobFrontPage(APIView):
-    @method_decorator(cache_page(60*60*2))
+    @method_decorator(cache_page(60*60*1))
     def get(self, request, *args, **kwargs):
             try:
                 country = self.kwargs.get('country')
