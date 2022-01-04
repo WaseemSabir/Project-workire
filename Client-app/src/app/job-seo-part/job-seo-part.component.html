@@ -1,4 +1,5 @@
 <div class="py-4 px-1" *ngIf="seoObject.length && valid">
+    <div class="py-2 h5">Frequently Asked Questions</div>
     <div *ngFor="let k of seoObject; let i = index">
         <div class="row pointer noselect" (click)="showClick(i)">
             <h3 class="weight-heading col-11">{{k.header}}</h3>

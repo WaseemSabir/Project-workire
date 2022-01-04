@@ -40,7 +40,7 @@ const routes: Routes = [
   {path: 'about-us', component: AboutUsComponent},
   {path: 'contact-us', component: ContactUsComponent},
   {path: 'professional-resume-writing-service', component: CustomResumePageComponent},
-  {path: 'Job/:job', component: JobSinglePageComponent},
+  {path: 'Job/:job/:id', component: JobSinglePageComponent},
   {path: 'disclaimer', component: JobDisclaimerComponent},
   {path: 'career-advice/:url', component: BlogCardComponent},
   {path: 'Career-development-tools', component: CareerDevelpmentToolsComponent},

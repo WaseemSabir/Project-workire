@@ -2,7 +2,7 @@
     <div class="col-12 w-100 mx-2 mt-2">
         <div class="pb-3 mb-2 row">
             <div class="col-md-8 col-sm-12">
-                <h2 class="h5 pt-4 hell pointer" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}" [routerLink]="['/Job',jobDetails.Position]">{{jobDetails.Position}}</h2>
+                <h2 class="h5 pt-4 hell pointer" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}" [routerLink]="['/Job',jobDetails.Position,jobDetails.id]">{{jobDetails.Position}}</h2>
                 <h4 *ngIf="jobDetails.Location=='Not Specified'" class="h6 text-muted font-weight-normal" [ngClass]="{'text-center':isMobile}">{{jobDetails.Country}} | {{jobDetails.AdvertiserName}}</h4>
                 <h4 *ngIf="jobDetails.Location!='Not Specified'" class="h6 text-muted font-weight-normal" [ngClass]="{'text-center':isMobile}">{{jobDetails.Location}} | {{jobDetails.AdvertiserName}}</h4>
             </div>
@@ -48,7 +48,7 @@
         <div class="col-md-8 col-sm-12 shadow-sm">
             <div class="col-12 pb-3 mb-2 row">
                 <div class="col-md-8 col-sm-12">
-                    <h2 class="h5 pt-4" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}" [routerLink]="['/Job',jobDetails.Position]">{{jobDetails.Position}}</h2>
+                    <h2 class="h5 pt-4" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}" [routerLink]="['/Job',jobDetails.Position,jobDetails.id]">{{jobDetails.Position}}</h2>
                     <h4 *ngIf="jobDetails.Location=='Not Specified'" class="h6 text-muted font-weight-normal" [ngClass]="{'text-center':isMobile}">{{jobDetails.Country}} | {{jobDetails.AdvertiserName}}</h4>
                     <h4 *ngIf="jobDetails.Location!='Not Specified'" class="h6 text-muted font-weight-normal" [ngClass]="{'text-center':isMobile}">{{jobDetails.Location}} | {{jobDetails.AdvertiserName}}</h4>
                 </div>
@@ -97,7 +97,7 @@
                     People also viewed!
                 </div>
                 <div class="py-2" *ngFor="let k of target_feature">
-                    <div class="text-dark hell" [routerLink]="['/Job',k.Position]">{{k.Position}}</div>
+                    <div class="text-dark hell" [routerLink]="['/Job',k.Position,jobDetails.id]">{{k.Position}}</div>
                     <div *ngIf="k.Location==='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Country}} | {{k.AdvertiserName}}</div>
                     <div *ngIf="k.Location!=='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Location}} | {{k.AdvertiserName}}</div>
                 </div>

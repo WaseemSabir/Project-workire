@@ -49,6 +49,8 @@ urlpatterns = [
 
     path('FeaturedJobFrontPage/<str:country>', JobViews.FeaturedJobFrontPage.as_view()),
 
+    path('TotalJobCount', JobViews.TotalCount.as_view()),
+
     # Blog View Patterns 
  
     path('getallposts', BlogView.getallposts.as_view()), #get all posts

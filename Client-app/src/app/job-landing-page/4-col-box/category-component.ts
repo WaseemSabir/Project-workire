@@ -149,7 +149,6 @@ export class LandingPageCategory implements OnInit {
     reArrangeTredingsearch(countries : string[]) {
         let list1 : any[] = []
         let list2 : any[] = []
-        console.log(countries.length,this.all['Trending Searches'].fullData.length)
         for(let k=0;k<this.all['Trending Searches'].fullData.length;k++)
         {
             if(countries[k].includes(this.country.toLowerCase())) list1.push(this.all['Trending Searches'].fullData[k]);

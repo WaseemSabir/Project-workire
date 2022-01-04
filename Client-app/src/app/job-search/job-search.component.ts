@@ -54,9 +54,14 @@ export class JobSearchComponent implements OnInit {
       this.isMobile = screen.width < 768;
     }
 
-    this.loc.featued$.subscribe((res : any)=>{
+    this.loc.totalJobCount().toPromise()
+    .then((res : any)=>{
       this.totalJobs = res.count;
     })
+
+    // this.loc.featued$.subscribe((res : any)=>{
+    //   this.totalJobs = res.count;
+    // })
   }
 
   submitClicked(){

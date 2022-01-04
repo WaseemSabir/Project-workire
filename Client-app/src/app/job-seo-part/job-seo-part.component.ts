@@ -54,8 +54,9 @@ export class JobSeoPartComponent implements OnInit {
     let category : string = ''
     let country : string = ''
     let company : string = ''
-    let desc : string = ''
     let job : string = ''
+
+    let JobsButCountrySelected = (paths.isJobs && payload.country.length)
 
     try {
       let len = this.data.data.length;
@@ -86,6 +87,12 @@ export class JobSeoPartComponent implements OnInit {
       main = payload.search + ' Jobs ' + temp;
     }
     else {
+      if(paths.isCountry) {
+        let splited = variable.split("-");
+        if(splited.length>1) {
+          variable = splited[0]; 
+        }
+      }
       main = variable.toLowerCase().includes('jobs') ? variable : variable + ' Jobs';
     }
 
@@ -112,23 +119,22 @@ export class JobSeoPartComponent implements OnInit {
       description: `There are many companies advertising ${main} including ${company}. Since, we post vacancies on our website daily, it’s necessary to be regularly updated with the list for the names of top companies that are hiring keep changing.`,
       show: false
     }
-    this.seoObject.push(seo_3);
+    if(!paths.isCompany) this.seoObject.push(seo_3);
 
-    if(!paths.isCountry) {
-      let seo_4 : SeoObject = {
-        header: "Where are the majority of these jobs being advertised?",
-        description: `You can find the majority of ${main} in ${country}. You can easily assess the list on each locations to finalize what you really have to choose to apply.`,
-        show: false
-      }
-      this.seoObject.push(seo_4);
-    }
-
-    let seo_5 : SeoObject = {
-      header: `What other similar jobs are there to ${main}?`,
-      description: `As well as ${main} vacancies, you can find ${job} roles on workire.com, amongst many others. Although there might be slight changes in the names of positions, there can be a number of jobs that share the same responsibilities and qualifications. Hence, using a more general term as the keyword seems to be desirable in getting a long list of vacancies.`,
+    let seo_4 : SeoObject = {
+      header: "Where are the majority of these jobs being advertised?",
+      description: `You can find the majority of ${main} in ${country}. You can easily assess the list on each locations to finalize what you really have to choose to apply.`,
       show: false
     }
-    this.seoObject.push(seo_5);
+    if(!paths.isCountry && !JobsButCountrySelected)  this.seoObject.push(seo_4);
+    
+    // Removed for all on request
+    // let seo_5 : SeoObject = {
+    //   header: `What other similar jobs are there to ${main}?`,
+    //   description: `As well as ${main} vacancies, you can find ${job} roles on workire.com, amongst many others. Although there might be slight changes in the names of positions, there can be a number of jobs that share the same responsibilities and qualifications. Hence, using a more general term as the keyword seems to be desirable in getting a long list of vacancies.`,
+    //   show: false
+    // }
+    // if(!paths.isCompany && !paths.isCountry && !JobsButCountrySelected) this.seoObject.push(seo_5);
 
     let seo_6 : SeoObject = {
       header: "How to make an ATS resume?",

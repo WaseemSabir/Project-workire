@@ -46,7 +46,7 @@ class JobSiteMap1(Sitemap):
         return obj.PostDate
 
     def location(self,obj):
-        return ('/Job/' + quote(obj.Position).replace("/","%2F"))
+        return (f'/Job/{quote(obj.Position).replace("/","%2F")}/{obj.id}')
 
 class JobSiteMap2(Sitemap):
     changefreq = "hourly"

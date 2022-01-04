@@ -334,21 +334,31 @@ class getAllSeoCat(APIView):
             message = {'Invalid Request'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
+class TotalCount(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            return Response({
+                "count": Job.objects.all().count()
+            })
+        except:
+            message = {'Invalid Request'}
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 class FeaturedJobFrontPage(APIView):
     @method_decorator(cache_page(60*60*1))
     def get(self, request, *args, **kwargs):
-            try:
-                country = self.kwargs.get('country')
-                job = Job.objects.filter(Country__icontains=country)[:6]
-                count = Job.objects.all().count()
-                if len(job)!=6:
-                    job =Job.objects.all()[:6]
-                
-                job = JobSerializer(job, many=True)
-                return Response({'count':count,'data':job.data})
-            except:
-                message = {'Invalid Request'}
-                return Response(message, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            country = self.kwargs.get('country')
+            job = Job.objects.filter(Country__icontains=country)[:6]
+            count = Job.objects.all().count()
+            if len(job)!=6:
+                job =Job.objects.all()[:6]
+            
+            job = JobSerializer(job, many=True)
+            return Response({'count':count,'data':job.data})
+        except:
+            message = {'Invalid Request'}
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 # Helper Functions
 def getOrderedCatByCount(cat,job):

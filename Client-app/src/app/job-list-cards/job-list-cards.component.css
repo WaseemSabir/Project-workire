@@ -1,6 +1,7 @@
 mat-card img{
     object-fit: cover; /*this makes the image in src fit to the size specified below*/
     border-radius: 0;
+    height: 100%;
 }
 
 mat-card {

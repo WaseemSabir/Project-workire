@@ -119,6 +119,11 @@ export class DeafultLocService {
     return this.httpClient.post(this.MY_SEREVER + 'company/searchPosts',{'search':str})
   }
 
+  public totalJobCount()
+  {
+    return this.httpClient.get(this.MY_SEREVER + 'api/company/TotalJobCount')
+  }
+
   // Handling Featured
   _featued = new BehaviorSubject<any>({
     country : "",
@@ -143,7 +148,6 @@ export class DeafultLocService {
       .then((res : any)=>{
         try {
           let country = "",count = 50000, data = []
-          console.log(res.country)
           country = two_letter_to_full(res.country)
           this.httpClient.get(this.MY_SEREVER + `company/FeaturedJobFrontPage/${country}`).toPromise()
           .then((feature : any)=>{
