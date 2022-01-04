@@ -121,7 +121,7 @@ export class DeafultLocService {
 
   public totalJobCount()
   {
-    return this.httpClient.get(this.MY_SEREVER + 'api/company/TotalJobCount')
+    return this.httpClient.get(this.MY_SEREVER + 'company/TotalJobCount')
   }
 
   // Handling Featured
