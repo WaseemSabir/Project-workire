@@ -13,24 +13,21 @@ export class JobIndexComponent implements OnInit {
 
   jobTitle : string = ''
   domain : string = 'https://workire.com'
+  
   schema : any = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "Corporation",
     "name": "Workire",
     "alternateName": "Workire.com",
     "url": "https://workire.com/",
-    "logo": "https://workire.com/assets/logo.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "inof@workire.com",
-      "contactType": "customer service"
-    },
+    "logo": "https://workire.com/assets/workire-logo.svg",
     "sameAs": [
       "https://www.facebook.com/workire",
-      "https://twitter.com/workire1",
+      "https://www.linkedin.com/company/workire/",
       "https://www.instagram.com/workire.co"
     ]
   }
+
   web : any = {
     "@context": "https://schema.org/",
     "@type": "WebSite",
@@ -38,7 +35,7 @@ export class JobIndexComponent implements OnInit {
     "url": "https://workire.com/",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://workire.com/search/{search_term_string}",
+      "target": "https://workire.com/Jobs/search:{search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
