@@ -4,8 +4,6 @@ from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from .models import *
 from urllib.parse import quote
-from Company.Serializers import CatSerializer
-from rest_framework.response import Response
 
 def getCountries():
     count = Countries.objects.all()
@@ -25,7 +23,7 @@ def getCountList(count):
 
 class StaticSitemap(Sitemap):
     changefreq = "daily"
-    priority = 0.7
+    priority = 1
     protocol = 'https'
 
     def items(self):
@@ -36,7 +34,7 @@ class StaticSitemap(Sitemap):
 
 class JobSiteMap1(Sitemap):
     changefreq = "hourly"
-    priority = 1
+    priority = 0.8
     protocol = 'https'
 
     def items(self):
@@ -50,7 +48,7 @@ class JobSiteMap1(Sitemap):
 
 class JobSiteMap2(Sitemap):
     changefreq = "hourly"
-    priority = 1
+    priority = 0.8
     protocol = 'https'
 
     def items(self):
@@ -60,11 +58,11 @@ class JobSiteMap2(Sitemap):
         return obj.PostDate
 
     def location(self,obj):
-        return ('/Job/' + quote(obj.Position).replace("/","%2F"))
+        return (f'/Job/{quote(obj.Position).replace("/","%2F")}/{obj.id}')
 
 class BlogSiteMap(Sitemap):
     changefreq = "weekly"
-    priority = 0.8
+    priority = 0.7
     protocol = 'https'
 
     def items(self):
@@ -78,7 +76,7 @@ class BlogSiteMap(Sitemap):
 
 class JobCatSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.6
+    priority = 0.5
     protocol = 'https'
 
     def items(self):
@@ -89,18 +87,18 @@ class JobCatSiteMap(Sitemap):
 
 class JobCompSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.6
+    priority = 0.5
     protocol = 'https'
 
     def items(self):
         return Company.objects.all()
 
     def location(self,obj):
-        return '/Job-company/%s' % (quote(obj.Name.replace(' ','-')))
+        return '/Job-company/%s' % (quote(obj.Name.replace(' ','-').replace("/","%2F")))
 
 class JobCountSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.6
+    priority = 0.5
     protocol = 'https'
 
     def items(self):
@@ -111,7 +109,7 @@ class JobCountSiteMap(Sitemap):
 
 class JobPositionSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.6
+    priority = 0.5
     protocol = 'https'
 
     def items(self):
@@ -122,7 +120,7 @@ class JobPositionSiteMap(Sitemap):
 
 class JobTrendSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.6
+    priority = 0.5
     protocol = 'https'
 
     def items(self):
