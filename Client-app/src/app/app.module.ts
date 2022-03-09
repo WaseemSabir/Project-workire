@@ -43,8 +43,6 @@ import { JobFrontBoxComponent,JobBox2Component } from './job-front-box/job-front
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
@@ -60,6 +58,7 @@ import { JobSeoPartComponent } from './job-seo-part/job-seo-part.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
+import { ResumeBuilderPricingComponent } from './resume-builder-pricing/resume-builder-pricing.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +99,8 @@ import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder
     JobPositionsComponent,
     JobSeoPartComponent,
     JobTrendingSearchComponent,
-    ResumeBuilderHomeComponent
+    ResumeBuilderHomeComponent,
+    ResumeBuilderPricingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

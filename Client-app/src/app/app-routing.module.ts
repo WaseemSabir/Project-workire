@@ -17,8 +17,9 @@ import { JobNotFoundComponent } from './job-not-found/job-not-found.component';
 import { JobPositionsComponent } from './job-positions/job-positions.component';
 import { JobSinglePageComponent } from './job-single-page/job-single-page.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
-import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
 import { UnderDevelopmentComponent } from './under-development/under-development.component';
+import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
+import { ResumeBuilderPricingComponent } from './resume-builder-pricing/resume-builder-pricing.component';
 
 const routes: Routes = [
   {path: '', component: JobIndexComponent, pathMatch :'full' },
@@ -45,6 +46,10 @@ const routes: Routes = [
   {path: 'career-advice/:url', component: BlogCardComponent},
   {path: 'Career-development-tools', component: CareerDevelpmentToolsComponent},
 
+  // Resume builder urls
+  {path: 'resume/home', component: ResumeBuilderHomeComponent},
+  {path: 'resume/pricing', component: ResumeBuilderPricingComponent},
+
   /* Dublicate url for seo and bread crums */
   {path: 'Job-category',component: JobCategoryComponent},
   {path: 'Job-country',component: JobCountryComponent},
@@ -53,7 +58,6 @@ const routes: Routes = [
   {path: 'trending-search',component: JobTrendingSearchComponent},
 
   /* Under Development & Url 404 */
-  {path: 'test', component: ResumeBuilderHomeComponent},
   {path: 'building', component: UnderDevelopmentComponent},
   {path: '**', component: JobNotFoundComponent}
 ];

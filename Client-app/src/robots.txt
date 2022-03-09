@@ -1,3 +1,6 @@
 Sitemap: https://workire.com/sitemap.xml
+Sitemap: https://workire.com/sitemap-job1.xml
+Sitemap: https://workire.com/sitemap-job2.xml
+Sitemap: https://workire.com/sitemap-mega3.xml
 User-agent: *
 Disallow:

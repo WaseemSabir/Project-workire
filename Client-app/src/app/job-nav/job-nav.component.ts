@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Router} from '@angular/router';
-import { DeafultLocService } from '../api-call.service';
+import { Router,ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { SeoServiceService } from '../seo-service.service';
 
@@ -11,9 +10,22 @@ import { SeoServiceService } from '../seo-service.service';
 })
 export class JobNavComponent implements OnInit {
 
-  constructor(private router : Router,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private seo : SeoServiceService) { }
+  constructor(private router : Router,@Inject(PLATFORM_ID) private platformId: Object,private seo : SeoServiceService, private activated : ActivatedRoute) {}
 
-  public nav: any;
+  resumeNav : any = {
+    "Resume Builder" : ["/resume/home"],
+    "Pricing" : ["/resume/pricing"],
+    "Job Portal" : ["/"]
+  }
+
+  jobPortalNav : any = {
+    "Find Jobs" : [['Browse All Jobs','/Jobs'],["Jobs By Position","/Jobs/All-Positions"],["Jobs By Location",'/Jobs/All-Countries'],["Jobs By Company","/Jobs/All-Companies"],["Jobs By Category","/Jobs/All-Categories"],["Trending Search","Jobs/Trending-Search"]],
+    "Career Advice" : ["/career-advice"],
+    "Career Tools" : ["/Career-development-tools"],
+    "Resume Builder": ["/resume/home"]
+  }
+
+  public nav: any = this.resumeNav;
   public isHome: boolean = false;
   public ObjectKeys: any = Object.keys;
   public isAuth: boolean = true;
@@ -22,13 +34,16 @@ export class JobNavComponent implements OnInit {
 
   public saved : any[] = [];
   public isMobile: boolean = false;
+  public isInResumeBuilder : boolean = false;
 
   ngOnInit(): void {
-    this.nav = {
-      "Find Jobs" : [['Browse All Jobs','/Jobs'],["Jobs By Position","Jobs/All-Positions"],["Jobs By Location",'Jobs/All-Countries'],["Jobs By Company","Jobs/All-Companies"],["Jobs By Category","Jobs/All-Categories"],["Trending Search","Jobs/Trending-Search"]],
-      "Career Advice" : ["career-advice"],
-      "Career Tools" : ["/Career-development-tools"],
-    }
+
+    this.router.events.forEach((event) => {
+      if(event instanceof NavigationEnd) {
+        this.isInResumeBuilder = this.router.url.includes('/resume')
+        this.nav = this.isInResumeBuilder ? this.resumeNav : this.jobPortalNav;
+      }
+    });
 
     if(isPlatformBrowser(this.platformId))
     {
