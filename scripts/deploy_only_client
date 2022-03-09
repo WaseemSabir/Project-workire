@@ -1,0 +1,5 @@
+#! /bin/sh
+
+echo "Running command on server"
+ssh -i "~/Desktop/Workire/Hello.pem" ubuntu@workire.com 'bash ~/Project-workire/scripts/deploy'
+echo "Deployed!"
