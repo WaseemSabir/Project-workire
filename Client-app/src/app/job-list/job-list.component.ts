@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Optional, Inject, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../api-call.service';
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -6,6 +6,10 @@ import { FilterValueService } from '../filter-value.service';
 import { Job, SearchPayload, getPayloadByRoute, getHeaderFromRoute } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
+import { isPlatformServer } from '@angular/common';
+import { Request, Response } from 'express';
 
 @Component({
   selector: 'app-job-list',
@@ -35,7 +39,8 @@ export class JobListComponent implements OnInit {
 
   searchFailed : any[] = []
 
-  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router) { }
+  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router, @Optional() @Inject(REQUEST) private request: Request,
+  @Optional() @Inject(RESPONSE) private response: Response) {}
 
   ngOnInit(): void {
 
@@ -64,34 +69,54 @@ export class JobListComponent implements OnInit {
       this.loaded = false;
       this.loc.getAllJobsSearchPayload(values).toPromise()
       .then((dataRet : any)=>{
-        this.spinner.hide();
-        this.data = dataRet;
-        
-        this.allJobs = dataRet.data;
-        
-        if(this.data.count && !this.isMobile)
-        {
-          this.filter.setTitle(this.allJobs[0].Position,this.allJobs[0].id);
-        }
-        this.loaded = true;
-        this.count = this.data.count;
-
-        this.header = getHeaderFromRoute(this.route.url, payload, variable, this.count, values);
-        
-        this.first = false;
-        
-        this.filter.changeMessage(this.allJobs);
-        if(!this.allJobs.length)
-        {
-          this.prepareCategoryList();
+        this.handleJobData(dataRet,payload,variable,values);
+        if(isPlatformServer(this.platformId)) {
+          this.response.status(200);
         }
       })
-      .catch()
+      .catch((err: any)=>{
+        let dataRet : any = {
+          count : 0,
+          data : []
+        }
+        if(err.error) {
+          dataRet = err.error;
+        }
+
+        if(isPlatformServer(this.platformId)) {
+          this.response.status(404);
+        }
+        this.handleJobData(dataRet,payload,variable,values);
+      })
     })
   }
 
   scrollToTop() {
     window.scroll(0,0);
+  }
+  
+  handleJobData(dataRet : any, payload : any, variable : any, values : any) {
+    this.spinner.hide();
+    this.data = dataRet;
+    
+    this.allJobs = dataRet.data;
+    
+    if(this.data.count && !this.isMobile)
+    {
+      this.filter.setTitle(this.allJobs[0].Position,this.allJobs[0].id);
+    }
+    this.loaded = true;
+    this.count = this.data.count;
+
+    this.header = getHeaderFromRoute(this.route.url, payload, variable, this.count, values);
+    
+    this.first = false;
+    
+    this.filter.changeMessage(this.allJobs);
+    if(!this.allJobs.length)
+    {
+      this.prepareCategoryList();
+    }
   }
 
   goBackMobile()
