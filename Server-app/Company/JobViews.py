@@ -1,5 +1,6 @@
 from enum import unique
 from functools import reduce
+from os import stat
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -247,7 +248,13 @@ class Search(APIView):
             job = Job.objects.filter(reduce(operator.and_, lookup2))[(page-1)*10:(page*10)]
 
             job = JobSerializer(job, many=True)
-            return Response({'count':count,'data':job.data})
+
+            if not count:
+                s = status.HTTP_404_NOT_FOUND
+            else:
+                s = status.HTTP_200_OK
+            
+            return Response({'count':count,'data':job.data}, status=s)
 
         except:
                 message = {'detail': 'Search Query not valid'}
