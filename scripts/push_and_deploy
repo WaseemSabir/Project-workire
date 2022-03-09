@@ -22,7 +22,7 @@ then
    git status
 
    echo "Running command on server"
-   ssh -i "~/Desktop/Workire/Hello.pem" ubuntu@ec2-18-190-52-36.us-east-2.compute.amazonaws.com 'bash ~/Project-workire/scripts/deploy'
+   ssh -i "~/Desktop/Workire/Hello.pem" ubuntu@workire.com 'bash ~/Project-workire/scripts/deploy'
    echo "Deployed!"
 else
    echo "Changes not pushed!"
