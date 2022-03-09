@@ -24,6 +24,7 @@ mega3Sitemap = {
 }
 
 urlpatterns = [
+    path('sitemap_index.xml', site_map_index),
     path('sitemap.xml', sitemap, {'sitemaps': basicSitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('sitemap-job1.xml', sitemap, {'sitemaps': jobSitemap1}, name='django.contrib.sitemaps.views.sitemap'),
     path('sitemap-job2.xml', sitemap, {'sitemaps': jobSitemap2}, name='django.contrib.sitemaps.views.sitemap'),

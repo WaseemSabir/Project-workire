@@ -1,9 +1,40 @@
-from typing import Counter
-from django.contrib.admin.sites import site
 from django.contrib.sitemaps import Sitemap
-from django.contrib.sitemaps.views import sitemap
+from django.http import HttpResponse
 from .models import *
 from urllib.parse import quote
+from xml.dom import minidom
+from datetime import date
+
+def site_map_index(request):
+    server = "https://workire.com/"
+    root = minidom.Document()
+    xml = root.createElement('sitemapindex') 
+    xml.setAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
+    root.appendChild(xml)
+    
+    today = date.today()
+    first_day_of_month = today.replace(day=1)
+
+    sitemaps = {
+        "sitemap.xml": first_day_of_month.strftime("%Y-%d-%m"),
+        "sitemap-job1.xml": today.strftime("%Y-%d-%m"),
+        "sitemap-job2.xml": today.strftime("%Y-%d-%m"),
+        "sitemap-mega3.xml":today.strftime("%Y-%d-%m")
+    }
+    
+    for name, value in sitemaps.items():
+        sitemapChild = root.createElement('sitemap')
+        locChild = root.createElement('loc')
+        locChild.appendChild(root.createTextNode(server + name))
+        lastmod = root.createElement('lastmod')
+        lastmod.appendChild(root.createTextNode(value))
+        sitemapChild.appendChild(locChild)
+        sitemapChild.appendChild(lastmod)
+        xml.appendChild(sitemapChild)
+    
+    xml_str = root.toprettyxml(indent ="\t")
+
+    return HttpResponse(xml_str, content_type='text/xml')
 
 def getCountries():
     count = Countries.objects.all()
