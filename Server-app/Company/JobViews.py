@@ -123,9 +123,18 @@ class getAllCompanies(APIView):
 class getFeaturedCompany(APIView):
     @method_decorator(cache_page(60*60*1))
     def get(self, request):
-        company = Company.objects.exclude(logo__icontains='default.jpg').order_by('?')[:12]
-        company = CompanySerializer(company, many=True)
-        return Response({'data': company.data})
+        companies = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[:50]
+        to_ret = []
+        for company in companies:
+            if len(to_ret)>=12:
+                break
+            
+            com = Company.objects.filter(Name=company['AdvertiserName']).exclude(logo__icontains='default.jpg').first()
+            if com:
+                data = CompanySerializer(com).data
+                to_ret.append(data)
+            
+        return Response({'data': to_ret})
 
 class getjobByCountry(APIView):
     @method_decorator(cache_page(60*60*2))
