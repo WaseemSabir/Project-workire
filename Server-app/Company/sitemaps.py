@@ -14,12 +14,13 @@ def site_map_index(request):
     
     today = date.today()
     first_day_of_month = today.replace(day=1)
+    yesterday = today.replace(day=today.day-1)
 
     sitemaps = {
         "sitemap.xml": first_day_of_month.strftime("%Y-%d-%m"),
-        "sitemap-job1.xml": today.strftime("%Y-%d-%m"),
-        "sitemap-job2.xml": today.strftime("%Y-%d-%m"),
-        "sitemap-mega3.xml":today.strftime("%Y-%d-%m")
+        "sitemap-job1.xml": yesterday.strftime("%Y-%d-%m"),
+        "sitemap-job2.xml": yesterday.strftime("%Y-%d-%m"),
+        "sitemap-mega3.xml":yesterday.strftime("%Y-%d-%m")
     }
     
     for name, value in sitemaps.items():
