@@ -17,10 +17,10 @@ def site_map_index(request):
     yesterday = today.replace(day=today.day-1)
 
     sitemaps = {
-        "sitemap.xml": first_day_of_month.strftime("%Y-%d-%m"),
-        "sitemap-job1.xml": yesterday.strftime("%Y-%d-%m"),
-        "sitemap-job2.xml": yesterday.strftime("%Y-%d-%m"),
-        "sitemap-mega3.xml":yesterday.strftime("%Y-%d-%m")
+        "sitemap.xml": first_day_of_month.strftime("%Y-%m-%d"),
+        "sitemap-job1.xml": yesterday.strftime("%Y-%m-%d"),
+        "sitemap-job2.xml": yesterday.strftime("%Y-%m-%d"),
+        "sitemap-mega3.xml":yesterday.strftime("%Y-%m-%d")
     }
     
     for name, value in sitemaps.items():
