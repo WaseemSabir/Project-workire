@@ -134,7 +134,7 @@ export class JobListComponent implements OnInit {
         rand=rand-5;
       }
       this.searchFailed = res.category.slice(rand,rand+5).map((val : any)=>{
-        return [val.SEO_NAME,'/Job-category/'+val.SEO_NAME.replace(/ /g,'-')]
+        return [val.SEO_NAME,'/Job-category/'+val.SEO_NAME]
       })
     })
   }

@@ -26,7 +26,7 @@ export class JobFooterComponent implements OnInit {
     .subscribe(
       event =>{
         this.breadCrums = []
-        this.isRoot = this.location.path().split('/').length ? false : true
+        this.isRoot = this.location.path()=="" ? true : false
         let link_1 : string = ''
         this.location.path().split('/').forEach((each : any)=>{
           if(this.should_add(each)) {
