@@ -1,6 +1,6 @@
 from .models import *
 from .Serializers import *
-from datetime import datetime
+from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
 import requests
 from io import BytesIO
@@ -123,36 +123,47 @@ def process_job_data(i, count):
             category = Category(Name=i['Classification'])
             category.save()
 
-        company = Company.objects.filter(Name=i['AdvertiserName'])[0]
-        save_job(i,company, count)
+        company = Company.objects.filter(Name=i['AdvertiserName']).first()
+        if company:
+            save_job(i,company, count)
     
     except Exception as e:
         print(f"{count}. Exception: Failed to save a job\n",e,'\n')
 
 def delete_jobs(count, data):
     try:
-        jobs = Job.objects.filter(Region=count)
-        for i in jobs:
+        db_jobs = Job.objects.filter(Region=count).all()
+        for db_job in db_jobs:
             isIn = False
-            error = False
             try:
-                for j in data:
-                    if j['DisplayReference'] == i.DisplayReference:
+                for new_job in data:
+                    if new_job['DisplayReference'] == db_job.DisplayReference:
                         isIn = True
+                        break
+                
+                if not isIn:
+                    db_job.delete()
+                
             except Exception as e:
-                error = True
-                print(f"{count}: Error in deleting one in loop\n", e)
-
-            try:
-                if not isIn and not error:
-                    i.delete()
-            except Exception as e:
-                error = True
-                print(f"{count}: Error in deleting one in delete instance\n", e)
+                try:
+                    db_job.delete()
+                except:
+                    print(f"{count}: Error in deleting one in delete instance\n", e)
 
         print(f"{count}: Deleted all posible jobs not in use anymore:: Success")
     except Exception as e:
         print(f'{count} : Mega Exception: failed to delete jobs\n', e)
+
+def delete_jobs_older_than_days():
+    try:
+        temp_days = settings.DELETE_JOBS_OLDER_THAN_DAYS
+        days = temp_days if temp_days else 100
+        jobs = Job.objects.filter(PostDate__lte=datetime.now() - timedelta(days=days)).all()
+        for job in jobs:
+            job.delete()
+        print(f"Deleted all jobs older than {days} days")
+    except Exception as e:
+        print("Exception: Failed to delete jobs older than days")
 
 def post():
     try:
@@ -161,20 +172,24 @@ def post():
         global my_count
         count = my_count
 
-        curr_link = count % len(urls)
+        curr_count = count % len(urls)
 
         abs_path = settings.BASE_DIR
 
-        data, file_read_err = read_xml_from_url(urls[curr_link], curr_link, abs_path)
-        for job in data:
-            check = Job.objects.filter(DisplayReference=job['DisplayReference'])
-            if not len(check):
-                process_job_data(job,curr_link)
+        data, file_read_err = read_xml_from_url(urls[curr_count], curr_count, abs_path)
+        if file_read_err:
+            print(f"{count}. File read error, will try again!")
+            return
         
-        if not file_read_err:
-            delete_jobs(curr_link, data)
+        delete_jobs(curr_count, data)
+        for job in data:
+            job_exists = Job.objects.filter(DisplayReference=job['DisplayReference']).first()
+            if not job_exists:
+                process_job_data(job, curr_count)
 
+        delete_jobs_older_than_days()
         my_count +=1
+        my_count = my_count % 100000
 
     except Exception as e:
         print("Mega Exception: Post function errored out!\n", e)
