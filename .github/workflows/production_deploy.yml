@@ -6,6 +6,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+    - run: echo "🎉 testing secrets ${{ secrets.SSH_USER }}."
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@master
       with:
