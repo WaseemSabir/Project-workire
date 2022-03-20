@@ -187,7 +187,7 @@ def post():
             if not job_exists:
                 process_job_data(job, curr_count)
 
-        delete_jobs_older_than_days()
+        # delete_jobs_older_than_days()
         my_count +=1
         my_count = my_count % 100000
 
