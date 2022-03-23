@@ -126,7 +126,7 @@ class JobCompSiteMap(Sitemap):
         return Company.objects.all()
 
     def location(self,obj):
-        return '/Job-company/%s' % (quote(obj.Name.replace(' ','-').replace("/","%2F")))
+        return '/Job-company/%s' % (quote(obj.Name.replace("/","%2F")))
 
 class JobCountSiteMap(Sitemap):
     changefreq = "daily"
@@ -148,7 +148,7 @@ class JobPositionSiteMap(Sitemap):
         return Designation.objects.all()
 
     def location(self,obj):
-        return '/Job-by-position/%s' % (quote(obj.designation))
+        return '/Job-by-position/%s' % (quote(obj.designation.replace("/","%2F")))
 
 class JobTrendSiteMap(Sitemap):
     changefreq = "daily"
