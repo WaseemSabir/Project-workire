@@ -46,8 +46,8 @@ export class JobIndexComponent implements OnInit {
 
     this.loc.initFeatured_and_Country_and_count();
 
-    let title = 'Find Jobs, Get Career help and Build Resume | Workire'
-    let desc = "Find jobs in your area using workire job search engine. Get access to best career advice, free resume builder,  online mock interview practice and top Resume writing services."
+    let title = 'Jobs in UK, UAE, London, Dubai, Qatar | Workire'
+    let desc = "Workire is a free job site that posts jobs in the UK, UAE, Qatar, Dubai, and London in fields such as engineering, oil and gas, teaching, software, banking, marketing, and IT, as well as provides access to career advice and development tools."
     let keywords = "top resume writing services,Job listing,Find jobs, career advice,best online job sites,free resume builder,online mock interview practice"
     let url = this.domain + '/'
     let type = 'page'
