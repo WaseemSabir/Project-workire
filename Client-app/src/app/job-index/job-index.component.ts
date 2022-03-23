@@ -20,11 +20,18 @@ export class JobIndexComponent implements OnInit {
     "name": "Workire",
     "alternateName": "Workire.com",
     "url": "https://workire.com/",
-    "logo": "https://workire.com/assets/workire-logo.svg",
+    "logo": "https://workire.com/assets/Workire-jobs-uk-uae-qatar-dubai-london.svg",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+971501739398",
+      "contactType": "technical support",
+      "areaServed": ["GB","AE","QA","BH","KW","OM","SA","JO","IQ"],
+      "availableLanguage": ["en","Arabic"]
+    },
     "sameAs": [
       "https://www.facebook.com/workire",
       "https://www.linkedin.com/company/workire/",
-      "https://www.instagram.com/workire.co"
+      "https://www.instagram.com/workire.co/"
     ]
   }
 
