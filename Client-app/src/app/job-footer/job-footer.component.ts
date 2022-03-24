@@ -28,13 +28,19 @@ export class JobFooterComponent implements OnInit {
         this.breadCrums = []
         this.isRoot = this.location.path()=="" ? true : false
         let link_1 : string = ''
-        this.location.path().split('/').forEach((each : any)=>{
-          if(this.should_add(each)) {
-            let to_push_0 = decodeURI((each == '') ? 'home' : each)
-            link_1 += link_1.slice(-1)=='/' ? each : '/'+each
-            this.breadCrums.push([to_push_0,link_1])
-          }
-        })
+        
+        if(!this.isCustomBreadcrums()) {
+          this.location.path().split('/').forEach((each : any)=>{
+            if(this.should_add(each)) {
+              let to_push_0 = decodeURI((each == '') ? 'home' : each)
+              link_1 += link_1.slice(-1)=='/' ? each : '/'+each
+              this.breadCrums.push([to_push_0,link_1])
+            }
+          })
+        }
+        else {
+          this.customPush()
+        }
       }
     )
     
@@ -50,10 +56,32 @@ export class JobFooterComponent implements OnInit {
     return arrow;
   }
 
+  isCustomBreadcrums() {
+    let path = this.location.path();
+    if(path.includes('/Job/')) {
+      return true;
+    }
+    return false;
+  }
+
+  customPush() {
+    let path = this.location.path();
+    if(path.includes('/Job/')) {
+      this.breadCrums.push(['Home','/'])
+      this.breadCrums.push(['Jobs','/Jobs']);
+      let job_str = decodeURI(path.split('/')[2])
+      this.breadCrums.push([job_str,path])
+    }
+  }
+
   should_add(str : string) : boolean {
     // Checks all the each with certain conditions and returns whether they shuould be added
     if(str.toLocaleLowerCase().includes('days:') || str.toLocaleLowerCase().includes('page:'))
     {
+      return false;
+    }
+
+    if(str.toLocaleLowerCase()=="job") {
       return false;
     }
     return true;
