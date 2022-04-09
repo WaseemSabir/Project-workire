@@ -51,6 +51,8 @@ urlpatterns = [
 
     path('TotalJobCount', JobViews.TotalCount.as_view()),
 
+    path('JobSeoObject', JobViews.SeoObjectView.as_view()),
+
     # Blog View Patterns 
  
     path('getallposts', BlogView.getallposts.as_view()), #get all posts

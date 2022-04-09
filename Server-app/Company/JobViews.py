@@ -1,6 +1,7 @@
 from enum import unique
 from functools import reduce
 from os import stat
+from tokenize import Name
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -392,6 +393,44 @@ def isNotEmptyString(str):
         return True
     else:
         return False
+
+class SeoObjectView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        var = data.get('variable')
+        print(var)
+        serialized = None
+
+        if data.get('isTrending'):
+            obj = TrendingSearch.objects.filter(url=var).first()
+            if obj:
+                serialized = TrendingSearchSerializer(obj)
+
+        if data.get('isCategory'):
+            obj = Category.objects.filter(SEO_NAME=var).first()
+            if obj:
+                serialized = CatSerializer(obj)
+
+        if data.get('isCompany'):
+            obj = Company.objects.filter(Name=var).first()
+            if obj:
+                serialized = CompanySerializer(obj)
+
+        if data.get('isCountry'):
+            new_var = var.split('-')[-1]
+            obj = Countries.objects.filter(Country=new_var).first()
+            if obj:
+                serialized = CountrySerializer(obj)
+
+        if data.get('isPosition'):
+            obj = Designation.objects.filter(designation=var).first()
+            if obj:
+                serialized = DesignationSerializer(obj)
+        
+        if serialized:
+            return Response({'data':serialized.data})
+        else:
+            return Response({'data':None}, status=status.HTTP_404_NOT_FOUND)
 
 # Bot Views
 class FullSearch(APIView):

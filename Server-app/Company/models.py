@@ -11,9 +11,9 @@ class Company(models.Model):
     logo = models.ImageField(null= True,blank=True, default='default.jpg')
     Categories = models.CharField(max_length=100, null=True)
     show_seo = models.BooleanField(default=False)
-    seo_title = models.CharField(max_length=250,null=True)
-    seo_description = models.TextField(null=True)
-    seo_keywords = models.CharField(max_length=500,null=True)
+    seo_title = models.CharField(max_length=250,null=True,blank=True)
+    seo_description = models.TextField(null=True,blank=True)
+    seo_keywords = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.Name
@@ -25,9 +25,9 @@ class TrendingSearch(models.Model):
     search = models.CharField(max_length=100,null=False,unique=True)
     url = models.CharField(max_length=100,null=False,unique=True)
     show_seo = models.BooleanField(default=False)
-    seo_title = models.CharField(max_length=250,null=True)
-    seo_description = models.TextField(null=True)
-    seo_keywords = models.CharField(max_length=500,null=True)
+    seo_title = models.CharField(max_length=250,null=True,blank=True)
+    seo_description = models.TextField(null=True,blank=True)
+    seo_keywords = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.search
@@ -39,9 +39,9 @@ class Countries(models.Model):
     Country = models.CharField(max_length=100,null=False,unique=True)
     cities = models.CharField(max_length=700,null=True)
     show_seo = models.BooleanField(default=False)
-    seo_title = models.CharField(max_length=250,null=True)
-    seo_description = models.TextField(null=True)
-    seo_keywords = models.CharField(max_length=500,null=True)
+    seo_title = models.CharField(max_length=250,null=True,blank=True)
+    seo_description = models.TextField(null=True,blank=True)
+    seo_keywords = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.Country
@@ -53,9 +53,9 @@ class Designation(models.Model):
     designation = models.CharField(max_length=100,null=False,unique=True)
     close_designations_comma_separted = models.CharField(max_length=500,null=True)
     show_seo = models.BooleanField(default=False)
-    seo_title = models.CharField(max_length=250,null=True)
-    seo_description = models.TextField(null=True)
-    seo_keywords = models.CharField(max_length=500,null=True)
+    seo_title = models.CharField(max_length=250,null=True,blank=True)
+    seo_description = models.TextField(null=True,blank=True)
+    seo_keywords = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.designation
@@ -68,9 +68,9 @@ class Category(models.Model):
     Description = models.CharField(null=True,max_length=300)
     SEO_NAME = models.CharField(null=True,max_length=100)
     show_seo = models.BooleanField(default=False)
-    seo_title = models.CharField(max_length=250,null=True)
-    seo_description = models.TextField(null=True)
-    seo_keywords = models.CharField(max_length=500,null=True)
+    seo_title = models.CharField(max_length=250,null=True,blank=True)
+    seo_description = models.TextField(null=True,blank=True)
+    seo_keywords = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.Name
