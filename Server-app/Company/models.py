@@ -24,6 +24,7 @@ class Company(models.Model):
 class TrendingSearch(models.Model):
     search = models.CharField(max_length=100,null=False,unique=True)
     url = models.CharField(max_length=100,null=False,unique=True)
+    Show_On_Homepage = models.BooleanField(default=True)
     show_seo = models.BooleanField(default=False)
     seo_title = models.CharField(max_length=250,null=True,blank=True)
     seo_description = models.TextField(null=True,blank=True)
@@ -38,6 +39,7 @@ class TrendingSearch(models.Model):
 class Countries(models.Model):
     Country = models.CharField(max_length=100,null=False,unique=True)
     cities = models.CharField(max_length=700,null=True)
+    Show_On_Homepage = models.BooleanField(default=True)
     show_seo = models.BooleanField(default=False)
     seo_title = models.CharField(max_length=250,null=True,blank=True)
     seo_description = models.TextField(null=True,blank=True)
@@ -52,6 +54,7 @@ class Countries(models.Model):
 class Designation(models.Model):
     designation = models.CharField(max_length=100,null=False,unique=True)
     close_designations_comma_separted = models.CharField(max_length=500,null=True)
+    Show_On_Homepage = models.BooleanField(default=True)
     show_seo = models.BooleanField(default=False)
     seo_title = models.CharField(max_length=250,null=True,blank=True)
     seo_description = models.TextField(null=True,blank=True)
@@ -66,6 +69,7 @@ class Designation(models.Model):
 class Category(models.Model):
     Name = models.CharField(max_length=100,null=True,unique=True)
     Description = models.CharField(null=True,max_length=300)
+    Show_On_Homepage = models.BooleanField(default=True)
     SEO_NAME = models.CharField(null=True,max_length=100)
     show_seo = models.BooleanField(default=False)
     seo_title = models.CharField(max_length=250,null=True,blank=True)
