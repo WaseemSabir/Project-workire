@@ -47,7 +47,7 @@ export class LandingPageCategory implements OnInit {
             for(let val of res.category)
             {
                 try{
-                    if(val.SEO_NAME)
+                    if(val.SEO_NAME && val.Show_On_Homepage)
                     {
                         this.all['Jobs By Category'].fullData.push([val.SEO_NAME,'/Job-category/'+val.SEO_NAME]);
                     }  
@@ -63,12 +63,14 @@ export class LandingPageCategory implements OnInit {
             this.all['Jobs By Location'].fullData = []
             for(let object of res)
             {
-                this.all['Jobs By Location'].fullData.push(['Jobs in '+object.Country,'/Job-country/'+object.Country]);
-                for(let city of object.cities.split(','))
-                {
-                    if(city.length)
+                if(object.Show_On_Homepage) {
+                    this.all['Jobs By Location'].fullData.push(['Jobs in '+object.Country,'/Job-country/'+object.Country]);
+                    for(let city of object.cities.split(','))
                     {
-                        this.all['Jobs By Location'].fullData.push(['Jobs in '+city,'/Job-country/'+city+'-'+object.Country])
+                        if(city.length)
+                        {
+                            this.all['Jobs By Location'].fullData.push(['Jobs in '+city,'/Job-country/'+city+'-'+object.Country])
+                        }
                     }
                 }
             }
@@ -78,9 +80,17 @@ export class LandingPageCategory implements OnInit {
 
         this.loc.getPositions().toPromise()
         .then((res : any)=>{
-            this.all['Jobs By Designation'].fullData = res.map((val : any)=>{
-                return [val.designation+ ' Jobs','/Job-by-position/'+val.designation]
-            })
+            this.all['Jobs By Designation'].fullData = [];
+            for(let val of res)
+            {
+                try{
+                    if(val.Show_On_Homepage)
+                    {
+                        this.all['Jobs By Designation'].fullData.push([val.designation+ ' Jobs','/Job-by-position/'+val.designation]);
+                    }  
+                }
+                catch{}
+            }
             this.initData();
         })
         .catch((err)=>console.log(err))
@@ -98,11 +108,20 @@ export class LandingPageCategory implements OnInit {
                 }
             })
 
-            this.all['Trending Searches'].fullData = res.map((val : any)=>{
-                val.search = val.search.replace("United Arab Emirates","UAE")
-                val.search = val.search.replace("Manufacturing Operations","Operations")
-                return [val.search,'/trending-search/'+val.url];
-            })
+            this.all['Trending Searches'].fullData = [];
+            for(let val of res)
+            {
+                try{
+                    if(val.Show_On_Homepage)
+                    {
+                        val.search = val.search.replace("United Arab Emirates","UAE")
+                        val.search = val.search.replace("Manufacturing Operations","Operations")
+                        this.all['Trending Searches'].fullData.push([val.search,'/trending-search/'+val.url]);
+
+                    }  
+                }
+                catch{}
+            }
             this.reArrangeTredingsearch(countries)
             this.initData();
         })
