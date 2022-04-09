@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
-import { two_letter_to_full, SearchPayload } from './Interfece';
+import { two_letter_to_full, SearchPayload, SeoPaths } from './Interfece';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +89,14 @@ export class DeafultLocService {
     {
       return this.httpClient.get(this.MY_SEREVER + "company/getFilterSuggestions")
     }
+  }
+
+  public JobSeoObject(paths : SeoPaths, variable : string) {
+    let data = {
+      ...paths,
+      'variable' : variable
+    }
+    return this.httpClient.post(this.MY_SEREVER + "company/JobSeoObject",data)
   }
 
   public jobById(jobID : number) {

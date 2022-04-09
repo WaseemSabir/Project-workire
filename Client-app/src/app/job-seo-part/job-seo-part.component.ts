@@ -98,7 +98,21 @@ export class JobSeoPartComponent implements OnInit {
 
     main = toProperCase(main.replace(/-/g,' '))
 
-    this.setSeoForPage(paths,main,payload);
+    if(paths.isCategory || paths.isCompany || paths.isCountry || paths.isPosition || paths.isTrending) {
+      let new_var : string = paths.isCountry ? payload.country : variable;
+      this.loc.JobSeoObject(paths, new_var).toPromise()
+      .then((res : any)=>{
+        let data : any = res.data;
+        if(data.show_seo) {
+          this.HandleSpecialSeo(paths,main,payload, data);
+        } else {
+          this.setSeoForPage(paths,main,payload);
+        }
+      })
+      .catch((err : any) => this.setSeoForPage(paths,main,payload))
+    } else {
+      this.setSeoForPage(paths,main,payload);
+    }
 
     let seo_one : SeoObject = {
       header: `What should I search on Workire to find ${main}?`,
@@ -147,7 +161,7 @@ export class JobSeoPartComponent implements OnInit {
   setSeoForPage(paths : SeoPaths, main : string, payload : SearchPayload) {
     let title = '', desc = ''
     if(paths.isCountry) {
-      main = main.replace('Jobs','').replace('Job','')
+      main = main.replace('Jobs','').replace('Job','').replace('jobs','').replace('job','')
       title = `Jobs in ${main} (${getMonthAndYear()}) | Workire`
       desc = `Apply for the best jobs in ${main}.New careers in ${main} are added daily on Workire.com. Apply quickly to various ${main} job openings that are hiring near you`
     }
@@ -157,7 +171,7 @@ export class JobSeoPartComponent implements OnInit {
     }
     else {
       title = `${main} (with Salaries) ${getMonthAndYear()} | Workire`
-      desc = `Check out best ${main} Jobs vacancies with eligibility, location, salary etc. ${main} vacancies & careers in top companies`
+      desc = `Check out best ${main} vacancies with eligibility, location, salary etc. ${main} vacancies & careers in top companies`
     }
     this.updatePageSeo(title,main,desc,payload);
   }
@@ -188,6 +202,36 @@ export class JobSeoPartComponent implements OnInit {
       }
     }
     return reduced;
+  }
+
+  HandleSpecialSeo(paths : SeoPaths, main : string, payload : SearchPayload, data : any) {
+    let title = '', desc = ''
+    if(paths.isCountry) {
+      main = main.replace('Jobs','').replace('Job','').replace('jobs','').replace('job','')
+      title = `Jobs in ${main} (${getMonthAndYear()}) | Workire`
+      desc = `Apply for the best jobs in ${main}.New careers in ${main} are added daily on Workire.com. Apply quickly to various ${main} job openings that are hiring near you`
+    }
+    else if(paths.isTrending) {
+      title = `${main} (with Salaries) ${getMonthAndYear()} | Workire`
+      desc = `Top ${main}. Many new job vacancies updated daily. Get one step closer to your dream job by easily browsing and applying to various jobs on platform.`
+    }
+    else {
+      title = `${main} (with Salaries) ${getMonthAndYear()} | Workire`
+      desc = `Check out best ${main} vacancies with eligibility, location, salary etc. ${main} vacancies & careers in top companies`
+    }
+
+    let SeoLoc = (payload.country.length!=0) ? ("in " + payload.country.split(',').join(' , ')) : ''
+
+    let keywords = `${main},new ${main},${payload.search} Job ${SeoLoc},${payload.search} Job opportunity ${SeoLoc},${payload.search} Job openings ${SeoLoc}`
+    let url = this.domain + this.route.url
+    let type = 'job'
+
+    title = data.seo_title ? data.seo_title : title;
+    desc = data.seo_description ? data.seo_description : desc;
+    keywords = data.seo_keywords ? data.seo_keywords : keywords;
+
+    this.seo.updateSeo(title,desc,keywords,type,url);
+    this.seo.createCanonicalURL(url);
   }
 
   showClick(i : number)

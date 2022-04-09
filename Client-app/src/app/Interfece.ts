@@ -107,8 +107,17 @@ export function getPayloadByRoute(route : string, payload : string, variable : s
     let search : string = arr[0].replace('-Jobs','').replace('-jobs','')
     search = search.replace('Jobs','').replace('jobs','')
     search = toProperCase(search.replace(/-/g,' '))
-    let country : string = toProperCase(arr[1].replace(/-/g,' '))
-    let payload_temp = valuesToPayload(search,country,'','',0,1)
+    let country : string = toProperCase(arr[1])
+    let temp : string = ""
+    for (let i : number =0; i<country.length; i++) {
+      if(i==0 || country[i-1]!=='-') {
+        temp += country[i]
+        continue
+      } else {
+        temp += country[i].toUpperCase()
+      }
+    }
+    let payload_temp = valuesToPayload(search,temp,'','',0,1)
     return payloadToValues(payload_temp);
   }
   else if(route.includes('Job-category'))

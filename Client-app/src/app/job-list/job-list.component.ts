@@ -6,7 +6,6 @@ import { FilterValueService } from '../filter-value.service';
 import { Job, SearchPayload, getPayloadByRoute, getHeaderFromRoute } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
 import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
 import { isPlatformServer } from '@angular/common';
 import { Request, Response } from 'express';
@@ -59,7 +58,6 @@ export class JobListComponent implements OnInit {
       let variable = params.get("var")!
 
       let values : SearchPayload = getPayloadByRoute(this.route.url,payload,variable)
-
       if(isPlatformBrowser(this.platformId))
       {
         this.scrollToTop();
