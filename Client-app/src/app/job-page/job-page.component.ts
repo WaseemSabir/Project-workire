@@ -15,166 +15,157 @@ import { environment } from '../../environments/environment';
 })
 export class JobPageComponent implements OnInit {
 
-  isMobile : boolean = false;
-  isSaved : boolean = false;
-  jobSchema : any = {};
-  @Input() check : boolean = true;
-  jobid : string = '';
-  jobDetails : any = {};
+  isMobile: boolean = false;
+  isSaved: boolean = false;
+  jobSchema: any = {};
+  @Input() check: boolean = true;
+  jobid: string = '';
+  jobDetails: any = {};
 
-  domain : string = environment.APIEndpoint;
-  target_feature : any[] = []
-  tit : string = '';
-  schema : any = {};
+  domain: string = environment.APIEndpoint;
+  target_feature: any[] = []
+  tit: string = '';
+  schema: any = {};
 
-  constructor(private route: Router,private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private seo : SeoServiceService,private spinner: NgxSpinnerService,private filter : FilterValueService) { }
+  constructor(private route: Router, private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoServiceService, private spinner: NgxSpinnerService, private filter: FilterValueService) { }
 
   ngOnInit(): void {
-    if(isPlatformBrowser(this.platformId))
-    {
+    if (isPlatformBrowser(this.platformId)) {
       this.isMobile = screen.width < 768;
     }
 
-    this.filter.title$.subscribe((res : Job) =>{
+    this.filter.title$.subscribe((res: Job) => {
       this.jobid = res.title;
       this.spinner.show();
-      if(res.id) {
+      if (res.id) {
         this.loc.jobById(res.id).toPromise()
-        .then((res : any)=>{
-          this.spinner.hide()
-          this.initJob(res, false);
-        })
+          .then((res: any) => {
+            this.spinner.hide()
+            this.initJob(res);
+          })
       }
       else {
         this.loc.jobTitle(this.jobid).toPromise()
-        .then((res : any)=>{
-          this.spinner.hide()
-          this.initJob(res, true);
-        })
+          .then((res: any) => {
+            this.spinner.hide()
+            this.initJob(res);
+          })
       }
 
-      if(isPlatformBrowser(this.platformId))
-      {
-        if(localStorage.getItem('saved'))
-        {
+      if (isPlatformBrowser(this.platformId)) {
+        if (localStorage.getItem('saved')) {
           this.isSaved = localStorage.getItem('saved')?.split('~').includes(this.jobid)!
         }
       }
     })
   }
 
-  initJob(jobData : any, getFeatured : boolean) {
+  initJob(jobData: any) {
     this.spinner.hide();
-    this.jobDetails = jobData.Jobs[0];
 
-    if(getFeatured) {
+    if (jobData.Jobs.length) {
+
+      this.jobDetails = jobData.Jobs[0];
+
       this.loc.featured(this.jobDetails.Classification).toPromise()
-      .then((res : any)=>{
-        this.target_feature = res.job;
-        this.target_feature = this.target_feature.filter((val)=>{
-          return this.jobid !== val.Position;
+        .then((res: any) => {
+          this.target_feature = res.job;
+          this.target_feature = this.target_feature.filter((val) => {
+            return this.jobid !== val.Position;
+          })
         })
-      })
-      .catch()
-    }
+        .catch((err: any) => {
+          console.log(err)
+        })
 
-    this.schema = {
-      "@context": "https://schema.org/",
-      "@type": "JobPosting",
-      "title": this.jobDetails.Position,
-      "description": this.jobDetails.Description,
-      "hiringOrganization" : {
-        "@type": "Organization",
-        "name": this.jobDetails.AdvertiserName
-      },
-      "industry": this.jobDetails.Classification,
-      "employmentType": this.jobDetails.EmploymentType,
-      "workHours": this.jobDetails.WorkHours,
-      "datePosted": this.jobDetails.PostDate,
-      "jobLocation": {
-        "@type": "Place",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": this.jobDetails.Area,
-          "addressLocality": this.jobDetails.Location,
-          "postalCode": this.jobDetails.PostalCode,
-          "addressCountry": this.jobDetails.Country
-        }
-      },
-      "baseSalary": {
-        "@type": "MonetaryAmount",
-        "currency": this.jobDetails.SalaryCurrency,
-        "value": {
-          "@type": "QuantitativeValue",
-          "minValue": this.jobDetails.SalaryMinimum,
-          "maxValue": this.jobDetails.SalaryMaximum,
-          "unitText": this.jobDetails.SalaryPeriod
+      this.schema = {
+        "@context": "https://schema.org/",
+        "@type": "JobPosting",
+        "title": this.jobDetails.Position,
+        "description": this.jobDetails.Description,
+        "hiringOrganization": {
+          "@type": "Organization",
+          "name": this.jobDetails.AdvertiserName
+        },
+        "industry": this.jobDetails.Classification,
+        "employmentType": this.jobDetails.EmploymentType,
+        "workHours": this.jobDetails.WorkHours,
+        "datePosted": this.jobDetails.PostDate,
+        "jobLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": this.jobDetails.Area,
+            "addressLocality": this.jobDetails.Location,
+            "postalCode": this.jobDetails.PostalCode,
+            "addressCountry": this.jobDetails.Country
+          }
+        },
+        "baseSalary": {
+          "@type": "MonetaryAmount",
+          "currency": this.jobDetails.SalaryCurrency,
+          "value": {
+            "@type": "QuantitativeValue",
+            "minValue": this.jobDetails.SalaryMinimum,
+            "maxValue": this.jobDetails.SalaryMaximum,
+            "unitText": this.jobDetails.SalaryPeriod
+          }
         }
       }
+
     }
+
   }
 
   saveIcon() {
-    if(this.isSaved)
-    {
+    if (this.isSaved) {
       let temp = localStorage.getItem('saved')?.split('~')
-      temp = temp?.filter((val : string)=>{
+      temp = temp?.filter((val: string) => {
         return val !== this.jobid;
       })
 
-      if(temp?.length)
-      {
-        localStorage.setItem('saved',temp!.join('~'));
+      if (temp?.length) {
+        localStorage.setItem('saved', temp!.join('~'));
       }
-      else
-      {
-        localStorage.setItem('saved','')
+      else {
+        localStorage.setItem('saved', '')
       }
     }
-    else
-    {
-      if(localStorage.getItem('saved'))
-      {
+    else {
+      if (localStorage.getItem('saved')) {
         let temp = localStorage.getItem('saved')
         let k = temp?.split('~')
         k?.push(this.jobid)
-        localStorage.setItem('saved',k!.join('~'))
+        localStorage.setItem('saved', k!.join('~'))
       }
-      else
-      {
-        localStorage.setItem('saved',this.jobid)
+      else {
+        localStorage.setItem('saved', this.jobid)
       }
     }
     this.isSaved = (!this.isSaved)
     this.seo.changeMessage();
   }
 
-  DateFun (str : string)
-  {
+  DateFun(str: string) {
     let today = Date.parse(new Date().toString());
     let d = Date.parse(str);
-    let j = Math.floor((today - d)/(86400*1000))
-    if(j==0)
-    {
+    let j = Math.floor((today - d) / (86400 * 1000))
+    if (j == 0) {
       return 'Today';
     }
-    else if(j==1)
-    {
+    else if (j == 1) {
       return 'Yesterday';
     }
-    else
-    {
+    else {
       return `${j} days ago`;
     }
   }
 
-  isEmpty = () =>{
-    if(this.jobDetails)
-    {
+  isEmpty = () => {
+    if (this.jobDetails) {
       return true;
     }
-    else
-    {
+    else {
       return false;
     }
   }

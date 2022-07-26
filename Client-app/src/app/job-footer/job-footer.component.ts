@@ -69,8 +69,6 @@ export class JobFooterComponent implements OnInit {
     if(path.includes('/Job/')) {
       this.breadCrums.push(['Home','/'])
       this.breadCrums.push(['Jobs','/Jobs']);
-      let job_str = decodeURI(path.split('/')[2])
-      this.breadCrums.push([job_str,path])
     }
   }
 
