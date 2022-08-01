@@ -4,6 +4,8 @@ from .models import *
 from urllib.parse import quote
 from xml.dom import minidom
 from datetime import date
+from django.db.models import Count
+
 
 def site_map_index(request):
     server = "https://workire.com/"
@@ -123,7 +125,11 @@ class JobCompSiteMap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return Company.objects.all()
+        # Only Show companies that has jobs in sitemap
+        companies_with_jobs = Job.objects.values('Company').annotate(Count('Company')).order_by('Company__count').reverse().values('Company')
+
+        company_ids = [comp['Company'] for comp in companies_with_jobs]
+        return Company.objects.filter(id__in=company_ids).all()
 
     def location(self,obj):
         return '/Job-company/%s' % (quote(obj.Name.replace("/","%2F")))
