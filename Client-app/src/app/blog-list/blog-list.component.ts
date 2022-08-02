@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DeafultLocService } from '../api-call.service';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
 import { SeoServiceService } from '../seo-service.service';
@@ -24,7 +24,7 @@ export class BlogListComponent implements OnInit {
   whole : any = []
 
   opened : boolean = false
-  blogSearch: FormControl = new FormControl('')
+  blogSearch: UntypedFormControl = new UntypedFormControl('')
   isMobile : boolean = false
 
   public parseObj = Object.keys

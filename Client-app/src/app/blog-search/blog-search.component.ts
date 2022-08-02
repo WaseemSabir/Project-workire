@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -17,7 +17,7 @@ export class BlogSearchComponent implements OnInit {
 
   searchString : string = '';
   searchData : any = [];
-  blogSearch : FormControl = new FormControl();
+  blogSearch : UntypedFormControl = new UntypedFormControl();
   loaded : boolean = false;
   domain : string = environment.APIEndpoint;
   isMobile : boolean = false;
