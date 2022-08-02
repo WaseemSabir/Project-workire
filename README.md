@@ -2,6 +2,8 @@
 
 # Workire
 
+[![Deployment](https://github.com/WaseemSabir/Project-workire/actions/workflows/production_deploy.yml/badge.svg)](https://github.com/WaseemSabir/Project-workire/actions/workflows/production_deploy.yml)
+
 This is the source code for a production application, deployed at [workire](https://workire.com), with a 90+ Performance, Accessibility, Best Practice and SEO rating with lighthouse.
 
 ## Basic Dependencies
