@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, Optional, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -7,6 +7,10 @@ import { FilterValueService } from '../filter-value.service';
 import { Job } from '../Interfece'
 import { SeoServiceService } from '../seo-service.service';
 import { environment } from '../../environments/environment';
+import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
+import { isPlatformServer } from '@angular/common';
+import { Request, Response } from 'express';
+
 
 @Component({
   selector: 'app-job-page',
@@ -19,7 +23,7 @@ export class JobPageComponent implements OnInit {
   isSaved: boolean = false;
   jobSchema: any = {};
   @Input() check: boolean = true;
-  jobid: string = '';
+  jobTitle: string = '';
   jobDetails: any = {};
 
   domain: string = environment.APIEndpoint;
@@ -27,7 +31,8 @@ export class JobPageComponent implements OnInit {
   tit: string = '';
   schema: any = {};
 
-  constructor(private route: Router, private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoServiceService, private spinner: NgxSpinnerService, private filter: FilterValueService) { }
+  constructor(private route: Router, private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoServiceService, private spinner: NgxSpinnerService, private filter: FilterValueService, @Optional() @Inject(REQUEST) private request: Request,
+  @Optional() @Inject(RESPONSE) private response: Response) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -35,7 +40,8 @@ export class JobPageComponent implements OnInit {
     }
 
     this.filter.title$.subscribe((res: Job) => {
-      this.jobid = res.title;
+      this.jobTitle = res.title; // Kind of hacky, used in template to toggle
+      
       this.spinner.show();
       if (res.id) {
         this.loc.jobById(res.id).toPromise()
@@ -45,7 +51,7 @@ export class JobPageComponent implements OnInit {
           })
       }
       else {
-        this.loc.jobTitle(this.jobid).toPromise()
+        this.loc.jobTitle(res.title).toPromise()
           .then((res: any) => {
             this.spinner.hide()
             this.initJob(res);
@@ -54,7 +60,7 @@ export class JobPageComponent implements OnInit {
 
       if (isPlatformBrowser(this.platformId)) {
         if (localStorage.getItem('saved')) {
-          this.isSaved = localStorage.getItem('saved')?.split('~').includes(this.jobid)!
+          this.isSaved = localStorage.getItem('saved')?.split('~').includes(this.jobTitle)!
         }
       }
     })
@@ -71,7 +77,7 @@ export class JobPageComponent implements OnInit {
         .then((res: any) => {
           this.target_feature = res.job;
           this.target_feature = this.target_feature.filter((val) => {
-            return this.jobid !== val.Position;
+            return this.jobTitle !== val.Position;
           })
         })
         .catch((err: any) => {
@@ -113,6 +119,29 @@ export class JobPageComponent implements OnInit {
         }
       }
 
+      // set seo
+      let rola = (this.jobDetails.Location!=='Not Specified') ? (this.jobDetails.Location + ', ' + this.jobDetails.Country) : this.jobDetails.Country
+  
+      let tit = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName;
+      let desc = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName + " .Find relvent jobs in " + this.jobDetails.Classification + ". Browse best " + this.jobDetails.Classification +" Jobs in "+ rola +" at Workire.com"
+      let keywords = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName + ','+this.jobDetails.Classification + ' Jobs in ' + rola
+      let type = 'job'
+      let url = this.domain + this.route.url
+      let image = this.domain + this.jobDetails.LogoURL
+
+      this.seo.updateSeoWithImage(tit,desc,keywords,image,type,url);
+      this.seo.createCanonicalURL(url);
+
+      // return good response
+      if(isPlatformServer(this.platformId)) {
+        this.response.status(200);
+      }
+
+    } else {
+      // No job found, return 404! page rendering handled in html
+      if(isPlatformServer(this.platformId)) {
+        this.response.status(404);
+      }
     }
 
   }
@@ -121,7 +150,7 @@ export class JobPageComponent implements OnInit {
     if (this.isSaved) {
       let temp = localStorage.getItem('saved')?.split('~')
       temp = temp?.filter((val: string) => {
-        return val !== this.jobid;
+        return val !== this.jobTitle;
       })
 
       if (temp?.length) {
@@ -135,11 +164,11 @@ export class JobPageComponent implements OnInit {
       if (localStorage.getItem('saved')) {
         let temp = localStorage.getItem('saved')
         let k = temp?.split('~')
-        k?.push(this.jobid)
+        k?.push(this.jobTitle)
         localStorage.setItem('saved', k!.join('~'))
       }
       else {
-        localStorage.setItem('saved', this.jobid)
+        localStorage.setItem('saved', this.jobTitle)
       }
     }
     this.isSaved = (!this.isSaved)
@@ -161,12 +190,7 @@ export class JobPageComponent implements OnInit {
     }
   }
 
-  isEmpty = () => {
-    if (this.jobDetails) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  isNotEmpty = () => {
+    return !(this.jobDetails && (Object.keys(this.jobDetails).length === 0));
   }
 }

@@ -11,7 +11,7 @@ import { SeoServiceService } from '../seo-service.service';
 })
 export class JobPositionsComponent implements OnInit {
 
-  allCat : any = []
+  allCat : any = [] // refer to all positions object
   domain : string = environment.APIEndpoint;
   loaded : boolean = false
   keys = Object.keys
@@ -36,12 +36,15 @@ export class JobPositionsComponent implements OnInit {
       let title = `Find  latest Jobs by Position (${monthNames[date.getMonth()]}-${date.getFullYear()}) | Workire`
       
       let desc = "Apply for the best jobs in all Positions.New careers in all positions are added daily on Workire.com. Apply quickly to various job openings that are hiring near you."
-      let keywords = Object.keys(this.allCat).toString()
-      let url = this.domain + '/Jobs/All-Categories'
+      let keywords = ''
+      for (let i = 0; i < this.allCat.length; i++) {
+        keywords += this.allCat[i].designation + ','
+      }
+      let url = this.domain + '/Jobs/All-Positions'
       let type = 'job'
 
       this.seo.updateSeo(title,desc,keywords,type,url);
-      this.seo.createCanonicalURL(this.domain + '/Jobs/All-Categories');
+      this.seo.createCanonicalURL(this.domain + '/Jobs/All-Positions');
     })
     .catch()
   }

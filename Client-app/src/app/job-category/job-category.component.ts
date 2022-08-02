@@ -34,7 +34,11 @@ export class JobCategoryComponent implements OnInit {
 
       let title = `Find  latest Jobs by Category (${monthNames[date.getMonth()]}-${date.getFullYear()}) | Workire`
       let desc = "Apply for the best jobs in all Categories.New careers in all categories are added daily on Workire.com. Apply quickly to various job openings that are hiring near you."
-      let keywords = Object.keys(this.allCat).toString()
+      let keywords = ''
+      for (let i = 0; i < this.allCat.length; i++) {
+        keywords += this.allCat[i].SEO_NAME + ','
+      }
+
       let url = this.domain + '/Jobs/All-Categories'
       let type = 'job'
 

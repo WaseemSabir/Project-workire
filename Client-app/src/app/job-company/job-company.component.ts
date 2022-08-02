@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 export class JobCompanyComponent implements OnInit {
 
   domain : string = environment.APIEndpoint;
-  allCat : any[] = []
+  allCat : any[] = [] // refer to all companies object
   loaded : boolean = false
   keys = Object.keys
   check : any[] = []
@@ -39,7 +39,10 @@ export class JobCompanyComponent implements OnInit {
 
       let title = `Find  latest Jobs by Company (${monthNames[date.getMonth()]}-${date.getFullYear()}) | Workire`
       let desc = "Apply for the best jobs in all company.New careers in all companies are added daily on Workire.com. Apply quickly to various job openings that are hiring near you."
-      let keywords = Object.keys(this.allCat).toString()
+      let keywords = ""
+      for (let i = 0; i < 80; i++) {
+        keywords += this.allCat[i].AdvertiserName + ','
+      }
       let url = this.domain + '/Jobs/All-Companies'
       let type = 'job'
 

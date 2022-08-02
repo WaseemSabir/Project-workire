@@ -11,7 +11,7 @@ import { SeoServiceService } from '../seo-service.service';
 })
 export class JobTrendingSearchComponent implements OnInit {
 
-  allCat : any = []
+  allCat : any = [] // refer to all trending searches object
   domain : string = environment.APIEndpoint;
   loaded : boolean = false
   keys = Object.keys
@@ -35,12 +35,16 @@ export class JobTrendingSearchComponent implements OnInit {
 
       let title = `Trending Searches (${monthNames[date.getMonth()]}-${date.getFullYear()}) | Workire`
       let desc = "Try out these trending seaches to find your dream job. Apply quickly to various job openings that are hiring near you."
-      let keywords = Object.keys(this.allCat).toString()
-      let url = this.domain + '/Jobs/All-Categories'
+      let keywords = ''
+      for (let i = 0; i < this.allCat.length; i++) {
+
+        keywords += this.allCat[i].search + ','
+      }
+      let url = this.domain + '/Jobs/Trending-Search'
       let type = 'job'
 
       this.seo.updateSeo(title,desc,keywords,type,url);
-      this.seo.createCanonicalURL(this.domain + '/Jobs/All-Categories');
+      this.seo.createCanonicalURL(this.domain + '/Jobs/Trending-Search');
     })
     .catch()
   }
