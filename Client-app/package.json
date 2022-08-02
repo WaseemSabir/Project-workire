@@ -34,7 +34,7 @@
     "@ngx-lite/json-ld": "^0.6.4",
     "@rxjs/rx": "^4.1.0",
     "@types/chart.js": "^2.9.32",
-    "angular-bootstrap-md": "^11.1.0",
+    "angular-bootstrap-md": "^13.0.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.9.4",
