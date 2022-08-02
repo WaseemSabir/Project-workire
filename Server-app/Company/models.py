@@ -128,14 +128,14 @@ class Job(models.Model):
         ordering = ['-PostDate']
 
 class Blog(models.Model):
-    title = models.CharField(max_length=100,null=True,blank=True)
+    title = models.CharField(max_length=1000,null=True,blank=True)
     body = models.TextField(null=True,blank=True)
     image = models.ImageField(null=True,blank=True)
     category = models.CharField(max_length=100,null=True,blank=True)
     addDate = models.DateField(auto_now_add=True)
     BlogUrl = models.CharField(null=True,blank=True,max_length=100)
-    Description = models.CharField(max_length=150,null=True,blank=True)
-    KeyWord = models.CharField(max_length=100,null=True,blank=True)
+    Description = models.CharField(max_length=500,null=True,blank=True)
+    KeyWord = models.CharField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.title
