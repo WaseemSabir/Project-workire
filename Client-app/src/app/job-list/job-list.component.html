@@ -18,7 +18,7 @@
                 </div>
                 <div class="" [ngClass]="{'col-3':toggleView,'col-4':!toggleView}">
                     <app-job-list-cards *ngIf="loaded" [item]="data" [load]="loaded" [show]="true" [toggleView]="toggleView" [isMobile]="isMobile"></app-job-list-cards>
-                    <!-- <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part> -->
+                    <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>
                 </div>
                 <div class="" [ngClass]="{'col-6':toggleView,'col-8':!toggleView}" >
                     <app-job-page [check]="false"></app-job-page>
@@ -28,12 +28,12 @@
             <div *ngIf="isMobile && allJobs.length">
                 <div *ngIf="!currJob.id">
                     <app-job-list-cards *ngIf="loaded" [item]="data" [load]="loaded" [show]="true" [toggleView]="toggleView" [isMobile]="isMobile"></app-job-list-cards>
-                    <!-- <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part> -->
+                    <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>
                 </div>
                 <div *ngIf="currJob.id">
                     <app-job-page [check]="false"></app-job-page>
                     <app-job-list-cards *ngIf="loaded" [item]="data" [load]="loaded" [show]="false" [toggleView]="toggleView" [isMobile]="isMobile"></app-job-list-cards>
-                    <!-- <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part> -->
+                    <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>
                 </div>
             </div>
             
@@ -52,7 +52,7 @@
                     <p>Or Try these Popular Seraches</p>
                     <p *ngFor="let k of searchFailed"><a class="pointer link-tag" [href]="[k[1]]">{{k[0]}}</a></p>
                 </div>
-                <!-- <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part> -->
+                <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>
             </div>
         </div>
     </div>
