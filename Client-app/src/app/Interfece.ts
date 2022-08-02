@@ -148,7 +148,6 @@ export function payloadToValues(payload : string) : SearchPayload
     else if(each.includes("page:")){ 
       if(Number(each.replace("page:",""))) page = Number(each.replace("page:",""))
     }
-    else console.log("Ignored: ",each)
   })
   if(page<1)
   {

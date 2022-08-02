@@ -67,12 +67,14 @@ export class JobListComponent implements OnInit {
       this.loaded = false;
       this.loc.getAllJobsSearchPayload(values).toPromise()
       .then((dataRet : any)=>{
+        this.spinner.hide();
         this.handleJobData(dataRet,payload,variable,values);
         if(isPlatformServer(this.platformId)) {
           this.response.status(200);
         }
       })
       .catch((err: any)=>{
+        this.spinner.hide();
         let dataRet : any = {
           count : 0,
           data : []

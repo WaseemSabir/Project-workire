@@ -32,7 +32,7 @@ export class JobPageComponent implements OnInit {
   schema: any = {};
 
   constructor(private route: Router, private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoServiceService, private spinner: NgxSpinnerService, private filter: FilterValueService, @Optional() @Inject(REQUEST) private request: Request,
-  @Optional() @Inject(RESPONSE) private response: Response) { }
+    @Optional() @Inject(RESPONSE) private response: Response) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -41,21 +41,12 @@ export class JobPageComponent implements OnInit {
 
     this.filter.title$.subscribe((res: Job) => {
       this.jobTitle = res.title; // Kind of hacky, used in template to toggle
-      
-      this.spinner.show();
-      if (res.id) {
-        this.loc.jobById(res.id).toPromise()
-          .then((res: any) => {
-            this.spinner.hide()
-            this.initJob(res);
-          })
-      }
-      else {
-        this.loc.jobTitle(res.title).toPromise()
-          .then((res: any) => {
-            this.spinner.hide()
-            this.initJob(res);
-          })
+
+      // different job requested, that is not already loaded
+      if (this.jobTitle !== this.jobDetails.Position) {
+        this.fetchJob(res); // fetches job, init job details, gets featured jobs and sets SEO
+      } else {
+        this.handleSeo(); // sets SEO
       }
 
       if (isPlatformBrowser(this.platformId)) {
@@ -66,23 +57,65 @@ export class JobPageComponent implements OnInit {
     })
   }
 
+
+  fetchJob(res: Job) {
+    this.spinner.show();
+    if (res.id) {
+      this.loc.jobById(res.id).toPromise()
+        .then((res: any) => {
+          this.spinner.hide()
+          this.initJob(res);
+        })
+    }
+    else {
+      this.loc.jobTitle(res.title).toPromise()
+        .then((res: any) => {
+          this.spinner.hide()
+          this.initJob(res);
+        })
+    }
+  }
+
   initJob(jobData: any) {
+    // Used after getting new data, to cater all side effects of showing new job!
     this.spinner.hide();
 
     if (jobData.Jobs.length) {
 
       this.jobDetails = jobData.Jobs[0];
 
-      this.loc.featured(this.jobDetails.Classification).toPromise()
-        .then((res: any) => {
-          this.target_feature = res.job;
-          this.target_feature = this.target_feature.filter((val) => {
-            return this.jobTitle !== val.Position;
-          })
+      this.getFeaturedJobs();
+      this.handleSeo();
+
+      // return good response
+      if (isPlatformServer(this.platformId)) {
+        this.response.status(200);
+      }
+
+    } else {
+      // No job found, return 404! page rendering handled in html
+      if (isPlatformServer(this.platformId)) {
+        this.response.status(404);
+      }
+    }
+
+  }
+
+  getFeaturedJobs() {
+    this.loc.featured(this.jobDetails.Classification).toPromise()
+      .then((res: any) => {
+        this.target_feature = res.job;
+        this.target_feature = this.target_feature.filter((val) => {
+          return this.jobTitle !== val.Position;
         })
-        .catch((err: any) => {
-          console.log(err)
-        })
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }
+
+  handleSeo() {
+    if (this.isNotEmpty()) {
 
       this.schema = {
         "@context": "https://schema.org/",
@@ -120,28 +153,17 @@ export class JobPageComponent implements OnInit {
       }
 
       // set seo
-      let rola = (this.jobDetails.Location!=='Not Specified') ? (this.jobDetails.Location + ', ' + this.jobDetails.Country) : this.jobDetails.Country
-  
-      let tit = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName;
-      let desc = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName + " .Find relvent jobs in " + this.jobDetails.Classification + ". Browse best " + this.jobDetails.Classification +" Jobs in "+ rola +" at Workire.com"
-      let keywords = this.jobDetails.Position + ' in ' + rola + ' at '+ this.jobDetails.AdvertiserName + ','+this.jobDetails.Classification + ' Jobs in ' + rola
+      let rola = (this.jobDetails.Location !== 'Not Specified') ? (this.jobDetails.Location + ', ' + this.jobDetails.Country) : this.jobDetails.Country
+
+      let tit = this.jobDetails.Position + ' in ' + rola + ' at ' + this.jobDetails.AdvertiserName;
+      let desc = this.jobDetails.Position + ' in ' + rola + ' at ' + this.jobDetails.AdvertiserName + " .Find relvent jobs in " + this.jobDetails.Classification + ". Browse best " + this.jobDetails.Classification + " Jobs in " + rola + " at Workire.com"
+      let keywords = this.jobDetails.Position + ' in ' + rola + ' at ' + this.jobDetails.AdvertiserName + ',' + this.jobDetails.Classification + ' Jobs in ' + rola
       let type = 'job'
       let url = this.domain + this.route.url
       let image = this.domain + this.jobDetails.LogoURL
 
-      this.seo.updateSeoWithImage(tit,desc,keywords,image,type,url);
+      this.seo.updateSeoWithImage(tit, desc, keywords, image, type, url);
       this.seo.createCanonicalURL(url);
-
-      // return good response
-      if(isPlatformServer(this.platformId)) {
-        this.response.status(200);
-      }
-
-    } else {
-      // No job found, return 404! page rendering handled in html
-      if(isPlatformServer(this.platformId)) {
-        this.response.status(404);
-      }
     }
 
   }
