@@ -41,18 +41,18 @@ class getBlogbyUrl(APIView):
             Name = self.kwargs.get('search')
             lookup = Q(BlogUrl__icontains=Name)
             blog = Blog.objects.filter(lookup)
-            blog1 = None
-            if len(blog)<3 and len(blog)>=1:
+            related_blogs = None
+            if len(blog)>=1:
                 categories = getcat(blog)
-                blog1 = Blog.objects.filter(category__in = categories)
-                if(len(blog1)<3):
-                    blog1 = blog1[:3]
+                related_blogs = Blog.objects.filter(category__in = categories)
+                if(len(related_blogs)>=2):
+                    related_blogs = related_blogs[:2]
                 else:
-                    blog1 = Blog.objects.all()[:3]
+                    related_blogs = Blog.objects.all()[:2]
 
-            blog1 = BlogSerializer(blog1, many = True)
+            related_blogs = BlogSerializer(related_blogs, many = True)
             blog = BlogSerializer(blog, many = True)
-            return Response({'data':blog.data,'related':blog1.data})
+            return Response({'data':blog.data,'related':related_blogs.data})
         except:
             message = {'Invalid Search'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)  
