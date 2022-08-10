@@ -8,6 +8,7 @@ from rest_framework import status
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from random import choices
 
 class getallposts(APIView):
     @method_decorator(cache_page(60*60*24))
@@ -48,7 +49,7 @@ class getBlogbyUrl(APIView):
                 if(len(related_blogs)>=2):
                     related_blogs = related_blogs[:2]
                 else:
-                    related_blogs = Blog.objects.all()[:2]
+                    related_blogs = choices(Blog.objects.all(), k=2)
 
             related_blogs = BlogSerializer(related_blogs, many = True)
             blog = BlogSerializer(blog, many = True)
