@@ -61,7 +61,7 @@ class StaticSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return ['','Jobs','career-advice','Career-development-tools','professional-resume-writing-service', 'about-us', 'contact-us', 'disclaimer','Jobs/All-Categories','Jobs/All-Companies','Jobs/All-Countries','Jobs/All-Positions','Jobs/Trending-Search']
+        return ['','Jobs','career-advice','Career-development-tools', 'about-us', 'contact-us', 'disclaimer','Jobs/All-Categories','Jobs/All-Companies','Jobs/All-Countries','Jobs/All-Positions','Jobs/Trending-Search']
 
     def location(self, item):
         return '/%s' % (item)
