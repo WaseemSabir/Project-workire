@@ -40,7 +40,6 @@ export class JobPageComponent implements OnInit {
     }
 
     this.filter.title$.subscribe((res: Job) => {
-      this.jobTitle = res.title; // Kind of hacky, used in template to toggle
 
       // different job requested, that is not already loaded
       if (this.jobTitle !== this.jobDetails.Position) {

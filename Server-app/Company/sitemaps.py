@@ -20,8 +20,6 @@ def site_map_index(request):
 
     sitemaps = {
         "sitemap.xml": first_day_of_month.strftime("%Y-%m-%d"),
-        "sitemap-job1.xml": yesterday.strftime("%Y-%m-%d"),
-        "sitemap-job2.xml": yesterday.strftime("%Y-%m-%d"),
         "sitemap-mega3.xml":yesterday.strftime("%Y-%m-%d")
     }
     
@@ -66,34 +64,6 @@ class StaticSitemap(Sitemap):
     def location(self, item):
         return '/%s' % (item)
 
-class JobSiteMap1(Sitemap):
-    changefreq = "hourly"
-    priority = 0.8
-    protocol = 'https'
-
-    def items(self):
-        return Job.objects.all()[:25000]
-
-    def lastmod(self, obj):
-        return obj.PostDate
-
-    def location(self,obj):
-        return (f'/Job/{quote(obj.Position).replace("/","%2F")}/{obj.id}')
-
-class JobSiteMap2(Sitemap):
-    changefreq = "hourly"
-    priority = 0.8
-    protocol = 'https'
-
-    def items(self):
-        return Job.objects.all()[25000:]
-
-    def lastmod(self, obj):
-        return obj.PostDate
-
-    def location(self,obj):
-        return (f'/Job/{quote(obj.Position).replace("/","%2F")}/{obj.id}')
-
 class BlogSiteMap(Sitemap):
     changefreq = "weekly"
     priority = 0.7
@@ -110,7 +80,7 @@ class BlogSiteMap(Sitemap):
 
 class JobCatSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.5
+    priority = 0.7
     protocol = 'https'
 
     def items(self):
@@ -136,7 +106,7 @@ class JobCompSiteMap(Sitemap):
 
 class JobCountSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.5
+    priority = 0.6
     protocol = 'https'
 
     def items(self):
@@ -147,7 +117,7 @@ class JobCountSiteMap(Sitemap):
 
 class JobPositionSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.5
+    priority = 0.7
     protocol = 'https'
 
     def items(self):
@@ -158,7 +128,7 @@ class JobPositionSiteMap(Sitemap):
 
 class JobTrendSiteMap(Sitemap):
     changefreq = "daily"
-    priority = 0.5
+    priority = 1
     protocol = 'https'
 
     def items(self):

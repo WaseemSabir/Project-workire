@@ -39,4 +39,9 @@ export class LandingPageFeatured implements OnInit {
   urlParse(str : string,comp : string) {
     return urlParseCommon(str,comp);
   }
+
+  parseJobPosition(str : string) {
+    // since search is broken by comma, we don't want it to convert to multiple searches
+    return str.split(',')[0];
+  }
 }

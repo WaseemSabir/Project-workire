@@ -39,7 +39,6 @@ const routes: Routes = [
   {path: 'career-advice', component: BlogListComponent, pathMatch : 'full'},
   {path: 'about-us', component: AboutUsComponent},
   {path: 'contact-us', component: ContactUsComponent},
-  {path: 'Job/:job/:id', component: JobSinglePageComponent},
   {path: 'disclaimer', component: JobDisclaimerComponent},
   {path: 'career-advice/:url', component: BlogCardComponent},
   {path: 'Career-development-tools', component: CareerDevelpmentToolsComponent},
@@ -58,6 +57,7 @@ const routes: Routes = [
 
   // Turned off pages
   // {path: 'professional-resume-writing-service', component: CustomResumePageComponent},
+  // {path: 'Job/:job/:id', component: JobSinglePageComponent},
 ];
 
 @NgModule({
