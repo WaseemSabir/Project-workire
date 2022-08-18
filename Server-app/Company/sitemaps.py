@@ -96,7 +96,7 @@ class JobCompSiteMap(Sitemap):
 
     def items(self):
         # Only Show companies that has jobs in sitemap
-        companies_with_jobs = Job.objects.values('Company').annotate(Count('Company')).order_by('Company__count').reverse().values('Company')
+        companies_with_jobs = Job.objects.values('Company').annotate(Count('Company')).filter(Company__count__gte=10).order_by('Company__count').reverse().values('Company')
 
         company_ids = [comp['Company'] for comp in companies_with_jobs]
         return Company.objects.filter(id__in=company_ids).all()

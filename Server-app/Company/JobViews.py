@@ -50,7 +50,7 @@ class getAllCompaniesWithCountFirst100More(APIView):
     @method_decorator(cache_page(60*60*2))
     def post(self, request):
         page = int(request.data['more'])
-        a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).order_by('AdvertiserName__count').reverse()[page*100:page*100+100]
+        a = Job.objects.values('AdvertiserName').annotate(Count('AdvertiserName')).filter(AdvertiserName__count__gte=10).order_by('AdvertiserName__count').reverse()[page*100:page*100+100]
         return Response({'data':a})
 
 class addNewCompany(APIView):
