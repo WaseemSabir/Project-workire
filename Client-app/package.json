@@ -10,7 +10,7 @@
     "dev:ssr": "ng run FrontEnd:serve-ssr",
     "serve:ssr": "pm2 kill && pm2 start dist/FrontEnd/server/main.js -i max",
     "build:ssr": "ng build && ng run FrontEnd:server",
-    "deploy": "npm run build:ssr && npm run serve:ssr",
+    "deploy": "npm run prerender --prod && npm run build:ssr && npm run serve:ssr",
     "prerender": "ng run FrontEnd:prerender"
   },
   "private": true,
