@@ -161,10 +161,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "FrontEnd:build:production"
+              "browserTarget": "FrontEnd:build:production",
+              "serverTarget": "FrontEnd:server:production"
             },
             "development": {
-              "browserTarget": "FrontEnd:build:development"
+              "browserTarget": "FrontEnd:build:development",
+              "serverTarget": "FrontEnd:server:development"
             }
           },
           "defaultConfiguration": "production"
