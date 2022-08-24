@@ -12,6 +12,11 @@ import { isPlatformServer } from '@angular/common';
 import { Request, Response } from 'express';
 
 
+/**
+ * Page is deprecated. and not used anymore
+ * 
+ * notes: schema is removed from html, add that if needed
+ */
 @Component({
   selector: 'app-job-page',
   templateUrl: './job-page.component.html',

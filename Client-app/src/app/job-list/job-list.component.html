@@ -1,3 +1,7 @@
+<ng-template ngFor let-schema [ngForOf]="schemaData">
+    <ngx-json-ld [json]="schema"></ngx-json-ld>
+</ng-template>
+
 <div class="light-bg">
     <div class="container">
         <app-job-list-filter *ngIf="loaded" [all]="data" [toggleView]="toggleView"></app-job-list-filter>

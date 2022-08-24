@@ -37,6 +37,7 @@ export class JobListComponent implements OnInit {
   toggleView : boolean = false;
 
   searchFailed : any[] = []
+  schemaData : any[] = [];
 
   constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router, @Optional() @Inject(REQUEST) private request: Request,
   @Optional() @Inject(RESPONSE) private response: Response) {}
@@ -100,7 +101,14 @@ export class JobListComponent implements OnInit {
     this.data = dataRet;
     
     this.allJobs = dataRet.data;
+
+    // initialize json ld schema data
+    this.schemaData = [];
+    this.allJobs.forEach((job : any)=>{
+      this.schemaData.push(this.jobDataToLdJsonSchema(job));
+    })
     
+    // headers and title for page
     if(this.data.count && !this.isMobile)
     {
       this.filter.setTitle(this.allJobs[0].Position,this.allJobs[0].id);
@@ -112,6 +120,7 @@ export class JobListComponent implements OnInit {
     
     this.first = false;
     
+    // inform other components that data is loaded
     this.filter.changeMessage(this.allJobs);
     if(!this.allJobs.length)
     {
@@ -122,6 +131,43 @@ export class JobListComponent implements OnInit {
   goBackMobile()
   {
     this.filter.setTitle('',0);
+  }
+
+  jobDataToLdJsonSchema(data : any) : any {
+    return {
+      "@context": "https://schema.org/",
+      "@type": "JobPosting",
+      "title": data.Position,
+      "description": data.Description,
+      "hiringOrganization": {
+        "@type": "Organization",
+        "name": data.AdvertiserName
+      },
+      "industry": data.Classification,
+      "employmentType": data.EmploymentType,
+      "workHours": data.WorkHours,
+      "datePosted": data.PostDate,
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": data.Area,
+          "addressLocality": data.Location,
+          "postalCode": data.PostalCode,
+          "addressCountry": data.Country
+        }
+      },
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": data.SalaryCurrency,
+        "value": {
+          "@type": "QuantitativeValue",
+          "minValue": data.SalaryMinimum,
+          "maxValue": data.SalaryMaximum,
+          "unitText": data.SalaryPeriod
+        }
+      }
+    }
   }
 
   prepareCategoryList()
