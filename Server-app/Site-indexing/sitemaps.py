@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.http import HttpResponse
-from .models import *
+from Company.models import *
 from urllib.parse import quote
 from xml.dom import minidom
 from datetime import date

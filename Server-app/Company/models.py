@@ -126,6 +126,7 @@ class Job(models.Model):
     LogoURL = models.ImageField(null=True, default='default.jpg')
     JobType = models.TextField(null=True)
     Region = models.IntegerField(null=False, default=1)
+    slug = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.Position

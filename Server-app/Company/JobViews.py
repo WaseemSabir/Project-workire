@@ -29,14 +29,14 @@ class getCompanyById(APIView):
 class getCompanyByName(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, *args, **kwargs):
-        Name = self.kwargs.get('Name')
+        company_name = self.kwargs.get('company_name')
         try:
-            company_id = Company.objects.get(Name=Name)
+            company_id = Company.objects.get(Name=company_name)
             data = CompanySerializer(company_id, many=False)
             return Response({'company': data.data})
 
         except:
-            message = {'detail': 'Company by this Name don\'t exists'}
+            message = {'detail': 'Company by this company_name don\'t exists'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -150,47 +150,46 @@ class getFeaturedCompany(APIView):
 class getjobByCountry(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, *args, **kwargs):
-        Name = self.kwargs.get('Country')
-        jobs = None
-        jobs = Job.objects.filter(Country=Name)
-        jobs = JobSerializer(jobs, many=True)
-        return Response({'Jobs': jobs.data})
+        country = self.kwargs.get('Country')
+        jobs = Job.objects.filter(Country=country)
+        serialized = JobSerializer(jobs, many=True)
+        return Response({'Jobs': serialized.data})
 
 
 class getJobByID(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, *args, **kwargs):
-        Name = self.kwargs.get('id')
-        k = int(Name)
+        job_id = self.kwargs.get('id')
+        k = int(job_id)
         jobs = Job.objects.filter(id=k)
-        jobs = JobSerializer(jobs, many=True)
-        return Response({'Jobs': jobs.data})
+        serialized = JobSerializer(jobs, many=True)
+        return Response({'Jobs': serialized.data})
 
 
 class getJobByTitle(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def post(self, request):
-        Name = request.data['title']
-        jobs = Job.objects.filter(Position=Name)
-        jobs = JobSerializer(jobs, many=True)
-        return Response({'Jobs': jobs.data})
+        title = request.data['title']
+        jobs = Job.objects.filter(Position=title)
+        serialized = JobSerializer(jobs, many=True)
+        return Response({'Jobs': serialized.data})
 
 
 class getJobByCategory(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, *args, **kwargs):
-        Name = self.kwargs.get('Category')
-        jobs = Job.objects.filter(Classification=Name)
-        jobs = JobSerializer(jobs, many=True)
-        return Response({'Jobs': jobs.data})
+        category_name = self.kwargs.get('Category')
+        jobs = Job.objects.filter(Classification=category_name)
+        serialized = JobSerializer(jobs, many=True)
+        return Response({'Jobs': serialized.data})
 
 
 class getTrendingSearch(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request):
-        search = TrendingSearch.objects.all()
-        search = TrendingSearchSerializer(search, many=True)
-        return Response(search.data)
+        trending_search_data = TrendingSearch.objects.all()
+        serialized = TrendingSearchSerializer(trending_search_data, many=True)
+        return Response(serialized.data)
 
 
 class getCountries(APIView):
@@ -431,7 +430,6 @@ class SeoObjectView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         var = data.get('variable')
-        print(var)
         serialized = None
 
         if data.get('isTrending'):

@@ -176,7 +176,7 @@ def delete_jobs_older_than_days():
         print("Exception: Failed to delete jobs older than days")
 
 
-def post():
+def fetch_xml_and_add_jobs_in_db():
     try:
         urls = [
             "https://www.jobg8.com/fileserver/jobs.aspx?username=c052j!9B8EF0&password=fhj479!_569E032&accountnumber=818829&filename=Jobs.zip",
@@ -212,5 +212,5 @@ def post():
 def start():
     if os.environ.get('RUN_MAIN') != 'true':
         scheduler = BackgroundScheduler()
-        scheduler.add_job(post, 'interval', minutes=60 * 2)
+        scheduler.add_job(fetch_xml_and_add_jobs_in_db, 'interval', minutes=60 * 2)
         scheduler.start()

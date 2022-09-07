@@ -15,16 +15,16 @@ Including another URLconf
 """
 from Company.models import Company
 from django.contrib import admin, sitemaps
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('api/',include('LogIn.urls')), currently not using login
-    path('api/company/',include('Company.urls')),
-    path('',include('Company.mapurl')),
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  # path('api/',include('LogIn.urls')), currently not using login
+                  path('api/company/', include('Company.urls')),
+                  path('', include('Site-indexing.mapurl'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Admin portal update
 admin.site.site_header = "Workire Admin"
