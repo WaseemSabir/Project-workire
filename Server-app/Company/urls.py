@@ -13,19 +13,19 @@ urlpatterns = [
 
     path('getAllCompanyMore', JobViews.getAllCompaniesWithCountFirst100More.as_view()),  # get all comapnies more
 
-    path('getAllCategories', JobViews.getAllCategories.as_view()), # Get all categories from Jobs
+    path('getAllCategories', JobViews.getAllCategories.as_view()),  # Get all categories from Jobs
 
-    path('getAllCountries', JobViews.getAllCountries.as_view()), # Get all Countries from Jobs
+    path('getAllCountries', JobViews.getAllCountries.as_view()),  # Get all Countries from Jobs
 
-    path('getAllCompanies', JobViews.getAllCompanies.as_view()), # Get all Comapnies from Jobs
+    path('getAllCompanies', JobViews.getAllCompanies.as_view()),  # Get all Comapnies from Jobs
 
-    path('job/<str:id>', JobViews.getJobByID.as_view()), # Get Job via Job ID
+    path('job/<str:id>', JobViews.getJobByID.as_view()),  # Get Job via Job ID
 
-    path('getJobByTitle', JobViews.getJobByTitle.as_view()), # Get Job by matching title
+    path('getJobByTitle', JobViews.getJobByTitle.as_view()),  # Get Job by matching title
 
-    path('search', JobViews.Search.as_view()), #search jobs
+    path('search', JobViews.Search.as_view()),  # search jobs
 
-    path('fullsearch', JobViews.FullSearch.as_view()), #full search jobs
+    path('fullsearch', JobViews.FullSearch.as_view()),  # full search jobs
 
     path('featured', JobViews.featured.as_view()),
 
@@ -54,10 +54,10 @@ urlpatterns = [
     path('JobSeoObject', JobViews.SeoObjectView.as_view()),
 
     # Blog View Patterns 
- 
-    path('getallposts', BlogView.getallposts.as_view()), #get all posts
 
-    path('getBlogCat/<str:Category>', BlogView.getBlogbyCat.as_view()), #
+    path('getallposts', BlogView.getallposts.as_view()),  # get all posts
+
+    path('getBlogCat/<str:Category>', BlogView.getBlogbyCat.as_view()),  #
 
     path('getBlogURL/<str:search>', BlogView.getBlogbyUrl.as_view()),
 

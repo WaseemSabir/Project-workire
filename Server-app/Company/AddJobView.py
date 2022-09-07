@@ -13,6 +13,7 @@ from django.utils.timezone import is_aware, make_aware
 
 my_count = 0
 
+
 # Helper Functions
 def read_tag(list):
     l = {}
@@ -23,6 +24,7 @@ def read_tag(list):
             l[i.tag] = ""
     return l
 
+
 def read_xml(file):
     tree = ET.parse(file)
     root = tree.getroot()
@@ -31,11 +33,12 @@ def read_xml(file):
         l.append(read_tag(elem))
     return l
 
+
 # reads xml file from url
 def read_xml_from_url(url, count, abs_path):
     try:
         print(f"{count}. Checking for xml file in ...")
-        os.remove(os.path.join(abs_path,'Jobs.xml'))
+        os.remove(os.path.join(abs_path, 'Jobs.xml'))
         print(f"{count}. Found and deleted the previous XML file...")
     except:
         print(f"{count}. No XML file found! Carrying on...")
@@ -45,44 +48,46 @@ def read_xml_from_url(url, count, abs_path):
         content = requests.get(url)
         f = ZipFile(BytesIO(content.content))
         print(f"{count}. Reterieved ...")
-        f.extractall(path=abs_path,)
+        f.extractall(path=abs_path, )
         print(f"{count}. Extracted ...")
 
         data = None
         for i in f.namelist():
             print(f"{count}. Trying to read file")
-            data = read_xml(os.path.join(abs_path,i))
+            data = read_xml(os.path.join(abs_path, i))
         print(f"{count}. file read successfully...")
-        
-        return data,False
+
+        return data, False
 
     except Exception as e:
         print(f"{count}. unable to retreive or read XML file... ")
-        print(f"{count}. Exception : ",e)
-        return None,True
+        print(f"{count}. Exception : ", e)
+        return None, True
 
 
 # Takes company and job data objects and tries to save them in db
-def save_job(i,company, count):
+def save_job(i, company, count):
     try:
         job = Job(
-                    Company=company,
-                    AdvertiserName=i['AdvertiserName'],  AdvertiserType=i['AdvertiserType'], SenderReference=i['SenderReference'],
-                    DisplayReference=i['DisplayReference'], PostDate=i['PostDate'], Classification=i['Classification'],
-                    SubClassification=i['SubClassification'], Position=i['Position'], Description=i['Description'],
-                    Country=i['Country'], Location=i['Location'], Area=i['Area'],
-                    PostalCode=i['PostalCode'], ApplicationURL=i['ApplicationURL'], DescriptionURL=i['DescriptionURL'],
-                    Language=i['Language'],
-                    ContactName=i['ContactName'], EmploymentType=i['EmploymentType'], StartDate=i['StartDate'],
-                    Duration=i['Duration'], WorkHours=i['WorkHours'], SalaryCurrency=i['SalaryCurrency'],
-                    SalaryMinimum=i['SalaryMinimum'], SalaryMaximum=i['SalaryMaximum'], SalaryPeriod=i['SalaryPeriod'],
-                    SalaryAdditional=i['SalaryAdditional'], JobSource=i['JobSource'], JobSourceURL=i['JobSourceURL'],
-                    VideoLinkURL=i['VideoLinkURL'], AdditionalClassification1=i['AdditionalClassification1'],
-                    AdditionalClassification2=i['AdditionalClassification2'], AdditionalClassification3=i['AdditionalClassification3'],
-                    AdditionalClassification4=i['AdditionalClassification4'],
-                    LogoURL=company.logo, JobType=i['JobType'],
-                    Region=count
-                )
+            Company=company,
+            AdvertiserName=i['AdvertiserName'], AdvertiserType=i['AdvertiserType'],
+            SenderReference=i['SenderReference'],
+            DisplayReference=i['DisplayReference'], PostDate=i['PostDate'], Classification=i['Classification'],
+            SubClassification=i['SubClassification'], Position=i['Position'], Description=i['Description'],
+            Country=i['Country'], Location=i['Location'], Area=i['Area'],
+            PostalCode=i['PostalCode'], ApplicationURL=i['ApplicationURL'], DescriptionURL=i['DescriptionURL'],
+            Language=i['Language'],
+            ContactName=i['ContactName'], EmploymentType=i['EmploymentType'], StartDate=i['StartDate'],
+            Duration=i['Duration'], WorkHours=i['WorkHours'], SalaryCurrency=i['SalaryCurrency'],
+            SalaryMinimum=i['SalaryMinimum'], SalaryMaximum=i['SalaryMaximum'], SalaryPeriod=i['SalaryPeriod'],
+            SalaryAdditional=i['SalaryAdditional'], JobSource=i['JobSource'], JobSourceURL=i['JobSourceURL'],
+            VideoLinkURL=i['VideoLinkURL'], AdditionalClassification1=i['AdditionalClassification1'],
+            AdditionalClassification2=i['AdditionalClassification2'],
+            AdditionalClassification3=i['AdditionalClassification3'],
+            AdditionalClassification4=i['AdditionalClassification4'],
+            LogoURL=company.logo, JobType=i['JobType'],
+            Region=count
+        )
         job.save()
     except Exception as e:
         print(f"{count}: Exception while saving : ", e)
@@ -105,6 +110,7 @@ def fix_date_time(date):
         print("Exception: (in fix_date_time) :: ", e)
         return datetime.now()
 
+
 # Takes one job data and process it and triggers save_job func
 def process_job_data(i, count):
     try:
@@ -113,10 +119,12 @@ def process_job_data(i, count):
 
         if not Company.objects.filter(Name=i['AdvertiserName']).exists():
             if i['LogoURL'] == "":
-                company = Company(Name=i['AdvertiserName'], Location=i['Location'],WebSite=i['DescriptionURL'], About=i['AdvertiserType'], Categories=i['Classification'])
+                company = Company(Name=i['AdvertiserName'], Location=i['Location'], WebSite=i['DescriptionURL'],
+                                  About=i['AdvertiserType'], Categories=i['Classification'])
                 company.save()
             else:
-                company = Company(Name=i['AdvertiserName'], Location=i['Location'],WebSite=i['DescriptionURL'], About=i['AdvertiserType'], logo=i['LogoURL'], Categories=i['Classification'])
+                company = Company(Name=i['AdvertiserName'], Location=i['Location'], WebSite=i['DescriptionURL'],
+                                  About=i['AdvertiserType'], logo=i['LogoURL'], Categories=i['Classification'])
                 company.save()
 
         if not Category.objects.filter(Name=i['Classification']):
@@ -125,10 +133,11 @@ def process_job_data(i, count):
 
         company = Company.objects.filter(Name=i['AdvertiserName']).first()
         if company:
-            save_job(i,company, count)
-    
+            save_job(i, company, count)
+
     except Exception as e:
-        print(f"{count}. Exception: Failed to save a job\n",e,'\n')
+        print(f"{count}. Exception: Failed to save a job\n", e, '\n')
+
 
 def delete_jobs(count, data):
     try:
@@ -140,10 +149,10 @@ def delete_jobs(count, data):
                     if new_job['DisplayReference'] == db_job.DisplayReference:
                         isIn = True
                         break
-                
+
                 if not isIn:
                     db_job.delete()
-                
+
             except Exception as e:
                 try:
                     db_job.delete()
@@ -153,6 +162,7 @@ def delete_jobs(count, data):
         print(f"{count}: Deleted all posible jobs not in use anymore:: Success")
     except Exception as e:
         print(f'{count} : Mega Exception: failed to delete jobs\n', e)
+
 
 def delete_jobs_older_than_days():
     try:
@@ -165,9 +175,13 @@ def delete_jobs_older_than_days():
     except Exception as e:
         print("Exception: Failed to delete jobs older than days")
 
+
 def post():
     try:
-        urls = ["https://www.jobg8.com/fileserver/jobs.aspx?username=c052j!9B8EF0&password=fhj479!_569E032&accountnumber=818829&filename=Jobs.zip","https://www.jobg8.com/fileserver/jobs.aspx?username=7CBB9D3C5D&password=5BFE685C0F&accountnumber=819521&filename=Jobs.zip"]
+        urls = [
+            "https://www.jobg8.com/fileserver/jobs.aspx?username=c052j!9B8EF0&password=fhj479!_569E032&accountnumber=818829&filename=Jobs.zip",
+            "https://www.jobg8.com/fileserver/jobs.aspx?username=7CBB9D3C5D&password=5BFE685C0F&accountnumber=819521&filename=Jobs.zip"
+        ]
 
         global my_count
         count = my_count
@@ -180,7 +194,7 @@ def post():
         if file_read_err:
             print(f"{count}. File read error, will try again!")
             return
-        
+
         delete_jobs(curr_count, data)
         for job in data:
             job_exists = Job.objects.filter(DisplayReference=job['DisplayReference']).first()
@@ -188,15 +202,15 @@ def post():
                 process_job_data(job, curr_count)
 
         # delete_jobs_older_than_days()
-        my_count +=1
+        my_count += 1
         my_count = my_count % 100000
 
     except Exception as e:
         print("Mega Exception: Post function errored out!\n", e)
-    
+
 
 def start():
     if os.environ.get('RUN_MAIN') != 'true':
         scheduler = BackgroundScheduler()
-        scheduler.add_job(post, 'interval', minutes = 60*2)
+        scheduler.add_job(post, 'interval', minutes=60 * 2)
         scheduler.start()

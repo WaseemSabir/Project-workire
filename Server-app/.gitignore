@@ -158,3 +158,6 @@ cython_debug/
 
 # images
 media/image/
+
+# DS Store
+.DS_Store

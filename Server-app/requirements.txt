@@ -26,7 +26,6 @@ django-optimized-image==0.3.0
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.6.0
 docutils==0.16
-evdev==1.4.0
 future==0.18.2
 geographiclib==1.52
 geopy==2.2.0
