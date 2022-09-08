@@ -193,4 +193,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/image/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
-DELETE_JOBS_OLDER_THAN_DAYS = 100
+DELETE_JOBS_OLDER_THAN_DAYS = 120

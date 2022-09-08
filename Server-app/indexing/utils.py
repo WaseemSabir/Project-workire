@@ -46,11 +46,13 @@ def notify_google(url: str, notification_type: NotificationType, retry_attempt: 
         notify_google(url, notification_type, retry_attempt + 1)
 
 
-def notify_google_about_new_urls(urls: List[str]) -> None:
-    for url in urls:
+def notify_google_about_new_urls(slugs: List[str]) -> None:
+    for slug in slugs:
+        url = f"https://workire.com/job/{slug}"
         notify_google(url, NotificationType.URL_UPDATED)
 
 
-def notify_google_about_deleted_urls(urls: List[str]) -> None:
-    for url in urls:
+def notify_google_about_deleted_urls(slugs: List[str]) -> None:
+    for slug in slugs:
+        url = f"https://workire.com/job/{slug}"
         notify_google(url, NotificationType.URL_DELETED)
