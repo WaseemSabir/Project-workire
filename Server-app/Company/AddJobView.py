@@ -25,7 +25,7 @@ class JobParsingError(Exception):
 
 
 # Helper Functions
-def read_tag(tags_list) -> Dict[str]:
+def read_tag(tags_list) -> Dict[str, str]:
     lookup = {}
     for tag in tags_list:
         if not tag.text:
