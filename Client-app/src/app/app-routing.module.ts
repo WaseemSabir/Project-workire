@@ -35,6 +35,7 @@ const routes: Routes = [
   {path: 'trending-search/:var',component: JobListComponent},
   {path: 'Jobs', component: JobListComponent},
   {path: 'Jobs/:payload', component: JobListComponent},
+  {path: 'job/:slug', component: JobSinglePageComponent},
   {path: 'career-advice/search/:str',component: BlogSearchComponent},
   {path: 'career-advice', component: BlogListComponent, pathMatch : 'full'},
   {path: 'about-us', component: AboutUsComponent},
@@ -49,6 +50,9 @@ const routes: Routes = [
   {path: 'Job-company',component: JobCompanyComponent},
   {path: 'Job-by-position',component: JobPositionsComponent},
   {path: 'trending-search',component: JobTrendingSearchComponent},
+  {path: 'jobs', component: JobListComponent},
+  {path: 'Job/:slug', component: JobSinglePageComponent},
+  {path: 'jobs/:payload', component: JobListComponent},
 
   /* Under Development & Url 404 */
   {path: 'test', component: ResumeBuilderHomeComponent},

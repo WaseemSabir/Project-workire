@@ -176,24 +176,4 @@ export class DeafultLocService {
       .catch()
     }
   }
-
-  // To get the users location via reverse ip, not used anymore
-  // private REST_API_SERVER = "https://ipinfo.io/?token=dbf414e483f306";
-  // public getCountry(){
-  //   return this.httpClient.get(this.REST_API_SERVER)
-  // }
-
-  // To get posts in a category, not used any more
-  // public getPostByCat(str : string) {
-  //   return this.httpClient.get(this.MY_SEREVER + "company/getBlogCat/" + str);
-  // }
-
-  // To get countries with jobs in each country
-  // public getAllCountries() {
-  //   return this.httpClient.get(this.MY_SEREVER + "company/getAllCountries");
-  // }
-
-  // public getAllCategories(){
-  //   return this.httpClient.get(this.MY_SEREVER + "company/getAllCategories");
-  // }
 }

@@ -1,10 +1,11 @@
 <div *ngIf="isNotEmpty()">
-    <div class="row bg-white makeItRound w-100 my-md-0 my-3 center">
+    <ngx-json-ld [json]="schema"></ngx-json-ld>
+    <div *ngIf="jobTitle.length && !check" class="row bg-white makeItRound w-100 my-md-0 my-3 center" #t1>
         <div class="col-12 w-100 mx-2 mt-2">
             <div class="pb-3 mb-2 row">
                 <div class="col-md-8 col-sm-12">
-                    <h2 class="h5 pt-4 pointer" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}"
-                        >{{jobDetails.Position}}</h2>
+                    <h2 class="h5 pt-4 hell pointer" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}"
+                        [routerLink]="['/Job',jobDetails.Position,jobDetails.id]">{{jobDetails.Position}}</h2>
                     <h4 *ngIf="jobDetails.Location=='Not Specified'" class="h6 text-muted font-weight-normal"
                         [ngClass]="{'text-center':isMobile}">{{jobDetails.Country}} | {{jobDetails.AdvertiserName}}</h4>
                     <h4 *ngIf="jobDetails.Location!='Not Specified'" class="h6 text-muted font-weight-normal"
@@ -49,6 +50,89 @@
                         <a target="_blank" href={{jobDetails.ApplicationURL}}
                             class="btn btn-primary btn-block my-auto dark-bg2">Apply</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="jobTitle!='find-job' && check" class="w-100"
+        [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-5':isMobile}" #t1>
+        <div class="row mt-2">
+            <ngx-json-ld [json]="schema"></ngx-json-ld>
+            <div class="col-md-8 col-sm-12 shadow-sm">
+                <div class="col-12 pb-3 mb-2 row">
+                    <div class="col-md-8 col-sm-12">
+                        <h2 class="h5 pt-4" style="font-weight: 600;" [ngClass]="{'text-center':isMobile}"
+                            [routerLink]="['/Job',jobDetails.Position,jobDetails.id]">{{jobDetails.Position}}</h2>
+                        <h4 *ngIf="jobDetails.Location=='Not Specified'" class="h6 text-muted font-weight-normal"
+                            [ngClass]="{'text-center':isMobile}">{{jobDetails.Country}} | {{jobDetails.AdvertiserName}}
+                        </h4>
+                        <h4 *ngIf="jobDetails.Location!='Not Specified'" class="h6 text-muted font-weight-normal"
+                            [ngClass]="{'text-center':isMobile}">{{jobDetails.Location}} | {{jobDetails.AdvertiserName}}
+                        </h4>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <a target="_blank" type="button" href={{jobDetails.ApplicationURL}}
+                            class="btn btn-primary my-md-4 my-sm-2 btn-block btn-lg dark-bg2">Apply</a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="border-bottom" style="display: flex;">
+                        <div class="details px-1" style="display: row;justify-content: left;font-weight: 600;">
+                            Job Details
+                        </div>
+                        <div class="ml-auto my-1" style="display: row;float: right;">
+                            <svg *ngIf="!isSaved" xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor"
+                                (click)="saveIcon()" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z" />
+                            </svg>
+                            <svg *ngIf="isSaved" xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor"
+                                (click)="saveIcon()" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!isMobile" class="col-12 d-flex">
+                    <h2 class="text-muted" style="font-size: medium;font-weight: 400;">Overview:&nbsp;</h2>
+                    <h1 class="text-muted" style="font-size: medium;">{{" " + tit}}</h1>
+                </div>
+                <div class="col-12 h6 text-muted font-weight-normal m-0"> Category: {{jobDetails.Classification}}</div>
+                <div class="col-12 h6 text-muted pt-4 font-weight-normal m-0"> Posted {{DateFun(jobDetails.PostDate)}}
+                </div>
+                <div class="col-12 font-weight-normal pt-4" [innerHTML]="jobDetails.Description"></div>
+                <div class="col-12">
+                    <div class="col mt-3" style="height: 3px;background-image: linear-gradient(green,blue);"></div>
+                    <div class="col border mb-3 ml-0 row">
+                        <div class="col-md-8 col-sm-12 pt-3 pb-1">
+                            <div class="h6 font-weight-bold">Apply to this job.</div>
+                            <div class="h6 text-muted">One step closer to getting hired!</div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 py-1 mb-1 my-auto" style="display: display;">
+                            <a target="_blank" href={{jobDetails.ApplicationURL}}
+                                class="btn btn-primary btn-block my-auto dark-bg2">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="px-2 py-4" *ngIf="target_feature.length">
+                    <div class="text-dark text-left h5" style="font-weight: 500;">
+                        People also viewed!
+                    </div>
+                    <div class="py-2" *ngFor="let k of target_feature">
+                        <div class="text-dark hell" [routerLink]="['/Job',k.Position,jobDetails.id]">{{k.Position}}
+                        </div>
+                        <div *ngIf="k.Location==='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Country}}
+                            | {{k.AdvertiserName}}</div>
+                        <div *ngIf="k.Location!=='Not Specified'" class="h6 text-muted font-weight-normal">
+                            {{k.Location}} | {{k.AdvertiserName}}</div>
+                    </div>
+                </div>
+                <div class="mb-5 shadow">
+                    <img [routerLink]="['/Career-development-tools']" class="img-fluid rounded"
+                        src="/assets/LevelUpYourCareer.jpeg" style="cursor: pointer;" alt="Level Up Your Career" />
                 </div>
             </div>
         </div>

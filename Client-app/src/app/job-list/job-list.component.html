@@ -1,18 +1,14 @@
-<ng-template ngFor let-schema [ngForOf]="schemaData">
-    <ngx-json-ld [json]="schema"></ngx-json-ld>
-</ng-template>
-
 <div class="light-bg">
     <div class="container">
         <app-job-list-filter *ngIf="loaded" [all]="data" [toggleView]="toggleView"></app-job-list-filter>
         <div class="mt-0 pb-3" style="height: auto;">
-            <div *ngIf="isMobile && currJob.id" class="mt-1 pt-3 p-2 text-primary">
+            <div *ngIf="isMobile && currJob.slug" class="mt-1 pt-3 p-2 text-primary">
                 <a  (click)="goBackMobile()" class="link-primary">< Back</a>
             </div>
             
             <div class="my-2" style="display: flex;" >
                 <!-- <nz-switch [(ngModel)]="toggleView" nzCheckedChildren="3 Col" nzUnCheckedChildren="2 Col" *ngIf="!isMobile" [nzDisabled]="!allJobs.length" ></nz-switch> -->
-                <h1 class="text-left px-2 m-0 mt-n1 text-dark" style="font-size: large;font-weight: 500;" *ngIf="!isMobile || !currJob.id">
+                <h1 class="text-left px-2 m-0 mt-n1 text-dark" style="font-size: large;font-weight: 500;" *ngIf="!isMobile || !currJob.slug">
                     {{header}}
                 </h1>
             </div>
@@ -30,11 +26,11 @@
             </div>
 
             <div *ngIf="isMobile && allJobs.length">
-                <div *ngIf="!currJob.id">
+                <div *ngIf="!currJob.slug">
                     <app-job-list-cards *ngIf="loaded" [item]="data" [load]="loaded" [show]="true" [toggleView]="toggleView" [isMobile]="isMobile"></app-job-list-cards>
                     <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>
                 </div>
-                <div *ngIf="currJob.id">
+                <div *ngIf="currJob.slug">
                     <app-job-page [check]="false"></app-job-page>
                     <app-job-list-cards *ngIf="loaded" [item]="data" [load]="loaded" [show]="false" [toggleView]="toggleView" [isMobile]="isMobile"></app-job-list-cards>
                     <app-job-seo-part *ngIf="!toggleView" [data]="data" ></app-job-seo-part>

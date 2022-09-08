@@ -64,19 +64,19 @@ export class JobPageComponent implements OnInit {
 
   fetchJob(res: Job) {
     this.spinner.show();
-    if (res.id) {
-      this.loc.jobById(res.id).toPromise()
+    let last_slug_item = res.slug.split('-').at(-1)!!
+
+    if (last_slug_item) {
+      let jobId: number = parseInt(last_slug_item, 0);
+
+      this.loc.jobById(jobId).toPromise()
         .then((res: any) => {
           this.spinner.hide()
           this.initJob(res);
         })
-    }
-    else {
-      this.loc.jobTitle(res.title).toPromise()
-        .then((res: any) => {
-          this.spinner.hide()
-          this.initJob(res);
-        })
+    } else {
+      this.spinner.hide()
+      this.initJob({ Jobs: [] });
     }
   }
 

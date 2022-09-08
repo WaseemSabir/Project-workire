@@ -17,123 +17,119 @@ import { Request, Response } from 'express';
 })
 export class JobListComponent implements OnInit {
 
-  public isMobile : boolean = false;
-  count : number = 0;
+  public isMobile: boolean = false;
+  count: number = 0;
 
-  header : string = '';
+  header: string = '';
 
-  first : boolean = true;
-  header2 : string = ' Jobs Found: Showing '
+  first: boolean = true;
+  header2: string = ' Jobs Found: Showing '
 
-  domain : string = environment.APIEndpoint;
+  domain: string = environment.APIEndpoint;
 
-  loaded : boolean = false;
+  loaded: boolean = false;
 
-  allJobs : any = {}
-  data : any;
+  allJobs: any = {}
+  data: any;
 
-  currJob : Job = {title:'',id:0};
+  currJob: Job = { slug: "" };
 
-  toggleView : boolean = false;
+  toggleView: boolean = false;
 
-  searchFailed : any[] = []
-  schemaData : any[] = [];
+  searchFailed: any[] = []
+  schemaData: any[] = [];
 
-  constructor(private loc : DeafultLocService,@Inject(PLATFORM_ID) private platformId: Object,private spinner: NgxSpinnerService,private filter : FilterValueService,private activated : ActivatedRoute, private route : Router, @Optional() @Inject(REQUEST) private request: Request,
-  @Optional() @Inject(RESPONSE) private response: Response) {}
+  constructor(private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private spinner: NgxSpinnerService, private filter: FilterValueService, private activated: ActivatedRoute, private route: Router, @Optional() @Inject(REQUEST) private request: Request,
+    @Optional() @Inject(RESPONSE) private response: Response) { }
 
   ngOnInit(): void {
 
-    if(isPlatformBrowser(this.platformId))
-    {
+    if (isPlatformBrowser(this.platformId)) {
       this.isMobile = screen.width <= 768;
     }
 
-    this.filter.title$.subscribe((res : Job)=>{
+    this.filter.title$.subscribe((res: Job) => {
       this.currJob = res;
     })
-    
+
     this.activated.paramMap
-    .subscribe((params : any)=>{
-      let payload = params.get("payload")!
-      let variable = params.get("var")!
+      .subscribe((params: any) => {
+        let payload = params.get("payload")!
+        let variable = params.get("var")!
 
-      let values : SearchPayload = getPayloadByRoute(this.route.url,payload,variable)
-      if(isPlatformBrowser(this.platformId))
-      {
-        this.scrollToTop();
-      }
-
-      this.spinner.show();
-      this.loaded = false;
-      this.loc.getAllJobsSearchPayload(values).toPromise()
-      .then((dataRet : any)=>{
-        this.spinner.hide();
-        this.handleJobData(dataRet,payload,variable,values);
-        if(isPlatformServer(this.platformId)) {
-          this.response.status(200);
+        let values: SearchPayload = getPayloadByRoute(this.route.url, payload, variable)
+        if (isPlatformBrowser(this.platformId)) {
+          this.scrollToTop();
         }
+
+        this.spinner.show();
+        this.loaded = false;
+        this.loc.getAllJobsSearchPayload(values).toPromise()
+          .then((dataRet: any) => {
+            this.spinner.hide();
+            this.handleJobData(dataRet, payload, variable, values);
+            if (isPlatformServer(this.platformId)) {
+              this.response.status(200);
+            }
+          })
+          .catch((err: any) => {
+            this.spinner.hide();
+            let dataRet: any = {
+              count: 0,
+              data: []
+            }
+            if (err.error) {
+              dataRet = err.error;
+            }
+
+            if (isPlatformServer(this.platformId)) {
+              this.response.status(404);
+            }
+            this.handleJobData(dataRet, payload, variable, values);
+          })
       })
-      .catch((err: any)=>{
-        this.spinner.hide();
-        let dataRet : any = {
-          count : 0,
-          data : []
-        }
-        if(err.error) {
-          dataRet = err.error;
-        }
-
-        if(isPlatformServer(this.platformId)) {
-          this.response.status(404);
-        }
-        this.handleJobData(dataRet,payload,variable,values);
-      })
-    })
   }
 
   scrollToTop() {
-    window.scroll(0,0);
+    window.scroll(0, 0);
   }
-  
-  handleJobData(dataRet : any, payload : any, variable : any, values : any) {
+
+  handleJobData(dataRet: any, payload: any, variable: any, values: any) {
     this.spinner.hide();
     this.data = dataRet;
-    
+
     this.allJobs = dataRet.data;
 
     // initialize json ld schema data
     this.schemaData = [];
-    this.allJobs.forEach((job : any)=>{
+    this.allJobs.forEach((job: any) => {
       this.schemaData.push(this.jobDataToLdJsonSchema(job));
     })
-    
+
     // headers and title for page
-    if(this.data.count && !this.isMobile)
-    {
-      this.filter.setTitle(this.allJobs[0].Position,this.allJobs[0].id);
+    if (this.data.count && !this.isMobile) {
+      let slug = this.allJobs[0].slug ? this.allJobs[0].slug : (this.allJobs[0].title + "-" + this.allJobs[0].id);
+      this.filter.setSlug(slug);
     }
     this.loaded = true;
     this.count = this.data.count;
 
     this.header = getHeaderFromRoute(this.route.url, payload, variable, this.count, values);
-    
+
     this.first = false;
-    
+
     // inform other components that data is loaded
     this.filter.changeMessage(this.allJobs);
-    if(!this.allJobs.length)
-    {
+    if (!this.allJobs.length) {
       this.prepareCategoryList();
     }
   }
 
-  goBackMobile()
-  {
-    this.filter.setTitle('',0);
+  goBackMobile() {
+    this.filter.setSlug('');
   }
 
-  jobDataToLdJsonSchema(data : any) : any {
+  jobDataToLdJsonSchema(data: any): any {
     return {
       "@context": "https://schema.org/",
       "@type": "JobPosting",
@@ -170,18 +166,16 @@ export class JobListComponent implements OnInit {
     }
   }
 
-  prepareCategoryList()
-  {
+  prepareCategoryList() {
     this.loc.getAllSeoCat().toPromise()
-    .then((res : any)=>{
-      let rand = Math.floor(Math.random() * res.category.length);
-      if(rand>20)
-      {
-        rand=rand-5;
-      }
-      this.searchFailed = res.category.slice(rand,rand+5).map((val : any)=>{
-        return [val.SEO_NAME,'/Job-category/'+val.SEO_NAME]
+      .then((res: any) => {
+        let rand = Math.floor(Math.random() * res.category.length);
+        if (rand > 20) {
+          rand = rand - 5;
+        }
+        this.searchFailed = res.category.slice(rand, rand + 5).map((val: any) => {
+          return [val.SEO_NAME, '/Job-category/' + val.SEO_NAME]
+        })
       })
-    })
   }
 }

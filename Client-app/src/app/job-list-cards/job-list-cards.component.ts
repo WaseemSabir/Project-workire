@@ -78,9 +78,10 @@ export class JobListCardsComponent implements OnInit {
     return urlParseCommon(str,comp);
   }
 
-  cardClick(title : string,iden : number)
+  cardClick(slug : string, title: string, id: number)
   {
-    this.filter.setTitle(title,iden);
+    let s = slug ? slug : (title + "-" + id);
+    this.filter.setSlug(s);
     window.scroll(0,0);
   }
 }

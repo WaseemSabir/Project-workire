@@ -37,8 +37,7 @@ export interface SearchPayload {
 };
 
 export interface Job {
-    title : string,
-    id : number
+    slug : string
 };
 
 export interface HttpInterceptor {

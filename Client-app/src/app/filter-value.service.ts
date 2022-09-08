@@ -148,7 +148,7 @@ export class FilterValueService {
     return this.filter;
   }
 
-  _title = new BehaviorSubject<Job>({title:'',id:0})
+  _title = new BehaviorSubject<Job>({slug: ''})
   title$ = this._title.asObservable();
 
   get title(): Job {
@@ -159,11 +159,10 @@ export class FilterValueService {
     this._title.next(val);
   }
 
-  setTitle(str : string,idents : number)
+  setSlug(slug : string)
   {
     let temp : Job = {
-      title : str,
-      id : idents
+      slug : slug,
     };
     this.title = temp;
   }

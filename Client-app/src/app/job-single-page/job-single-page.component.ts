@@ -18,7 +18,7 @@ export class JobSinglePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.active.paramMap.subscribe((params : any)=>{
-      this.filter.setTitle(params.get("job")!,params.get("id")!);
+      this.filter.setSlug(params.get("slug")!);
     })
   }
 }
