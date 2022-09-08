@@ -9,6 +9,10 @@ import httplib2
 SCOPES = ["https://www.googleapis.com/auth/indexing"]
 ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
 
+"""
+APIs Implementation for Google API Indexing, mostly used for Job Posting/Single Job Page
+"""
+
 
 def create_http_client() -> httplib2.Http:
     JSON_KEY_FILE = "workire-361818-eca3cbc08fb3.json"
