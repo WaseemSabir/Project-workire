@@ -148,6 +148,7 @@ export class FilterValueService {
     return this.filter;
   }
 
+  // title is actually now slug
   _title = new BehaviorSubject<Job>({slug: ''})
   title$ = this._title.asObservable();
 

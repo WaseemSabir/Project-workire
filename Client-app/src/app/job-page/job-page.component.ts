@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
-import { Job } from '../Interfece'
+import { getSlug, Job } from '../Interfece'
 import { SeoServiceService } from '../seo-service.service';
 import { environment } from '../../environments/environment';
 import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
@@ -36,6 +36,8 @@ export class JobPageComponent implements OnInit {
   tit: string = '';
   schema: any = {};
 
+  slug : string = '';
+
   constructor(private route: Router, private loc: DeafultLocService, @Inject(PLATFORM_ID) private platformId: Object, private seo: SeoServiceService, private spinner: NgxSpinnerService, private filter: FilterValueService, @Optional() @Inject(REQUEST) private request: Request,
     @Optional() @Inject(RESPONSE) private response: Response) { }
 
@@ -64,10 +66,10 @@ export class JobPageComponent implements OnInit {
 
   fetchJob(res: Job) {
     this.spinner.show();
-    let last_slug_item = res.slug.split('-').at(-1)!!
+    let slug = res.slug.split('-').at(-1)!!
 
-    if (last_slug_item) {
-      let jobId: number = parseInt(last_slug_item, 0);
+    if (slug) {
+      let jobId: number = parseInt(slug, 0);
 
       this.loc.jobById(jobId).toPromise()
         .then((res: any) => {
@@ -88,19 +90,25 @@ export class JobPageComponent implements OnInit {
 
       this.jobDetails = jobData.Jobs[0];
 
+      this.slug = getSlug(this.jobDetails);
+
       this.getFeaturedJobs();
       this.handleSeo();
 
       // return good response
-      if (isPlatformServer(this.platformId)) {
-        this.response.status(200);
-      }
+      try {
+        if (isPlatformServer(this.platformId)) {
+          this.response.status(200);
+        }
+      } catch {}
 
     } else {
       // No job found, return 404! page rendering handled in html
-      if (isPlatformServer(this.platformId)) {
-        this.response.status(404);
-      }
+      try {
+        if (isPlatformServer(this.platformId)) {
+          this.response.status(404);
+        }
+      } catch {}
     }
 
   }

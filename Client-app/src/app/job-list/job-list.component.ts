@@ -3,7 +3,7 @@ import { DeafultLocService } from '../api-call.service';
 import { isPlatformBrowser } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
-import { Job, SearchPayload, getPayloadByRoute, getHeaderFromRoute } from '../Interfece'
+import { Job, SearchPayload, getPayloadByRoute, getHeaderFromRoute, getSlug } from '../Interfece'
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
@@ -49,6 +49,7 @@ export class JobListComponent implements OnInit {
     }
 
     this.filter.title$.subscribe((res: Job) => {
+      console.log(res)
       this.currJob = res;
     })
 
@@ -108,7 +109,7 @@ export class JobListComponent implements OnInit {
 
     // headers and title for page
     if (this.data.count && !this.isMobile) {
-      let slug = this.allJobs[0].slug ? this.allJobs[0].slug : (this.allJobs[0].title + "-" + this.allJobs[0].id);
+      let slug = getSlug(this.allJobs[0]);
       this.filter.setSlug(slug);
     }
     this.loaded = true;

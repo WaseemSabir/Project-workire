@@ -243,3 +243,17 @@ export function getHeaderFromRoute(route : string, payload : string, variable : 
   header = count.toString() + '+ ' + header
   return header;
 }
+
+export function getSlug(job : any) {
+  if(job && job.slug) {
+    return job.slug
+  } else if(job) {
+    return (job.Position + "-" + job.id);
+  } else {
+    ''
+  }
+}
+
+export function getSlugOverloaded(slug : string, title: string, id: number) {
+  return slug ? slug : (title + "-" + id);
+}

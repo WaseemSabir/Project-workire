@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterValueService } from '../filter-value.service';
 import { environment } from '../../environments/environment';
-import { urlParseCommon, payloadToValues, valuesToPayload, getPayloadByRoute, SearchPayload } from '../Interfece';
+import { urlParseCommon, payloadToValues, valuesToPayload, getPayloadByRoute, SearchPayload, getSlugOverloaded } from '../Interfece';
 
 @Component({
   selector: 'app-job-list-cards',
@@ -80,7 +80,7 @@ export class JobListCardsComponent implements OnInit {
 
   cardClick(slug : string, title: string, id: number)
   {
-    let s = slug ? slug : (title + "-" + id);
+    let s = getSlugOverloaded(slug,title,id);
     this.filter.setSlug(s);
     window.scroll(0,0);
   }
