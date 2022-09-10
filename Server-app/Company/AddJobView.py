@@ -51,6 +51,10 @@ def parse_xml_file(file) -> list:
 def parse_xml_from_url(url, count, abs_path) -> list:
     try:
         os.remove(os.path.join(abs_path, 'Jobs.xml'))
+    except FileNotFoundError:
+        pass
+
+    try:
         content = requests.get(url)
         f = ZipFile(BytesIO(content.content))
         f.extractall(path=abs_path, )
