@@ -12,9 +12,7 @@ class CompanySerializer(serializers.ModelSerializer):
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['id', 'Position', 'AdvertiserName', 'ApplicationURL', 'PostDate', 'Classification', 'Description',
-                  'Country', 'Location', 'EmploymentType', 'WorkHours', 'Area', 'PostalCode', 'SalaryCurrency',
-                  'SalaryMinimum', 'SalaryMaximum', 'SalaryPeriod', 'LogoURL']
+        fields = '__all__'
 
 
 class JobFeaturedSerializer(serializers.ModelSerializer):
