@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { DeafultLocService } from '../api-call.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { FilterValueService } from '../filter-value.service';
-import { getSlug, Job } from '../Interfece'
+import { Job } from '../Interfece'
 import { SeoServiceService } from '../seo-service.service';
 import { environment } from '../../environments/environment';
 import { RESPONSE, REQUEST } from '@nguniversal/express-engine/tokens';
@@ -66,10 +66,10 @@ export class JobPageComponent implements OnInit {
 
   fetchJob(res: Job) {
     this.spinner.show();
-    let slug = res.slug.split('-').at(-1)!!
+    let id = res.slug.split('-').at(-1)!!
 
-    if (slug) {
-      let jobId: number = parseInt(slug, 0);
+    if (id) {
+      let jobId: number = parseInt(id, 0);
 
       this.loc.jobById(jobId).toPromise()
         .then((res: any) => {
@@ -90,7 +90,7 @@ export class JobPageComponent implements OnInit {
 
       this.jobDetails = jobData.Jobs[0];
 
-      this.slug = getSlug(this.jobDetails);
+      this.slug = this.jobDetails.slug;
 
       this.getFeaturedJobs();
       this.handleSeo();

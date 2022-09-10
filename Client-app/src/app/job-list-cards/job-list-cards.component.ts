@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterValueService } from '../filter-value.service';
 import { environment } from '../../environments/environment';
-import { urlParseCommon, payloadToValues, valuesToPayload, getPayloadByRoute, SearchPayload, getSlugOverloaded } from '../Interfece';
+import { urlParseCommon, payloadToValues, valuesToPayload, getPayloadByRoute, SearchPayload } from '../Interfece';
 
 @Component({
   selector: 'app-job-list-cards',
@@ -78,10 +78,9 @@ export class JobListCardsComponent implements OnInit {
     return urlParseCommon(str,comp);
   }
 
-  cardClick(slug : string, title: string, id: number)
+  cardClick(slug : string)
   {
-    let s = getSlugOverloaded(slug,title,id);
-    this.filter.setSlug(s);
+    this.filter.setSlug(slug);
     window.scroll(0,0);
   }
 }
