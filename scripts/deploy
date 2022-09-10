@@ -11,6 +11,28 @@ echo "In : "
 pwd
 echo "Pulling from git ..."
 git pull origin master
+
+echo "Moving into Server Application..."
+cd ~/Project-workire/Server-app
+activate () {
+  . venv/bin/activate
+}
+activate
+pip install -r requirements.txt
+python3 manage.py migrate
+sudo kill $(pgrep gunicorn)
+sleep 3
+gunicorn -c config/prod.py
+echo ""
+echo "Gunicorn run!"
+tail /var/log/gunicorn/error.log
+echo ""
+sleep 5
+echo "After 5 Seconds, Gunicorn"
+tail /var/log/gunicorn/error.log
+echo ""
+echo "Deployed the server"
+
 echo "Moving into Client Application..."
 cd ~/Project-workire/Client-app
 echo "In: "
@@ -18,7 +40,6 @@ pwd
 echo ""
 echo "Running deploy service..."
 npm run deploy
-echo "Restarting apache!!!"
-sudo service apache2 restart
+
 echo "Restarting Nginx!!!"
 sudo service nginx restart

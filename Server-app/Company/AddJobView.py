@@ -27,11 +27,8 @@ class JobParsingError(Exception):
 # Helper Functions
 def read_tag(tags_list) -> Dict[str, str]:
     lookup = {}
-    for tag in tags_list:
-        if not tag.text:
-            lookup[tag.text] = tag.text
-        else:
-            lookup[tag.text] = ""
+    for one in tags_list:
+        lookup[one.tag] = one.text if one.text != None else ""
 
     return lookup
 
@@ -110,7 +107,7 @@ def correctly_parse_datetime(date_iso: str) -> datetime:
             return make_aware(to_ret)
 
     except:
-        return datetime.now()
+        return make_aware(datetime.now())
 
 
 # Takes one job data and process it and triggers save_job func
@@ -185,7 +182,17 @@ def fetch_xml_and_add_jobs_in_db():
         ]
 
         global toggle_site_to_index_from_urls_list
+
         curr_url = urls[toggle_site_to_index_from_urls_list]
+        curr_region = regions[toggle_site_to_index_from_urls_list]
+
+        job_import = f"""
+            Job Import Started
+            URL: {curr_url}
+            Region: {curr_region}
+            TIME: {datetime.now()}
+        """
+        print(job_import)
 
         # Used to save the region of the job (region is used while deleting the jobs)
         url_no_in_list = toggle_site_to_index_from_urls_list
@@ -202,10 +209,10 @@ def fetch_xml_and_add_jobs_in_db():
             print(e)
 
         # delete jobs older than 120 days
-        try:
-            delete_jobs_older_than_days(url_no_in_list, deleted_jobs_slugs)
-        except JobParsingError as e:
-            print(e)
+        # try:
+        #     delete_jobs_older_than_days(url_no_in_list, deleted_jobs_slugs)
+        # except JobParsingError as e:
+        #     print(e)
 
         # add jobs that are not in db
         new_jobs_slugs = []
@@ -223,7 +230,18 @@ def fetch_xml_and_add_jobs_in_db():
         new_jobs = len(new_jobs_slugs)
         deleted_jobs = len(deleted_jobs_slugs)
 
-        send_job_processed_email(deleted_jobs, new_jobs, total_jobs, regions[url_no_in_list])
+        send_job_processed_email(deleted_jobs, new_jobs, total_jobs, curr_region)
+
+        # print report
+        report = f"""
+            Job Processing Completed Successfully.
+            Region: {curr_region}
+            time: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+            Deleted Jobs: {deleted_jobs}
+            New Jobs: {new_jobs}
+            Total Jobs In System: {total_jobs}
+        """
+        print(report)
 
         # notify google about new pages
         try:
