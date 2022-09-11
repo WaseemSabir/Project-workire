@@ -4,7 +4,7 @@
     </div>
     <div class="pb-2 row">
         <div *ngFor="let item of featured; let j = index" class="col-md-4 py-2 col-sm-12 d-flex align-items-stretch">
-          <div class="card makeItRound shad" [routerLink]="['/Job-by-position',item.slug]">
+          <div class="card makeItRound shad" [routerLink]="['/job',item.slug]">
               <div class="row">
                 <div class="col-4">
                   <img class="d-block pl-3 pt-3 pb-3 w-100" src={{urlParse(item.LogoURL,item.AdvertiserName)}} alt={{item.AdvertiserName}}>
