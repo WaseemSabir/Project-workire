@@ -21,7 +21,7 @@ activate
 pip install -r requirements.txt
 python3 manage.py migrate
 sudo kill $(pgrep gunicorn)
-sleep 3
+sleep 10
 gunicorn -c config/prod.py
 echo ""
 echo "Gunicorn run!"
