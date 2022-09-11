@@ -6,6 +6,8 @@ from urllib.parse import quote
 from xml.dom import minidom
 from datetime import date
 from django.db.models import Count
+from django.db.models import Q
+
 
 """
 Includes views that make and return sitemap xml data
@@ -58,7 +60,21 @@ def getCountList(count):
         for city in count[country]:
             temp = city + '-' + country
             modifiedList.append(temp)
-    return modifiedList
+
+    # only keep the countries with minimum 3 jobs in sitemap
+    has_jobs = []
+    for one in modifiedList:
+        splitted = one.split('-')
+        lookup = Q()
+        if len(splitted)==1:
+            lookup = lookup | Q(Country__icontains=splitted[0])
+        elif len(splitted)==2:
+            lookup = lookup | Q(Country__icontains=splitted[0]) | Q(Location__icontains=splitted[1])
+
+        if Job.objects.filter(lookup).count() > 3:
+            has_jobs.append(one)
+
+    return has_jobs
 
 
 class StaticSitemap(Sitemap):
@@ -67,7 +83,7 @@ class StaticSitemap(Sitemap):
     protocol = 'https'
 
     def items(self):
-        return ['', 'Jobs', 'career-advice', 'Career-development-tools', 'about-us', 'contact-us', 'disclaimer',
+        return ['', 'Jobs', 'career-advice', 'Career-development-tools', 'about-us', 'contact-us',
                 'Jobs/All-Categories', 'Jobs/All-Companies', 'Jobs/All-Countries', 'Jobs/All-Positions',
                 'Jobs/Trending-Search']
 
