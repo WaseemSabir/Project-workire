@@ -244,11 +244,11 @@ def fetch_xml_and_add_jobs_in_db():
         print(report)
 
         # notify google about new pages
-        try:
-            notify_google_about_deleted_urls(deleted_jobs_slugs)
-            notify_google_about_new_urls(new_jobs_slugs)
-        except Exception as e:
-            print(f"Exception: Failed to notify google about new pages\n", e, '\n')
+        # try:
+        #     notify_google_about_deleted_urls(deleted_jobs_slugs)
+        #     notify_google_about_new_urls(new_jobs_slugs)
+        # except Exception as e:
+        #     print(f"Exception: Failed to notify google about new pages\n", e, '\n')
 
         # Move to next url for next iteration (scheduled), but if we are at the end, go to the first one
         toggle_site_to_index_from_urls_list += 1
