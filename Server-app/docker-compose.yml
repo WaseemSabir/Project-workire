@@ -10,14 +10,9 @@ services:
     env_file:
       - ./.env
     environment:
-      POSTGRES_PASSWORD: ${SQL_DATABASE}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
       POSTGRES_USER: ${SQL_USER}
-      POSTGRES_DB: ${SQL_PASSWORD}
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      POSTGRES_DB: ${SQL_DATABASE}
 
   redis:
     container_name: workire_redis
