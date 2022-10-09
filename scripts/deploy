@@ -14,22 +14,8 @@ git pull origin master
 
 echo "Moving into Server Application..."
 cd ~/Project-workire/Server-app
-activate () {
-  . venv/bin/activate
-}
-activate
-pip install -r requirements.txt
-python3 manage.py migrate
-sudo kill $(pgrep gunicorn)
-sleep 10
-gunicorn -c config/prod.py
-echo ""
-echo "Gunicorn run!"
-tail /var/log/gunicorn/error.log
-echo ""
-sleep 5
-echo "After 5 Seconds, Gunicorn"
-tail /var/log/gunicorn/error.log
+docker-compose down
+docker-compose up -d
 echo ""
 echo "Deployed the server"
 

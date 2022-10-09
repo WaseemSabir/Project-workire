@@ -164,3 +164,7 @@ media/image/
 
 workire-361818-eca3cbc08fb3.json
 Jobs.xml
+postgres_data
+postgres_data/*
+*.pkl
+DS_Store

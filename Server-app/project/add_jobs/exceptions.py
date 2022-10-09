@@ -1,0 +1,2 @@
+class JobParsingError(Exception):
+    pass

@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13.0-alpine
+    restart: always
+    container_name: workire_db
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_PASSWORD: ${SQL_DATABASE}
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_DB: ${SQL_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: workire_redis
+    restart: always
+    image: redis:alpine
+
+  web:
+    build: ./
+    command: gunicorn project.wsgi:application --workers=3 --bind 0.0.0.0:8000
+    container_name: workire_server
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: ./
+    container_name: workire_celery
+    command: celery -A project worker -l info
+    volumes:
+      - ./:/usr/src/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+
+  celery-beat:
+    build: ./
+    container_name: workire_celery_beat
+    command: celery -A project beat -l info
+    volumes:
+      - ./:/usr/src/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis

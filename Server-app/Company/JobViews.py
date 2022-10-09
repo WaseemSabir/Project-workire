@@ -281,7 +281,7 @@ class Search(APIView):
             else:
                 s = status.HTTP_200_OK
 
-            return Response({'count': count, 'data': job.data}, status=s)
+            return Response({'region_num': count, 'data': job.data}, status=s)
 
         except:
             message = {'detail': 'Search Query not valid'}
@@ -383,7 +383,7 @@ class TotalCount(APIView):
     def get(self, request, *args, **kwargs):
         try:
             return Response({
-                "count": Job.objects.all().count()
+                "region_num": Job.objects.all().count()
             })
         except:
             message = {'Invalid Request'}
@@ -401,7 +401,7 @@ class FeaturedJobFrontPage(APIView):
                 job = Job.objects.all()[:6]
 
             job = JobSerializer(job, many=True)
-            return Response({'count': count, 'data': job.data})
+            return Response({'region_num': count, 'data': job.data})
         except:
             message = {'Invalid Request'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -522,4 +522,4 @@ class FullSearch(APIView):
 
         job = JobSerializer(job, many=True)
         return Response({'Countrycount': Countrycount, 'categorycount': categorycount, 'companiescount': companiescount,
-                         'count': totalCount, 'data': job.data})
+                         'region_num': totalCount, 'data': job.data})
