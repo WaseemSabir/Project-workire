@@ -50,5 +50,6 @@ def process_scheduled_google_notifications():
     to_process_no = (settings.GOOGLE_API_QUOTA - counter.count) % 50
     data = queue.dequeue_many(no_of_items=to_process_no)
     notify_google(notifications=data)
+    queue.persist()
     counter.increment(by=to_process_no)
     return

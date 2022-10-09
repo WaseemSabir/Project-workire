@@ -51,7 +51,7 @@ def delete_jobs(region_num: int, data: list) -> list:
 
     db_jobs = Job.objects.filter(Region=region_num).all()
     for db_job in db_jobs:
-        if not sender_reference_lookup.get(db_job.DisplayReference, False):
+        if not sender_reference_lookup.get(db_job.SenderReference, False):
             slug = db_job.slug
             db_job.delete()
             deleted_jobs_slugs.append(slug)
@@ -92,6 +92,8 @@ def add_jobs(region: str, region_num: int, zipped_xml_url: str):
     try:
         xml_file = fetch_and_extract_zip_from_url(url=zipped_xml_url, abs_path=abs_path)
         data = parse_xml_file(xml_file)
+        if not data:
+            raise Exception("No data found.")
     except Exception as e:
         send_email_to_dev(
             subject="Job Processing Error",

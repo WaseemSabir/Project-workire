@@ -23,6 +23,9 @@ class PersistentQueue:
         return data
 
     def dequeue_many(self, no_of_items: int) -> list:
+        """
+        Persistent is left to the caller
+        """
         removed_items = self.queue[:no_of_items]
         new_list = self.queue[no_of_items:]
         self.queue = new_list
@@ -53,4 +56,4 @@ class PersistentQueue:
 
     def persist(self):
         with open(self.pickle_path, 'wb') as f:
-            pickle.dump(self.queue, f)
+            pickle.dump(self.queue, f, pickle.HIGHEST_PROTOCOL)

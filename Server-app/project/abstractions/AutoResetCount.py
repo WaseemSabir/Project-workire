@@ -46,4 +46,4 @@ class AutoResetCounter:
 
     def persist(self):
         with open(self.pickle_path, 'wb') as f:
-            pickle.dump([self.count, self.dt], f)
+            pickle.dump([self.count, self.dt], f, pickle.HIGHEST_PROTOCOL)

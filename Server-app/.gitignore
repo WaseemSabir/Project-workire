@@ -168,3 +168,5 @@ postgres_data
 postgres_data/*
 *.pkl
 DS_Store
+workire*.json
+data*.json

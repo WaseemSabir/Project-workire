@@ -1,5 +1,6 @@
 from typing import Dict, List
 from enum import Enum
+import os
 
 import httplib2
 from googleapiclient.discovery import build
@@ -20,8 +21,9 @@ class NotificationType(Enum):
 
 
 def notify_google(notifications: List[Dict[str, NotificationType]]):
-    json_key_file = "workire-361818-eca3cbc08fb3.json"
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(json_key_file, scopes=SCOPES)
+    json_key_file = "workire-361818-7fbb73a8edaa.json"
+    full_path = os.path.join(settings.BASE_DIR, json_key_file)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(full_path, scopes=SCOPES)
 
     http = credentials.authorize(httplib2.Http())
 

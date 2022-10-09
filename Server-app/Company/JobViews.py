@@ -160,7 +160,7 @@ class getJobByID(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, *args, **kwargs):
         job_id = self.kwargs.get('id')
-        k = int(job_id)
+        k = job_id
         jobs = Job.objects.filter(id=k)
         serialized = JobSerializer(jobs, many=True)
         return Response({'Jobs': serialized.data})
