@@ -4,7 +4,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from indexing.utils import notify_google
-from project import settings
+from django.conf import settings
 from project.abstractions.AutoResetCount import AutoResetCounter
 from project.abstractions.PeristentQueue import PersistentQueue
 from project.add_jobs.AddJobView import add_jobs

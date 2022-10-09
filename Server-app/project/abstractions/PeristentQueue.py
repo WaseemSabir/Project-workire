@@ -1,7 +1,7 @@
 import pickle
 import os
 
-from project import settings
+from django.conf import settings
 
 
 class PersistentQueue:

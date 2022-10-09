@@ -7,6 +7,7 @@ from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
 
 from project.abstractions.PeristentQueue import PersistentQueue
+from django.conf import settings
 
 """
 APIs Implementation for Google API Indexing, mostly used for Job Posting/Single Job Page
