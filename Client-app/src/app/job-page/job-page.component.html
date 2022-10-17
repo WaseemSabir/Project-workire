@@ -1,5 +1,5 @@
 <div *ngIf="isNotEmpty()">
-    <ngx-json-ld [json]="schema"></ngx-json-ld>
+    <ngx-json-ld *ngIf="showSchema" [json]="schema"></ngx-json-ld>
     <div *ngIf="!check" class="row bg-white makeItRound w-100 my-md-0 my-3 center" #t1>
         <div class="col-12 w-100 mx-2 mt-2">
             <div class="pb-3 mb-2 row">

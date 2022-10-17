@@ -28,7 +28,7 @@ def notify_google(notifications: List[Dict[str, NotificationType]]):
 
     http = credentials.authorize(httplib2.Http())
 
-    service = build('indexing', 'v3', credentials=credentials)
+    service = build('indexing', 'v3', credentials=credentials, cache_discovery=False)
 
     def insert_event(request_id, response, exception):
         if exception is None:

@@ -35,6 +35,7 @@ export class JobPageComponent implements OnInit {
   target_feature: any[] = []
   tit: string = '';
   schema: any = {};
+  showSchema: boolean = true
 
   slug : string = '';
 
@@ -45,6 +46,12 @@ export class JobPageComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.isMobile = screen.width < 768;
     }
+
+    this.showSchema = this.route.url.split("/").some(
+      (val, index, array) => {
+        return (val=="Job" || val=="job")
+      }
+    )
 
     this.filter.title$.subscribe((res: Job) => {
 
