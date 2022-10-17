@@ -15,7 +15,7 @@ export class JobLandingPageComponent implements OnInit {
 
   domain : string = environment.APIEndpoint + "/mediaimage/"
 
-  domain2 : string = environment.APIEndpoint + "/"
+  domain2 : string = environment.APIEndpoint
 
   search : any[] = []
 
