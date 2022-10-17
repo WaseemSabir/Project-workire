@@ -180,7 +180,6 @@ MEDIA_ROOT = '/var/www/html/media/image/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 DELETE_JOBS_OLDER_THAN_DAYS = 120
-GOOGLE_API_QUOTA = 20000
 
 # set up django and then import tasks
 import django

@@ -12,9 +12,8 @@ from django.conf import settings
 """
 APIs Implementation for Google API Indexing, mostly used for Job Posting/Single Job Page
 """
-SCOPES = ["https://www.googleapis.com/auth/indexing"]
-ENDPOINT = "https://indexing.googleapis.com/batch"
-
+SCOPES = [ "https://www.googleapis.com/auth/indexing" ]
+ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
 
 class NotificationType(Enum):
     URL_UPDATED = "URL_UPDATED"
@@ -24,17 +23,20 @@ class NotificationType(Enum):
 def notify_google(notifications: List[Dict[str, NotificationType]]):
     json_key_file = "workire-361818-7fbb73a8edaa.json"
     full_path = os.path.join(settings.BASE_DIR, json_key_file)
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(full_path, scopes=SCOPES)
 
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(full_path, scopes=SCOPES)
     http = credentials.authorize(httplib2.Http())
 
     service = build('indexing', 'v3', credentials=credentials, cache_discovery=False)
+    global successful
+    successful = 0
 
     def insert_event(request_id, response, exception):
+        global successful
         if exception is None:
-            print("Success", response)
+            successful +=1 
         else:
-            print(request_id, response, exception)
+            print(exception)
 
     batch = service.new_batch_http_request(callback=insert_event)
 
@@ -46,6 +48,7 @@ def notify_google(notifications: List[Dict[str, NotificationType]]):
         batch.add(service.urlNotifications().publish(body=body))
 
     batch.execute(http=http)
+    print(f"Successful {successful}/{len(notifications)}")
 
 
 def schedule_google_notification(urls: List[str], notif_type: NotificationType):

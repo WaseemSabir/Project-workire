@@ -35,21 +35,25 @@ def fetch_uk_jobs():
 
 @shared_task
 def process_scheduled_google_notifications():
+    GOOGLE_API_QUOTA = 20000
+
     queue = PersistentQueue(queue_name="google_notif_queue")
     counter = AutoResetCounter(count_name="google_notif_count", reset_after=timedelta(days=1))
 
-    if counter.count >= settings.GOOGLE_API_QUOTA:
-        logger.info("Ran out of quota")
+    if counter.count >= GOOGLE_API_QUOTA:
+        print("Ran out of quota")
         return
 
     if queue.is_empty():
-        logger.info("No urls to report")
+        print("Queue is empty!")
         return
 
     # max fifty per minute or how much quota is remaining
-    to_process_no = (settings.GOOGLE_API_QUOTA - counter.count) % 50
+    print("Total in queue: ", queue.size)
+    to_process_no = 50
     data = queue.dequeue_many(no_of_items=to_process_no)
     notify_google(notifications=data)
     queue.persist()
     counter.increment(by=to_process_no)
+    print(f"Processed {to_process_no}. Counter: {counter.count}. queued: {queue.size}")
     return
