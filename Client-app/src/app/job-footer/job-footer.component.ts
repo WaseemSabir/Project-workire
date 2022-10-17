@@ -13,6 +13,7 @@ export class JobFooterComponent implements OnInit {
 
   public isRoot: boolean = true;
   isMobile : boolean = false;
+  public currYear: number = new Date().getFullYear();
 
   constructor(private router : Router,@Inject(PLATFORM_ID) private platformId: Object,private location : Location) {}
 
