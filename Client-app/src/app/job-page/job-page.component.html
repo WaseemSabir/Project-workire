@@ -57,7 +57,6 @@
     <div *ngIf="check" class="w-100"
         [ngClass]="{'container':!isMobile,'container-fluid':isMobile,'mt-5':isMobile}" #t1>
         <div class="row mt-2">
-            <ngx-json-ld [json]="schema"></ngx-json-ld>
             <div class="col-md-8 col-sm-12 shadow-sm">
                 <div class="col-12 pb-3 mb-2 row">
                     <div class="col-md-8 col-sm-12">
@@ -122,8 +121,7 @@
                         People also viewed!
                     </div>
                     <div class="py-2" *ngFor="let k of target_feature">
-                        <div class="text-dark hell" [routerLink]="['/Job',slug]">{{k.Position}}
-                        </div>
+                        <a class="text-dark hell " [routerLink]="['/Job',slug]">{{k.Position}}</a>
                         <div *ngIf="k.Location==='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Country}}
                             | {{k.AdvertiserName}}</div>
                         <div *ngIf="k.Location!=='Not Specified'" class="h6 text-muted font-weight-normal">
@@ -140,10 +138,10 @@
 </div>
 
 <div *ngIf="!isNotEmpty()">
-    <div class="text-center pt-5" style="font-weight: 500;">
-        No such Job Exists!
-    </div>
-    <div class="text-center pb-5">
-        The Job Might have been removed!
-    </div>
+  <div class="text-center pt-5" style="font-weight: 500;">
+    No such Job Exists!
+  </div>
+  <div class="text-center pb-5">
+    The Job Might have been removed!
+  </div>
 </div>
