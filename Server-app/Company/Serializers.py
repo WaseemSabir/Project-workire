@@ -18,7 +18,7 @@ class JobSerializer(serializers.ModelSerializer):
 class JobFeaturedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ['Position', 'AdvertiserName', 'Country', 'Location']
+        fields = ['Position', 'AdvertiserName', 'Country', 'Location', 'slug']
 
 
 class TrendingSearchSerializer(serializers.ModelSerializer):
