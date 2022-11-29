@@ -121,7 +121,7 @@
                         People also viewed!
                     </div>
                     <div class="py-2" *ngFor="let k of target_feature">
-                        <a class="text-dark hell " [routerLink]="['/Job',slug]">{{k.Position}}</a>
+                        <a class="text-dark hell " [routerLink]="['/Job',k.slug]">{{k.Position}}</a>
                         <div *ngIf="k.Location==='Not Specified'" class="h6 text-muted font-weight-normal">{{k.Country}}
                             | {{k.AdvertiserName}}</div>
                         <div *ngIf="k.Location!=='Not Specified'" class="h6 text-muted font-weight-normal">
