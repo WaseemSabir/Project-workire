@@ -50,9 +50,9 @@ const routes: Routes = [
   {path: 'Job-company',component: JobCompanyComponent},
   {path: 'Job-by-position',component: JobPositionsComponent},
   {path: 'trending-search',component: JobTrendingSearchComponent},
-  {path: 'jobs', component: JobListComponent},
-  {path: 'Job/:slug', component: JobSinglePageComponent},
-  {path: 'jobs/:payload', component: JobListComponent},
+  {path: 'jobs', redirectTo: 'Jobs', pathMatch: 'full'},
+  {path: 'Job/:slug', redirectTo: 'job/:slug'},
+  {path: 'jobs/:payload', redirectTo: 'Jobs/:payload'},
 
   /* Under Development & Url 404 */
   {path: 'test', component: ResumeBuilderHomeComponent},
