@@ -4,14 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-dev": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run FrontEnd:serve-ssr",
     "serve:ssr": "pm2 kill && pm2 start dist/FrontEnd/server/main.js -i max",
     "build:ssr": "ng build && ng run FrontEnd:server",
     "deploy": "npm run prerender --omit=dev && npm run build:ssr && npm run serve:ssr",
-    "prerender": "ng run FrontEnd:prerender"
+    "prerender": "ng run FrontEnd:prerender",
+    "vercel-build": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
