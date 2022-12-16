@@ -12,5 +12,6 @@
         "api/index.js": {
             "includeFiles": "dist/FrontEnd/browser/**"
         }
-    }
+    },
+    "installCommand": "npm install --legacy-peer-deps"
 }
