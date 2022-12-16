@@ -10,7 +10,7 @@
     ],
     "functions": {
         "api/index.js": {
-            "includeFiles": "dist/FrontEnd/browser/**"
+            "includeFiles": "**"
         }
     },
     "installCommand": "npm install --legacy-peer-deps",
