@@ -1,7 +1,13 @@
 name: Deploy On Server
-on: [push]
-jobs:
 
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**'
+
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
