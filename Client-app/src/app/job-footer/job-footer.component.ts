@@ -69,17 +69,7 @@ export class JobFooterComponent implements OnInit {
     let path = this.location.path();
     if(path.toLowerCase().includes('/job/')) {
       this.breadCrums.push(['home','/'])
-      let title_list = decodeURI(path.split('/').at(-1)!!).split('-')
-      // join title with space
-
-      // remove valid number strings and join with space and capitalize
-
-
-      let title = title_list.filter((each : string)=>{
-        return !Number(each)
-      }).join(' ').toLocaleUpperCase()
-      
-      this.breadCrums.push([title,path])
+      this.breadCrums.push(['jobs','/jobs'])
     }
   }
 
