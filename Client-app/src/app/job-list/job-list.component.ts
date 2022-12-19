@@ -49,7 +49,6 @@ export class JobListComponent implements OnInit {
     }
 
     this.filter.title$.subscribe((res: Job) => {
-      console.log(res)
       this.currJob = res;
     })
 
