@@ -63,6 +63,7 @@ urlpatterns = [
 
     path('searchPosts', BlogView.searchbyval.as_view()),
     path('jobBlogs', BlogView.jobBlogViews.as_view()),
+    path('addJobBlog', BlogView.addJobBlog.as_view()),
 ]
 
 # Un-used API Views

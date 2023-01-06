@@ -91,6 +91,8 @@ class jobBlogViews(APIView):
             message = {'Invalid Search'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
+
+class addJobBlog(APIView):
     def post(self, request):
         # parse from data
         data = request.data.copy()
@@ -98,14 +100,14 @@ class jobBlogViews(APIView):
         token = data.pop('PUBLISHER_TOKEN')[0]
         if token != os.environ.get('PUBLISHER_TOKEN'):
             return Response({'message': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
-        
+
         jobs_table = data.pop('jobs_table')[0]
         jobs_table = json.loads(jobs_table)
 
         serializer = JobBlogSerializer(data=data)
         if not serializer.is_valid():
             return Response(job_blog.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer.save()
         job_blog = serializer.instance
 
