@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Company.Serializers import BlogSerializer, JobBlogSerializer
+from Company.Serializers import BlogSerializer, JobBlogSerializer, JobBlogFeaturedJobsSerializer
 from .models import *
 
 
@@ -107,15 +107,17 @@ class addJobBlog(APIView):
         serializer = JobBlogSerializer(data=data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        
         serializer.save()
         job_blog = serializer.instance
 
-        rows = []
         for job in jobs_table:
-            row = JobBlogFeaturedJobs.objects.create(**job)
-            rows.append(row)
-            job_blog.jobs_table.add(row)
+            jb_ser = JobBlogFeaturedJobsSerializer(data=job)
+            if not jb_ser.is_valid():
+                return Response(jb_ser.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            jb_ser.save()
+            job_blog.jobs_table.add(jb_ser.instance)
 
         job_blog.save()
         return Response({'data': JobBlogSerializer(job_blog).data})

@@ -50,6 +50,12 @@ class CatSerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class JobBlogFeaturedJobsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobBlogFeaturedJobs
+        fields = '__all__'
+
+
 class JobBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobBlog

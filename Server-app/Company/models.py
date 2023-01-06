@@ -160,7 +160,7 @@ class JobBlogFeaturedJobs(models.Model):
         max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return self.search_show + ' - ' + self.search_country_show
+        return self.search_show + ' - ' + self.country_show
 
 
 class JobBlog(models.Model):
