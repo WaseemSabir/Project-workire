@@ -106,7 +106,7 @@ class addJobBlog(APIView):
 
         serializer = JobBlogSerializer(data=data)
         if not serializer.is_valid():
-            return Response(job_blog.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save()
         job_blog = serializer.instance
