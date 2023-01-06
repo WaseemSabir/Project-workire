@@ -92,14 +92,13 @@ class jobBlogViews(APIView):
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
-        # get request headers
-        headers = request.headers
-        token = headers.get('PUBLISHER_TOKEN')
-        if token != os.environ.get('PUBLISHER_TOKEN'):
-            return Response({'message': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
-
         # parse from data
         data = request.data.copy()
+
+        token = data.pop('PUBLISHER_TOKEN')[0]
+        if token != os.environ.get('PUBLISHER_TOKEN'):
+            return Response({'message': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         jobs_table = data.pop('jobs_table')[0]
         jobs_table = json.loads(jobs_table)
 
@@ -112,8 +111,6 @@ class jobBlogViews(APIView):
 
         rows = []
         for job in jobs_table:
-            print(job)
-            print(type(job))
             row = JobBlogFeaturedJobs.objects.create(**job)
             rows.append(row)
             job_blog.jobs_table.add(row)
