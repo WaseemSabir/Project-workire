@@ -1,4 +1,6 @@
 from random import choices
+import os
+import json
 
 from django.db.models import Q
 from django.utils.decorators import method_decorator
@@ -7,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Company.Serializers import BlogSerializer
+from Company.Serializers import BlogSerializer, JobBlogSerializer
 from .models import *
 
 
@@ -77,3 +79,44 @@ class searchbyval(APIView):
         except:
             message = {'Invalid Search'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+class jobBlogViews(APIView):
+    @method_decorator(cache_page(60 * 5))
+    def get(self, request):
+        try:
+            all = JobBlog.objects.all()
+            return Response({'data': JobBlogSerializer(all, many=True).data})
+        except:
+            message = {'Invalid Search'}
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        # get request headers
+        headers = request.headers
+        token = headers.get('PUBLISHER_TOKEN')
+        if token != os.environ.get('PUBLISHER_TOKEN'):
+            return Response({'message': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # parse from data
+        data = request.data.copy()
+        jobs_table = data.pop('jobs_table')[0]
+        jobs_table = json.loads(jobs_table)
+
+        serializer = JobBlogSerializer(data=data)
+        if not serializer.is_valid():
+            return Response(job_blog.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer.save()
+        job_blog = serializer.instance
+
+        rows = []
+        for job in jobs_table:
+            print(job)
+            print(type(job))
+            row = JobBlogFeaturedJobs.objects.create(**job)
+            rows.append(row)
+            job_blog.jobs_table.add(row)
+
+        job_blog.save()
+        return Response({'data': JobBlogSerializer(job_blog).data})

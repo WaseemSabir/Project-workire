@@ -20,12 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('api/company/', include('Company.urls')),
-                  path('', include('indexing.mapurl')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-              + static(settings.STATIC_URL,
-                       document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls),
+    path('api/company/', include('Company.urls')),
+    path('', include('indexing.mapurl')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+    + static(settings.STATIC_URL,
+             document_root=settings.STATIC_ROOT)
 
 # Admin portal update
 admin.site.site_header = "Workire Admin"

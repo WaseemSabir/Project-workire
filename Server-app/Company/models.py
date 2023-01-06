@@ -57,7 +57,8 @@ class Countries(models.Model):
 
 class Designation(models.Model):
     designation = models.CharField(max_length=100, null=False, unique=True)
-    close_designations_comma_separted = models.CharField(max_length=500, null=True)
+    close_designations_comma_separted = models.CharField(
+        max_length=500, null=True)
     Show_On_Homepage = models.BooleanField(default=True)
     show_seo = models.BooleanField(default=False)
     seo_title = models.CharField(max_length=250, null=True, blank=True)
@@ -144,6 +145,37 @@ class Blog(models.Model):
     BlogUrl = models.CharField(null=True, blank=True, max_length=100)
     Description = models.CharField(max_length=500, null=True, blank=True)
     KeyWord = models.CharField(max_length=500, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-id']
+
+class JobBlogFeaturedJobs(models.Model):
+    search = models.CharField(max_length=100, null=True, blank=True)
+    search_show = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    country_show = models.CharField(
+        max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.search_show + ' - ' + self.search_country_show
+
+
+class JobBlog(models.Model):
+    title = models.CharField(max_length=1000, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
+    body_above_add = models.TextField(null=True, blank=True)
+    jobs_table = models.ManyToManyField(JobBlogFeaturedJobs)
+    body_below_add = models.TextField(null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    slug = models.CharField(max_length=1000, null=True, blank=True)
+    seo_title = models.CharField(max_length=500, null=True, blank=True)
+    seo_description = models.CharField(max_length=1000, null=True, blank=True)
+    seo_keywords = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.title

@@ -49,3 +49,9 @@ class CatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+class JobBlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobBlog
+        fields = '__all__'
+        depth = 1
