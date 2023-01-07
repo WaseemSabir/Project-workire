@@ -7,21 +7,28 @@ urlpatterns = [
 
     path('getID/<int:id>', JobViews.getCompanyById.as_view()),  # get company by Id
 
-    path('getName/<str:Name>', JobViews.getCompanyByName.as_view()),  # get company by name
+    # get company by name
+    path('getName/<str:Name>', JobViews.getCompanyByName.as_view()),
 
-    path('getAllCompany', JobViews.getAllCompaniesWithCountFirst100.as_view()),  # get all comapnies data
+    # get all comapnies data
+    path('getAllCompany', JobViews.getAllCompaniesWithCountFirst100.as_view()),
 
-    path('getAllCompanyMore', JobViews.getAllCompaniesWithCountFirst100More.as_view()),  # get all comapnies more
+    # get all comapnies more
+    path('getAllCompanyMore', JobViews.getAllCompaniesWithCountFirst100More.as_view()),
 
-    path('getAllCategories', JobViews.getAllCategories.as_view()),  # Get all categories from Jobs
+    # Get all categories from Jobs
+    path('getAllCategories', JobViews.getAllCategories.as_view()),
 
-    path('getAllCountries', JobViews.getAllCountries.as_view()),  # Get all Countries from Jobs
+    # Get all Countries from Jobs
+    path('getAllCountries', JobViews.getAllCountries.as_view()),
 
-    path('getAllCompanies', JobViews.getAllCompanies.as_view()),  # Get all Comapnies from Jobs
+    # Get all Comapnies from Jobs
+    path('getAllCompanies', JobViews.getAllCompanies.as_view()),
 
     path('job/<str:id>', JobViews.getJobByID.as_view()),  # Get Job via Job ID
 
-    path('getJobByTitle', JobViews.getJobByTitle.as_view()),  # Get Job by matching title
+    # Get Job by matching title
+    path('getJobByTitle', JobViews.getJobByTitle.as_view()),
 
     path('search', JobViews.Search.as_view()),  # search jobs
 
@@ -45,15 +52,17 @@ urlpatterns = [
 
     path('getFilterSuggestions', JobViews.getFilterSuggestions.as_view()),
 
-    path('getFilterSuggestions/<str:search>', JobViews.getFilterSuggestions.as_view()),
+    path('getFilterSuggestions/<str:search>',
+         JobViews.getFilterSuggestions.as_view()),
 
-    path('FeaturedJobFrontPage/<str:country>', JobViews.FeaturedJobFrontPage.as_view()),
+    path('FeaturedJobFrontPage/<str:country>',
+         JobViews.FeaturedJobFrontPage.as_view()),
 
     path('TotalJobCount', JobViews.TotalCount.as_view()),
 
     path('JobSeoObject', JobViews.SeoObjectView.as_view()),
 
-    # Blog View Patterns 
+    # Blog View Patterns
 
     path('getallposts', BlogView.getallposts.as_view()),  # get all posts
 
@@ -65,6 +74,7 @@ urlpatterns = [
     path('jobBlogs', BlogView.jobBlogViews.as_view()),
     path('addJobBlog', BlogView.addJobBlog.as_view()),
     path('getJobBlogBySlug/<str:slug>', BlogView.getJobBlogBySlug.as_view()),
+    path('searchJobBlogs/<str:search>', BlogView.searchJobBlog.as_view()),
 ]
 
 # Un-used API Views

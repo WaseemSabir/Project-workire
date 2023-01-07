@@ -139,3 +139,19 @@ class getJobBlogBySlug(APIView):
             return Response({'data': JobBlogSerializer(job_blog).data, 'related': related_blogs.data})
         except:
             return Response({'message': 'Invalid Slug'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class searchJobBlog(APIView):
+    @method_decorator(cache_page(60 * 60 * 24))
+    def get(self, request, *args, **kwargs):
+        try:
+            search = self.kwargs.get('search')
+            lookup = Q(title__icontains=search) | Q(description__icontains=search) | Q(category__icontains=search) | Q(
+                slug__icontains=search) | Q(seo_keywords__icontains=search) | Q(body_above_add__icontains=search) | Q(
+                    body_above_add__icontains=search) | Q(body_below_add__icontains=search)
+            post = JobBlog.objects.filter(lookup)
+            post = JobBlogManySerializer(post, many=True)
+            return Response({'posts': post.data})
+        except:
+            message = {'Invalid Search'}
+            return Response(message, status=status.HTTP_400_BAD_REQUEST)
