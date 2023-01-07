@@ -165,6 +165,7 @@ class JobBlogFeaturedJobs(models.Model):
 
 class JobBlog(models.Model):
     title = models.CharField(max_length=1000, null=True, blank=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
     category = models.CharField(max_length=100, null=True, blank=True)
     body_above_add = models.TextField(null=True, blank=True)

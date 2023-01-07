@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Company.Serializers import BlogSerializer, JobBlogSerializer, JobBlogFeaturedJobsSerializer
+from Company.Serializers import BlogSerializer, JobBlogSerializer, JobBlogFeaturedJobsSerializer, JobBlogManySerializer
 from .models import *
 
 
@@ -86,7 +86,7 @@ class jobBlogViews(APIView):
     def get(self, request):
         try:
             all = JobBlog.objects.all()
-            return Response({'data': JobBlogSerializer(all, many=True).data})
+            return Response({'data': JobBlogManySerializer(all, many=True).data})
         except:
             message = {'Invalid Search'}
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -101,13 +101,18 @@ class addJobBlog(APIView):
         if token != os.environ.get('PUBLISHER_TOKEN'):
             return Response({'message': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
 
+        # check if same slug exists
+        slug = data.get('slug')
+        if JobBlog.objects.filter(slug=slug).exists():
+            return Response({'message': 'Slug already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
         jobs_table = data.pop('jobs_table')[0]
         jobs_table = json.loads(jobs_table)
 
         serializer = JobBlogSerializer(data=data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer.save()
         job_blog = serializer.instance
 
@@ -115,9 +120,22 @@ class addJobBlog(APIView):
             jb_ser = JobBlogFeaturedJobsSerializer(data=job)
             if not jb_ser.is_valid():
                 return Response(jb_ser.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+
             jb_ser.save()
             job_blog.jobs_table.add(jb_ser.instance)
 
         job_blog.save()
         return Response({'data': JobBlogSerializer(job_blog).data})
+
+
+class getJobBlogBySlug(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            slug = self.kwargs.get('slug')
+            job_blog = JobBlog.objects.get(slug=slug)
+            # find three blogs with same category
+            related_blogs = choices(JobBlog.objects.all(), k=3)
+            related_blogs = JobBlogManySerializer(related_blogs, many=True)
+            return Response({'data': JobBlogSerializer(job_blog).data, 'related': related_blogs.data})
+        except:
+            return Response({'message': 'Invalid Slug'}, status=status.HTTP_400_BAD_REQUEST)

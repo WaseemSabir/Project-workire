@@ -56,6 +56,12 @@ class JobBlogFeaturedJobsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class JobBlogManySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobBlog
+        fields = ['title', 'slug', 'image', 'description', 'category']
+
+
 class JobBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobBlog
