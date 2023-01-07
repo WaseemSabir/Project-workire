@@ -82,7 +82,6 @@ class searchbyval(APIView):
 
 
 class jobBlogViews(APIView):
-    @method_decorator(cache_page(60*5))
     def get(self, request):
         try:
             all = JobBlog.objects.all()
