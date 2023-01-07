@@ -82,7 +82,7 @@ class searchbyval(APIView):
 
 
 class jobBlogViews(APIView):
-    @method_decorator(cache_page(60 * 5))
+    @method_decorator(cache_page(60*5))
     def get(self, request):
         try:
             all = JobBlog.objects.all()
@@ -129,6 +129,7 @@ class addJobBlog(APIView):
 
 
 class getJobBlogBySlug(APIView):
+    @method_decorator(cache_page(60*5))
     def get(self, request, *args, **kwargs):
         try:
             slug = self.kwargs.get('slug')
@@ -142,7 +143,7 @@ class getJobBlogBySlug(APIView):
 
 
 class searchJobBlog(APIView):
-    @method_decorator(cache_page(60 * 60 * 24))
+    @method_decorator(cache_page(60*5))
     def get(self, request, *args, **kwargs):
         try:
             search = self.kwargs.get('search')
