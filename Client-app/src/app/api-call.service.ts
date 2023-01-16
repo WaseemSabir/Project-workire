@@ -113,6 +113,18 @@ export class DeafultLocService {
     return this.httpClient.post(this.MY_SEREVER +'company/featured',{'search':str})
   }
 
+  public getAllJobBlogs() {
+    return this.httpClient.get(this.MY_SEREVER + "company/jobBlogs");
+  }
+
+  public getJobBlogPost(slug : string) {
+    return this.httpClient.get(this.MY_SEREVER + "company/getJobBlogBySlug/" + slug);
+  }
+
+  public searchJobBlog(search : string) {
+    return this.httpClient.get(this.MY_SEREVER + "company/searchJobBlogs/" + search);
+  }
+
   // To get the Blog Posts
   public getAllPosts() {
     return this.httpClient.get(this.MY_SEREVER + "company/getallposts");

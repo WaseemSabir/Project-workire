@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row mt-4">
+        <div class="h5 col-auto mt-4 font-weight-normal">Search Result for {{searchString}}</div>
+        <div class="h5 col-auto" [ngClass]="{'ml-auto':!isMobile}">
+            <div class="content mt-3 w-100">
+                <input class="input" [formControl]="blogSearch" type="text" placeholder="Search for Blog Post" (change)="searchChange()">
+                <span class="border"></span>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div *ngIf="!searchData.length">
+        <div class="m-5 text-muted"> No Results for the search</div>
+    </div>
+    <div *ngIf="searchData.length && loaded">
+        <div class="row mt-4">
+            <div *ngFor="let k of searchData" class="curse col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100" [routerLink]="['/latest-jobs',k.slug]">
+                    <img class="card-img" src={{urlParse(k.image)}} alt={{cap(k.title)}} height="240px">
+                    <div class="card-img-overlay">
+                        <a [routerLink]="['/latest-jobs',k.category]" class="btn btn-light btn-sm">{{k.category}}</a>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title h5">{{cap(k.title)}}</h2>
+                        <p class="card-text" style="font-size: small;">{{k.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

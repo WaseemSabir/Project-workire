@@ -1,0 +1,65 @@
+.curse {
+    cursor: pointer;
+}
+
+/* Large View Ports  */
+@media screen and (min-width: 900px) {
+    .titleTop {
+        font-weight: 600;
+        padding-top: 10%;
+        font-size: 4vw;
+    }
+    .pad {
+        padding-top: 4%;
+    }
+}
+
+
+/* Medium View Ports */
+@media screen and (max-width: 900px) and (min-width: 600px) {
+    .titleTop {
+        font-weight: 600;
+        padding-top: 14%;
+        font-size: 5vw;
+    }
+    .pad {
+        padding-top: 5%;
+    }
+}
+
+
+/* Small View Ports  */
+@media screen and (max-width: 600px) {
+    .titleTop {
+        font-weight: 600;
+        padding-top: 20%;
+        font-size: 9vw;
+    }
+    .pad {
+        padding-top: 6%;
+    }
+}
+
+.card {
+    border-radius: 20px;
+}
+
+img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.flex-disp {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-bg {
+    border: 1px solid #dadbe0;
+    color: #5c5c5e;
+}
+
+.btn-bg:hover {
+    color: white;
+    background-color: #006699;
+}

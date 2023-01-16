@@ -60,6 +60,10 @@ import { JobSeoPartComponent } from './job-seo-part/job-seo-part.component';
 import { JobTrendingSearchComponent } from './job-trending-search/job-trending-search.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder-home.component';
+import { JobBlogListComponent } from './job-blog-list/job-blog-list.component';
+import { JobBlogCardComponent } from './job-blog-card/job-blog-card.component';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { JobBlogSearchComponent } from './job-blog-search/job-blog-search.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +80,9 @@ import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder
     JobListComponent,
     JobListFilterComponent,
     JobListCardsComponent,
+    JobBlogListComponent,
+    JobBlogCardComponent,
+    JobBlogSearchComponent,
     JobCountryComponent,
     JobCategoryComponent,
     JobCompanyComponent,
@@ -100,7 +107,7 @@ import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder
     JobPositionsComponent,
     JobSeoPartComponent,
     JobTrendingSearchComponent,
-    ResumeBuilderHomeComponent
+    ResumeBuilderHomeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -125,7 +132,8 @@ import { ResumeBuilderHomeComponent } from './resume-builder-home/resume-builder
     NzAlertModule,
     NzSelectModule,
     NzSwitchModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzTableModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
