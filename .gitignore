@@ -8,4 +8,5 @@ portal2
 job_data.json
 .DS_Store
 .DS_*
-
+.vs_code
+.vs_code/*
