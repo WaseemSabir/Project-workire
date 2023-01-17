@@ -170,3 +170,5 @@ postgres_data/*
 DS_Store
 workire*.json
 data*.json
+media/*
+media/image/*
