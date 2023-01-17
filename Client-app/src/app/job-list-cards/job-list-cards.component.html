@@ -1,6 +1,6 @@
 <mat-card class="mb-3 mat-elevation-z0 color-hover pointer" *ngFor="let job of jobs" (click)="cardClick(job.slug)">
   <mat-card-header class="no-pad">
-    <img mat-card-avatar src={{urlParse(job.LogoURL,job.AdvertiserName)}}/>
+    <img mat-card-avatar src={{urlParse(job.LogoURL,job.AdvertiserName)}} loading="lazy" />
     <mat-card-title style="font-size:medium;">{{job.Position}}</mat-card-title>
     <mat-card-subtitle class="no-pad">
       <p *ngIf="!toggleView" class="m-0">{{job.AdvertiserName}}</p>

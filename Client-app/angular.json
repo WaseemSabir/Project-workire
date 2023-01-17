@@ -116,6 +116,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
+            "optimization": true,
             "outputPath": "dist/FrontEnd/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json"

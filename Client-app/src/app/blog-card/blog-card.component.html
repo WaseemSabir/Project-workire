@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <img src={{post.image}} class="img-fluid col-12" alt={{post.title}} height="auto" width="100%">
+            <img src={{post.image}} class="img-fluid col-12" alt={{post.title}} height="auto" width="100%" loading="lazy">
             <div class="col-md-10 col-12">
                 <div class="py-3">
                     <div class="text-muted">Category: {{post.category}}</div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div *ngFor="let k of additional" class="col-12 col-sm-12 col-md-6 col-lg-6 pb-4">
                     <div class="card shadow-sm h-100 pointer" [routerLink]="['/career-advice',k.BlogUrl]">
-                        <img class="card-img" src={{urlParse(k.image)}} alt={{k.title}} height="240px">
+                        <img class="card-img" src={{urlParse(k.image)}} alt={{k.title}} height="240px" loading="lazy">
                         <div class="card-img-overlay">
                             <a class="btn btn-light btn-sm">{{k.category}}</a>
                         </div>

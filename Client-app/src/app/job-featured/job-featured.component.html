@@ -3,7 +3,7 @@
     <div class="card makeItRound shad" [routerLink]="['/Job',item.Position]">
         <div class="row">
           <div class="col-4">
-            <img class="d-block pl-3 pt-3 pb-3 w-100" src={{urlParse(item.LogoURL,item.AdvertiserName)}} alt={{item.AdvertiserName}}>
+            <img class="d-block pl-3 pt-3 pb-3 w-100" src={{urlParse(item.LogoURL,item.AdvertiserName)}} alt={{item.AdvertiserName}} loading="lazy" >
           </div>
           <div class="col-8 pt-3">
             <div class="card-block">

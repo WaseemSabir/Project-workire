@@ -22,7 +22,7 @@
           <div class="row mt-4">
             <div *ngFor="let k of blogPost" class="curse col-xm-12 col-sm-6 col-md-6 col-lg-4 my-3">
                 <div class="card shadow-sm h-100" [routerLink]="['/career-advice',k.BlogUrl]">
-                    <img class="card-img" src={{urlParseBlog(k.image)}} alt={{k.title}} height="240px">
+                    <img class="card-img" src={{urlParseBlog(k.image)}} alt={{k.title}} height="240px" loading="lazy">
                     <div class="card-img-overlay"> 
                         <a [routerLink]="['/career-advice',k.category]" class="btn btn-sm btn-bg">{{k.category}}</a>
                     </div>

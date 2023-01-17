@@ -16,7 +16,7 @@
         <div class="row mt-4">
             <div *ngFor="let k of searchData" class="curse col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm h-100" [routerLink]="['/career-advice',k.BlogUrl]">
-                    <img class="card-img" src={{urlParse(k.image)}} alt={{cap(k.title)}} height="240px">
+                    <img class="card-img" src={{urlParse(k.image)}} alt={{cap(k.title)}} height="240px" loading="lazy">
                     <div class="card-img-overlay">
                         <a [routerLink]="['/career-advice',k.category]" class="btn btn-light btn-sm">{{k.category}}</a>
                     </div>
